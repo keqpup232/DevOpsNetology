@@ -9,3 +9,5 @@ override.tf.json    # запретит файл override.tf.json
 *_override.tf.json  # запретит файлы (имя)_override.tf.json
 .terraformrc        # запретит файлы расширения .terraformrc
 terraform.rc        # запретит файл terraform.rc 
+
+new word
