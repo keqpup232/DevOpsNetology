@@ -1,0 +1,91 @@
+1) chdir("/tmp") жалко в strace не работает grep и > |
+
+2) file — позволяет узнать тип данных, которые на самом деле содержатся внутри документа.
+   openat(AT_FDCWD, "/usr/share/misc/magic.mgc", O_RDONLY) = 3 // тут бд file
+   stat("/home/vagrant/.magic.mgc", 0x7ffe9ba1aa00) = -1 ENOENT (No such file or directory) // по этому пути пытается найти
+   openat(AT_FDCWD, "/etc/magic.mgc", O_RDONLY) = -1 ENOENT (No such file or directory) // по этому пути пытается найти
+
+
+3)
+vim for1.sh // создаем бесконечный скрипт
+
+# !/bin/bsh
+for ((;;))
+do
+sleep 5
+echo "hI HIhh" >> test.log
+done
+
+./for1.sh &  // запускаем скрипт в фон
+rm test.log // удаляем
+
+lsof | grep for
+bash      3493                        vagrant  254r      REG              253,0       55     231090 /home/vagrant/for1.sh~ (deleted) // deleted статус увидел
+bash      3629                        vagrant  254r      REG              253,0       67     231091 /home/vagrant/for1.sh
+
+ls | grep test.log
+test.log // по сути прога заново создает файл, но я думаю задание не в этом и предполагают что файла больше нет, а приложение все еще пишет
+
+echo '' > /proc/3493/fd/1 //очистит файл
+
+
+4) Зомби не занимают памяти (как процессы-сироты), но блокируют записи в таблице процессов, размер которой ограничен для каждого пользователя и системы в целом.
+https://ru.wikipedia.org/wiki/Процесс-зомби
+
+
+5)
+vagrant@vagrant:~$ dpkg -L bpfcc-tools | grep sbin/opensnoop
+/usr/sbin/opensnoop-bpfcc
+vagrant@vagrant:~$ sudo /usr/sbin/opensnoop-bpfcc
+PID    COMM               FD ERR PATH
+3629   bash                3   0 test.log
+5148   sleep               3   0 /etc/ld.so.cache
+5148   sleep               3   0 /lib/x86_64-linux-gnu/libc.so.6
+5148   sleep               3   0 /usr/lib/locale/locale-archive
+800    vminfo              4   0 /var/run/utmp
+596    dbus-daemon        -1   2 /usr/local/share/dbus-1/system-services
+596    dbus-daemon        18   0 /usr/share/dbus-1/system-services
+596    dbus-daemon        -1   2 /lib/dbus-1/system-services
+596    dbus-daemon        18   0 /var/lib/snapd/dbus-1/system-services/
+
+
+6)
+strace uname -a // ответ uname()     uname({sysname="Linux", nodename="vagrant", ...}) = 0
+// причем у меня на вируталку в мане нету такого, нашел на https://man7.org/linux/man-pages/man2/uname.2.html
+Part of the utsname information is also accessible via
+/proc/sys/kernel/{ostype, hostname, osrelease, version,
+domainname}.
+
+7)
+&& фактически является комбинацией оператора «AND»
+Оператор ; позволяет запускать несколько команд за один раз, и выполнение команды происходит последовательно.
+set -e - прерывает сессию при любом ненулевом значении исполняемых команд в конвеере кроме последней.
+в случае &&  вместе с set -e- вероятно не имеет смысла, так как при ошибке , выполнение команд прекратиться.
+
+set -e
+Exit  immediately  if  a  pipeline (which may consist of a single simple command), a list, or a compound command ,
+exits with a non-zero status.  The shell does not exit if the command that fails is part of the command list immediately following
+a while or until keyword, part of the test following the if or elif reserved words, part of any command executed in a && or || list except the
+com‐mand  following the final && or ||, any command in a pipeline but the last, or if the command's return value is being inverted with !.
+
+// прочитав ман, ответ: нет смысла использовать  set -e при && or ||
+
+8)
+-e в прошлом вопросе посмотрели
+-x After expanding each simple command, for command, case command, select command, or arithmetic for command,
+display the expanded value of PS4, followed by the command and its expanded  arguments  or  associated
+// вывод trace простых команд
+-u Treat  unset  variables  and  parameters  other  than the special parameters "@" and "*" as an error when performing parameter expansion.
+If expansion is attempted on an unset variable or parameter, the shell
+// неопределенные переменные и параметры считаются как ошибки
+-o  pipefail
+If  set,  the return value of a pipeline is the value of the last (rightmost) command to exit with a non-zero status,
+or zero if all commands in the pipeline exit successfully.  This option is disabled by default.
+// возвращает код возврата последовательности команд
+
+// хорошо использовать для отлова и логирования ошибок, и при ошибках команда прервется
+
+9)
+S* // процессы ожидающие завершения (спящие)
+I* // фоновые процессы ядра
+* это характеристики, например приоритет
