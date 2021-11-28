@@ -1,0 +1,178 @@
+1)поставил по гайду
+https://prometheus.io/docs/guides/node-exporter/
+
+vagrant@vagrant:~$ sudo vim /etc/systemd/system/node_exporter.service
+
+//
+[Unit]
+Description=Node Exporter
+
+[Service]
+User=vagrant
+EnvironmentFile=/etc/sysconfig/node_exporter
+ExecStart=/opt/node_exporter/node_exporter $OPTIONS
+
+[Install]
+WantedBy=multi-user.target
+//
+
+vagrant@vagrant:~$ sudo systemctl daemon-reload // обновляем unit file
+vagrant@vagrant:~$ sudo systemctl enable node_exporter // добавляем в автозагрузку при старте
+
+vagrant@vagrant:~$ sudo reboot // ребутаемся для проверки
+
+vagrant@vagrant:~$ ps aux | grep node // its work
+vagrant      997  0.0  0.5 715964 11420 ?        Ssl  09:06   0:00 /opt/node_exporter/node_exporter
+vagrant     1022  0.0  0.0   8900   740 pts/0    S+   09:07   0:00 grep --color=auto node
+
+vagrant@vagrant:~$ sudo systemctl status node_exporter // its work
+● node_exporter.service - Node Exporter
+     Loaded: loaded (/etc/systemd/system/node_exporter.service; enabled; vendor preset: enabled)
+     Active: active (running) since Sun 2021-11-28 09:06:31 UTC; 12s ago
+   Main PID: 997 (node_exporter)
+      Tasks: 4 (limit: 2279)
+     Memory: 13.8M
+     CGroup: /system.slice/node_exporter.service
+             └─997 /opt/node_exporter/node_exporter
+
+vagrant@vagrant:~$ sudo systemctl stop node_exporter // стопаем для проверки
+vagrant@vagrant:~$ ps -e | grep node // its work
+vagrant@vagrant:~$ sudo systemctl status node_exporter // its work
+● node_exporter.service - Node Exporter
+     Loaded: loaded (/etc/systemd/system/node_exporter.service; enabled; vendor preset: enabled)
+     Active: inactive (dead) since Sun 2021-11-28 09:11:29 UTC; 19s ago
+    Process: 623 ExecStart=/opt/node_exporter/node_exporter $OPTIONS (code=killed, signal=TERM)
+   Main PID: 623 (code=killed, signal=TERM)
+
+Nov 28 09:09:12 vagrant node_exporter[623]: ts=2021-11-28T09:09:12.537Z caller=node_exporter.go:115 level=info collecto>
+Nov 28 09:09:12 vagrant node_exporter[623]: ts=2021-11-28T09:09:12.537Z caller=node_exporter.go:115 level=info collecto>
+Nov 28 09:09:12 vagrant node_exporter[623]: ts=2021-11-28T09:09:12.537Z caller=node_exporter.go:115 level=info collecto>
+Nov 28 09:09:12 vagrant node_exporter[623]: ts=2021-11-28T09:09:12.537Z caller=node_exporter.go:115 level=info collecto>
+Nov 28 09:09:12 vagrant node_exporter[623]: ts=2021-11-28T09:09:12.537Z caller=node_exporter.go:115 level=info collecto>
+Nov 28 09:09:12 vagrant node_exporter[623]: ts=2021-11-28T09:09:12.538Z caller=node_exporter.go:199 level=info msg="Lis>
+Nov 28 09:09:12 vagrant node_exporter[623]: ts=2021-11-28T09:09:12.542Z caller=tls_config.go:195 level=info msg="TLS is>
+Nov 28 09:11:29 vagrant systemd[1]: Stopping Node Exporter...
+Nov 28 09:11:29 vagrant systemd[1]: node_exporter.service: Succeeded.
+Nov 28 09:11:29 vagrant systemd[1]: Stopped Node Exporter.
+
+vagrant@vagrant:~$ sudo systemctl start node_exporter // its work
+vagrant@vagrant:~$ ps -e | grep node // its work
+    956 ?        00:00:00 node_exporter
+vagrant@vagrant:~$ sudo systemctl status node_exporter // its work
+● node_exporter.service - Node Exporter
+     Loaded: loaded (/etc/systemd/system/node_exporter.service; enabled; vendor preset: enabled)
+     Active: active (running) since Sun 2021-11-28 09:12:33 UTC; 27s ago
+//
+
+2)
+curl http://localhost:9100/metrics | grep cpu
+CPU:
+    node_cpu_seconds_total{cpu="0",mode="idle"} 609.42
+    node_cpu_seconds_total{cpu="1",mode="idle"} 607.36
+
+    node_cpu_seconds_total{cpu="0",mode="system"} 3.17
+    node_cpu_seconds_total{cpu="1",mode="system"} 2.67
+
+    node_cpu_seconds_total{cpu="0",mode="user"} 2.09
+    node_cpu_seconds_total{cpu="1",mode="user"} 2.79
+
+    node_cpu_seconds_total{cpu="0",mode="iowait"} 0.42
+    node_cpu_seconds_total{cpu="1",mode="iowait"} 2.15
+
+    process_cpu_seconds_total
+
+curl http://localhost:9100/metrics | grep memory
+Memory:
+    node_memory_MemAvailable_bytes
+    node_memory_MemFree_bytes
+
+curl http://localhost:9100/metrics | grep network
+Disk:
+    node_disk_io_time_seconds_total{device="sda"}
+    node_disk_read_bytes_total{device="sda"}
+    node_disk_read_time_seconds_total{device="sda"}
+    node_disk_write_time_seconds_total{device="sda"}
+
+curl http://localhost:9100/metrics | grep network
+Network:
+    node_network_receive_errs_total{device="eth0"}
+    node_network_receive_bytes_total{device="eth0"}
+    node_network_transmit_bytes_total{device="eth0"}
+    node_network_transmit_errs_total{device="eth0"}
+
+3)
+sudo apt install -y netdata
+sudo vim /etc/netdata/netdata.conf
+sudo cat /etc/netdata/netdata.confata/netdata.conf
+
+[global]
+        run as user = netdata
+        web files owner = root
+        web files group = root
+        bind socket to IP = 0.0.0.0
+
+config.vm.network "forwarded_port", guest: 19999, host: 19999 // добавил в Vagrantfile
+vagrant reload
+
+https://disk.yandex.ru/i/ui70bSwpCaWwgg // its work , тут картинка с браузера
+// посмотрел, прикольная штука
+
+
+4) vagrant@vagrant:~$ dmesg |grep virt
+
+[    0.007840] CPU MTRRs all blank - virtualized system.
+[    0.148998] Booting paravirtualized kernel on KVM
+[    3.068738] systemd[1]: Detected virtualization oracle.
+
+// ОС понимает, что это не физ оборудование.
+
+5) vagrant@vagrant:~$ /sbin/sysctl fs.nr_open
+
+fs.nr_open = 1048576 // по-умолчанию, еще можно так посмотреть cat /proc/sys/fs/nr_open
+
+cat /proc/sys/fs/file-max
+9223372036854775807 // макс значение
+
+nr_open
+This denotes the maximum number of file-handles a process can
+allocate. Default value is 1024*1024 (1048576) which should be
+enough for most machines. Actual limit depends on RLIMIT_NOFILE
+resource limit.
+// man tranlate(максимальное количество дескрипторов которое может выделить ОС)
+
+vagrant@vagrant:~$ ulimit -Sn // меньше чем -Hn 1048576
+1024
+-S  use the `soft' resource limit
+-n  the maximum number of open file descriptors
+
+6) screen
+root@vagrant:~# unshare -f --pid --mount-proc sleep 1h
+
+root@vagrant:~# ps aux | grep sleep
+root        7035  0.0  0.0   8076   596 pts/4    S+   22:27   0:00 sleep 1h
+
+root@vagrant:~# nsenter --target 7035 --pid --mount
+
+root@vagrant:/# ps aux
+USER         PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+root           1  0.0  0.0   8076   596 pts/4    S+   22:27   0:00 sleep 1h
+root           2  0.0  0.1   9836  3880 pts/2    S    22:29   0:00 -bash
+root          11  0.0  0.1  11492  3296 pts/2    R+   22:29   0:00 ps aux
+
+7) :(){ :|:& };: // страшная херня)))
+
+:()
+{
+    :|:&
+};
+:
+
+Это определяет функцию с именем : , которая вызывает себя дважды (Код: : | : ). Это происходит в фоновом режиме ( & ).
+После ; определение функции выполнено, и функция : запускается.
+Таким образом, каждый экземпляр : начинает два новых : и так далее... Как двоичное дерево процессов...
+
+[90907.407197] cgroup: fork rejected by pids controller in /user.slice/user-1000.slice/session-27.scope
+// видимо, уперлись в количество пидов и ОС перестала создавать новые и удаляет родителя, смотрел htop в другой сессии
+
+ulimit -u 50 // можно ограничить число процессов для пользователя
+// после этого не так больно и долго идет функция
