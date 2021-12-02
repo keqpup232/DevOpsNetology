@@ -1,0 +1,206 @@
+1)
+vagrant@vagrant:~$ telnet stackoverflow.com 80
+Trying 151.101.193.69...
+Connected to stackoverflow.com.
+Escape character is '^]'.
+GET /questions HTTP/1.0
+HOST: stackoverflow.com
+
+HTTP/1.1 301 Moved Permanently
+cache-control: no-cache, no-store, must-revalidate
+location: https://stackoverflow.com/questions
+x-request-guid: 4976876d-3726-468d-b472-9eaef32bff08
+feature-policy: microphone 'none'; speaker 'none'
+content-security-policy: upgrade-insecure-requests; frame-ancestors 'self' https://stackexchange.com
+Accept-Ranges: bytes
+Date: Thu, 02 Dec 2021 13:25:45 GMT
+Via: 1.1 varnish
+Connection: close
+X-Served-By: cache-fra19126-FRA
+X-Cache: MISS
+X-Cache-Hits: 0
+X-Timer: S1638451545.257498,VS0,VE92
+Vary: Fastly-SSL
+X-DNS-Prefetch-Control: off
+Set-Cookie: prov=320adbbc-3cf3-7399-aa6e-c02669354f85; domain=.stackoverflow.com; expires=Fri, 01-Jan-2055 00:00:00 GMT; path=/; HttpOnly
+
+Connection closed by foreign host.
+
+// видим код 301 Moved Permanently
+Код перенаправления "301 Moved Permanently" протокола передачи гипертекста (HTTP) показывает, что запрошенный ресурс был окончательно перемещён в URL
+Адрес нового месторасположения ресурса указывается в поле Location получаемого в ответ заголовка пакета протокола HTTP
+
+//Что бы увидеть 200 можно использовать
+vagrant@vagrant:~$ openssl s_client -connect stackoverflow.com:443
+GET /questions HTTP/1.1
+HOST: stackoverflow.com
+HTTP/1.1 200 OK
+
+2)
+приложите скриншот консоли браузера в ответ.
+https://disk.yandex.ru/d/gK8ThIAPE0GweQ
+
+найдите первый ответ HTTP сервера, откройте вкладку Headers
+General
+Request URL: http://stackoverflow.com/
+Request Method: GET
+Status Code: 307 Internal Redirect
+Referrer Policy: strict-origin-when-cross-origin
+Location: https://stackoverflow.com/
+Non-Authoritative-Reason: HSTS
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36
+
+
+проверьте время загрузки страницы, какой запрос обрабатывался дольше всего?
+Request URL: https://sb.scorecardresearch.com/cs/17440561/beacon.js
+Request Method: GET
+Status Code: 302
+Remote Address: 13.33.240.94:443
+Referrer Policy: strict-origin-when-cross-origin
+6.52s
+
+3)
+vagrant@vagrant:~$ wget -qO- eth0.me
+109.252.11*.***
+
+4)
+vagrant@vagrant:~$ sudo apt install whois
+vagrant@vagrant:~$ whois 109.252.11*.*** | grep -E 'origin|role'
+role:           PJSC Moscow City Telephone Network NOC //Какому провайдеру принадлежит ваш IP адрес?
+origin:         AS25513 //Какой автономной системе AS?
+
+5)
+vagrant@vagrant:~$ sudo apt install traceroute
+vagrant@vagrant:~$ traceroute -An 8.8.8.8
+ 1  10.0.2.2 [*]  0.107 ms  0.078 ms  0.058 ms
+// дальше все в звездах, видимо из-за виртуалки и ttl
+
+если делать с винды просто tracert то вот
+C:\Users\ivan->tracert 8.8.8.8
+
+Трассировка маршрута к dns.google [8.8.8.8]
+с максимальным числом прыжков 30:
+
+  1     1 ms     1 ms     1 ms  dlinkrouter.local [192.168.1.1]
+  2     1 ms     1 ms     1 ms  10.145.128.1
+  3     6 ms     5 ms     3 ms  mpts-a197-51.msk.mts-internet.net [212.188.1.106]
+  4     3 ms     4 ms     3 ms  a197-cr04-be12.51.msk.mts-internet.net [212.188.1.105]
+  5     *        5 ms    15 ms  a197-cr01-ae31.77.msk.mts-internet.net [212.188.56.13]
+  6     8 ms     5 ms    14 ms  mag9-cr02-be10.77.msk.mts-internet.net [195.34.50.74]
+  7     5 ms    14 ms     4 ms  mag9-cr01-be16.77.msk.mts-internet.net [212.188.29.82]
+  8    16 ms    11 ms     7 ms  108.170.250.66
+  9    31 ms    35 ms    24 ms  209.85.255.136
+ 10    22 ms    21 ms    56 ms  172.253.65.82
+ 11    31 ms    36 ms    30 ms  142.250.208.23
+ 12     *        *        *     Превышен интервал ожидания для запроса.
+ 13     *        *        *     Превышен интервал ожидания для запроса.
+ 14     *        *        *     Превышен интервал ожидания для запроса.
+ 15     *        *        *     Превышен интервал ожидания для запроса.
+ 16     *        *        *     Превышен интервал ожидания для запроса.
+ 17     *        *        *     Превышен интервал ожидания для запроса.
+ 18     *        *        *     Превышен интервал ожидания для запроса.
+ 19     *        *        *     Превышен интервал ожидания для запроса.
+ 20     *        *        *     Превышен интервал ожидания для запроса.
+ 21    25 ms    35 ms    31 ms  dns.google [8.8.8.8]
+
+Трассировка завершена.
+
+//Через какие AS? их незя посмотреть в tracert, но в traceroute все было бы видно или в mtr
+
+6)
+vagrant@vagrant:~$ sudo apt install mtr
+vagrant@vagrant:~$ mtr -zn 8.8.8.8
+                                                 My traceroute  [v0.93]
+vagrant (10.0.2.15)                                                                            2021-12-02T14:41:25+0000
+Keys:  Help   Display mode   Restart statistics   Order of fields   quit
+                                                                               Packets               Pings
+ Host                                                                        Loss%   Snt   Last   Avg  Best  Wrst StDev
+ 1. AS???    10.0.2.2                                                         0.0%    32    0.2   7.1   0.1 122.4  23.5
+ 2. AS???    192.168.1.1                                                      0.0%    32   12.6  13.3  12.0  16.7   1.2
+ 3. AS???    10.145.128.1                                                     0.0%    32    3.7   8.8   1.9  36.4   6.8
+ 4. AS8359   212.188.1.106                                                    0.0%    32   13.8  10.6   3.2  36.2   7.3
+ 5. AS8359   212.188.1.105                                                    0.0%    32    4.8   9.8   3.2  19.0   5.2
+ 6. AS8359   212.188.56.13                                                   12.5%    32    6.9  11.9   4.8  19.2   4.9
+ 7. AS8359   195.34.50.74                                                     0.0%    32    5.2  11.3   5.1  21.2   4.8
+ 8. AS8359   212.188.29.82                                                    0.0%    32   15.0  12.2   4.9  41.0   7.1
+ 9. AS15169  108.170.250.66                                                   0.0%    32   16.6  13.6   6.1  22.5   4.5
+10. AS15169  209.85.255.136                                                   0.0%    32   33.6  29.0  22.7  36.0   4.8
+11. AS15169  172.253.65.82                                                    0.0%    32   22.4  31.2  22.0  74.3  10.8
+12. AS15169  142.250.208.23                                                   0.0%    32   32.9  29.1  20.7  37.8   5.0
+13. (waiting for reply)
+14. (waiting for reply)
+15. (waiting for reply)
+16. (waiting for reply)
+17. (waiting for reply)
+18. (waiting for reply)
+19. AS15169  8.8.8.8                                                         80.0%    31   30.1  29.1  21.6  34.4   5.7
+
+//тут видно AS, на 6 потери, а задержка самая большая Avg на участках 10-12
+
+7)
+vagrant@vagrant:~$ dig dns.google
+
+; <<>> DiG 9.16.1-Ubuntu <<>> dns.google
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 62116
+;; flags: qr rd ra; QUERY: 1, ANSWER: 2, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 65494
+;; QUESTION SECTION:
+;dns.google.                    IN      A
+
+;; ANSWER SECTION:
+dns.google.             99      IN      A       8.8.8.8 //Какие DNS сервера отвечают за доменное имя dns.google? Какие A записи?
+dns.google.             99      IN      A       8.8.4.4 //Какие DNS сервера отвечают за доменное имя dns.google? Какие A записи?
+
+;; Query time: 8 msec
+;; SERVER: 127.0.0.53#53(127.0.0.53)
+;; WHEN: Thu Dec 02 14:47:28 UTC 2021
+;; MSG SIZE  rcvd: 71
+
+8)
+vagrant@vagrant:~$ dig -x 8.8.8.8
+
+; <<>> DiG 9.16.1-Ubuntu <<>> -x 8.8.8.8
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 17320
+;; flags: qr rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 65494
+;; QUESTION SECTION:
+;8.8.8.8.in-addr.arpa.          IN      PTR
+
+;; ANSWER SECTION:
+8.8.8.8.in-addr.arpa.   80828   IN      PTR     dns.google. //Какое доменное имя привязано к IP?
+
+;; Query time: 4 msec
+;; SERVER: 127.0.0.53#53(127.0.0.53)
+;; WHEN: Thu Dec 02 14:52:46 UTC 2021
+;; MSG SIZE  rcvd: 73
+
+vagrant@vagrant:~$ dig -x 8.8.4.4
+
+; <<>> DiG 9.16.1-Ubuntu <<>> -x 8.8.4.4
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 13883
+;; flags: qr rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 65494
+;; QUESTION SECTION:
+;4.4.8.8.in-addr.arpa.          IN      PTR
+
+;; ANSWER SECTION:
+4.4.8.8.in-addr.arpa.   80884   IN      PTR     dns.google. //Какое доменное имя привязано к IP?
+
+;; Query time: 4 msec
+;; SERVER: 127.0.0.53#53(127.0.0.53)
+;; WHEN: Thu Dec 02 14:52:56 UTC 2021
+;; MSG SIZE  rcvd: 73
