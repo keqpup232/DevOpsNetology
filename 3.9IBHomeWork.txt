@@ -1,0 +1,299 @@
+1)Установите Bitwarden плагин для браузера. Зарегестрируйтесь и сохраните несколько паролей.
+https://disk.yandex.ru/d/AB4hpBbBF2Ryqw
+пользуюсь keepass
+
+2)Установите Google authenticator на мобильный телефон. Настройте вход в Bitwarden акаунт через Google authenticator OTP.
+Google authenticator-пользуюсь
+https://disk.yandex.ru/i/aCplQjxGGDeAkA
+включил работает
+
+3)Установите apache2, сгенерируйте самоподписанный сертификат, настройте тестовый сайт для работы по HTTPS.
+//есть хорошая инструкция в презентации
+
+vagrant@vagrant:~$ sudo apt install apache2
+vagrant@vagrant:~$ sudo a2enmod ssl
+vagrant@vagrant:~$ sudo systemctl restart apache2
+vagrant@vagrant:~$ sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/private/apache-selfsigned.key -out /etc/ssl/certs/apache-selfsigned.crt
+Generating a RSA private key
+.........................+++++
+..................+++++
+writing new private key to '/etc/ssl/private/apache-selfsigned.key'
+-----
+You are about to be asked to enter information that will be incorporated
+into your certificate request.
+What you are about to enter is what is called a Distinguished Name or a DN.
+There are quite a few fields but you can leave some blank
+For some fields there will be a default value,
+If you enter '.', the field will be left blank.
+-----
+Country Name (2 letter code) [AU]:RU
+State or Province Name (full name) [Some-State]:Example
+Locality Name (eg, city) []:Example
+Organization Name (eg, company) [Internet Widgits Pty Ltd]:Examlpe
+Organizational Unit Name (eg, section) []:Example
+Common Name (e.g. server FQDN or YOUR name) []:example.ru
+Email Address []:admin@example.ru
+
+vagrant@vagrant:~$ sudo vim /etc/apache2/sites-available/example.ru.conf
+
+<VirtualHost *:80>
+    ServerName www.example.ru
+    Redirect / https://example.ru/
+</VirtualHost>
+
+<VirtualHost *:443>
+   ServerName www.example.ru
+   DocumentRoot /var/www/html/example.ru
+
+   SSLEngine on
+   SSLCertificateFile /etc/ssl/certs/apache-selfsigned.crt
+   SSLCertificateKeyFile /etc/ssl/private/apache-selfsigned.key
+</VirtualHost>
+
+vagrant@vagrant:~$ sudo mkdir /var/www/html/example.ru/
+vagrant@vagrant:~$ sudo vim /var/www/html/example.ru/index.html
+<h1>it worked!</h1>
+vagrant@vagrant:~$ sudo a2ensite example.ru.conf
+Enabling site example.ru.
+To activate the new configuration, you need to run:
+  systemctl reload apache2
+vagrant@vagrant:~$ sudo apache2ctl configtest
+Syntax OK
+vagrant@vagrant:~$ sudo systemctl reload apache2
+vagrant@vagrant:~$ sudo vim /etc/hosts
+127.0.0.1       example.ru
+
+добавляем в конфиг vagrantfile // config.vm.network "forwarded_port", guest: 443, host: 443
+                                  config.vm.network "forwarded_port", guest: 80, host: 80
+vagrant reload netology2
++hosts на винде 127.0.0.1 example.ru
+
+https://disk.yandex.ru/i/ROYzQm8gRgAI7g // its work
+
+
+4)Проверьте на TLS уязвимости произвольный сайт в интернете.
+//то что на лекции рассказывали проверим мой сайт keqpup.fun
+
+vagrant@vagrant:~$ sudo git clone --depth 1 https://github.com/drwetter/testssl.sh.git
+vagrant@vagrant:~$ cd testssl.sh
+vagrant@vagrant:~/testssl.sh$ ./testssl.sh -e --fast --parallel https://keqpup.fun
+
+ Using "OpenSSL 1.0.2-chacha (1.0.2k-dev)" [~183 ciphers]
+ on vagrant:./bin/openssl.Linux.x86_64
+ (built: "Jan 18 17:12:17 2019", platform: "linux-x86_64")
+
+ Start 2021-12-07 23:01:10        -->> 31.31.196.192:443 (keqpup.fun) <<--
+
+ rDNS (31.31.196.192):   server190.hosting.reg.ru.
+ Service detected:       HTTP
+
+ Testing all 183 locally available ciphers against the server, ordered by encryption strength
+
+Hexcode  Cipher Suite Name (OpenSSL)       KeyExch.   Encryption  Bits     Cipher Suite Name (IANA/RFC)
+-----------------------------------------------------------------------------------------------------------------------------
+ xc030   ECDHE-RSA-AES256-GCM-SHA384       ECDH 256   AESGCM      256      TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+ xc028   ECDHE-RSA-AES256-SHA384           ECDH 256   AES         256      TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384
+ xc014   ECDHE-RSA-AES256-SHA              ECDH 256   AES         256      TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA
+ xc077   ECDHE-RSA-CAMELLIA256-SHA384      ECDH 256   Camellia    256      TLS_ECDHE_RSA_WITH_CAMELLIA_256_CBC_SHA384
+ x9d     AES256-GCM-SHA384                 RSA        AESGCM      256      TLS_RSA_WITH_AES_256_GCM_SHA384
+ x3d     AES256-SHA256                     RSA        AES         256      TLS_RSA_WITH_AES_256_CBC_SHA256
+ x35     AES256-SHA                        RSA        AES         256      TLS_RSA_WITH_AES_256_CBC_SHA
+ xc0     CAMELLIA256-SHA256                RSA        Camellia    256      TLS_RSA_WITH_CAMELLIA_256_CBC_SHA256
+ x84     CAMELLIA256-SHA                   RSA        Camellia    256      TLS_RSA_WITH_CAMELLIA_256_CBC_SHA
+ xc02f   ECDHE-RSA-AES128-GCM-SHA256       ECDH 256   AESGCM      128      TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+ xc027   ECDHE-RSA-AES128-SHA256           ECDH 256   AES         128      TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256
+ xc013   ECDHE-RSA-AES128-SHA              ECDH 256   AES         128      TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA
+ xc076   ECDHE-RSA-CAMELLIA128-SHA256      ECDH 256   Camellia    128      TLS_ECDHE_RSA_WITH_CAMELLIA_128_CBC_SHA256
+ x9c     AES128-GCM-SHA256                 RSA        AESGCM      128      TLS_RSA_WITH_AES_128_GCM_SHA256
+ x3c     AES128-SHA256                     RSA        AES         128      TLS_RSA_WITH_AES_128_CBC_SHA256
+ x2f     AES128-SHA                        RSA        AES         128      TLS_RSA_WITH_AES_128_CBC_SHA
+ xba     CAMELLIA128-SHA256                RSA        Camellia    128      TLS_RSA_WITH_CAMELLIA_128_CBC_SHA256
+ x41     CAMELLIA128-SHA                   RSA        Camellia    128      TLS_RSA_WITH_CAMELLIA_128_CBC_SHA
+
+ Done 2021-12-07 23:01:17 [  10s] -->> 31.31.196.192:443 (keqpup.fun) <<--
+
+
+
+vagrant@vagrant:~/testssl.sh$ ./testssl.sh -U --sneaky https://keqpup.fun
+
+ Testing vulnerabilities
+
+ Heartbleed (CVE-2014-0160)                not vulnerable (OK), no heartbeat extension
+ CCS (CVE-2014-0224)                       not vulnerable (OK)
+ Ticketbleed (CVE-2016-9244), experiment.  not vulnerable (OK)
+ ROBOT                                     not vulnerable (OK)
+ Secure Renegotiation (RFC 5746)           supported (OK)
+ Secure Client-Initiated Renegotiation     not vulnerable (OK)
+ CRIME, TLS (CVE-2012-4929)                not vulnerable (OK)
+ BREACH (CVE-2013-3587)                    potentially NOT ok, "gzip" HTTP compression detected. - only supplied "/" tested
+                                           Can be ignored for static pages or if no secrets in the page
+ POODLE, SSL (CVE-2014-3566)               not vulnerable (OK)
+ TLS_FALLBACK_SCSV (RFC 7507)              No fallback possible (OK), no protocol below TLS 1.2 offered
+ SWEET32 (CVE-2016-2183, CVE-2016-6329)    not vulnerable (OK)
+ FREAK (CVE-2015-0204)                     not vulnerable (OK)
+ DROWN (CVE-2016-0800, CVE-2016-0703)      not vulnerable on this host and port (OK)
+                                           make sure you don't use this certificate elsewhere with SSLv2 enabled services
+                                           https://censys.io/ipv4?q=9A4CC472E92A669268F396A9A4272BBF60E6C9BE0C5BA58AED60F92EC61D35AE could help you to find out
+ LOGJAM (CVE-2015-4000), experimental      not vulnerable (OK): no DH EXPORT ciphers, no DH key detected with <= TLS 1.2
+ BEAST (CVE-2011-3389)                     not vulnerable (OK), no SSL3 or TLS1
+ LUCKY13 (CVE-2013-0169), experimental     potentially VULNERABLE, uses cipher block chaining (CBC) ciphers with TLS. Check patches
+ Winshock (CVE-2014-6321), experimental    not vulnerable (OK)
+ RC4 (CVE-2013-2566, CVE-2015-2808)        no RC4 ciphers detected (OK)
+
+
+ Done 2021-12-07 23:03:37 [  41s] -->> 31.31.196.192:443 (keqpup.fun) <<--
+
+
+//BREACH (CVE-2013-3587)                    potentially NOT ok, "gzip" HTTP compression detected. - only supplied "/" tested
+//видно что с BREACH не все ок, но была поверхностная проверка, как вариант защиты отключить сжатие HTTP.
+
+5)Установите на Ubuntu ssh сервер, сгенерируйте новый приватный ключ. Скопируйте свой публичный ключ на другой сервер. Подключитесь к серверу по SSH-ключу.
+//Впринципе все есть в презентации
+
+vagrant@vagrant:~$ sudo apt install openssh-server
+vagrant@vagrant:~$ sudo systemctl start sshd.service
+vagrant@vagrant:~$ sudo systemctl enable ssh.service
+
+vagrant@vagrant:~$ sudo ssh-keygen
+Generating public/private rsa key pair.
+Enter file in which to save the key (/root/.ssh/id_rsa): /home/vagrant/.ssh/id_rsa
+Enter passphrase (empty for no passphrase):
+Enter same passphrase again:
+Your identification has been saved in /home/vagrant/.ssh/id_rsa
+Your public key has been saved in /home/vagrant/.ssh/id_rsa.pub
+The key fingerprint is:
+SHA256:jDqoqjHJ/EF0z3m6+ef9x8Vow99Glw5g3YNt+l82KRA root@vagrant
+The key's randomart image is:
++---[RSA 3072]----+
+|                 |
+|                 |
+|   . .     E. +  |
+|  . . oo.  o.o = |
+|   .  .+S.....ooo|
+|o... .  o   .o=.*|
+|+o..o  .     o+B*|
+| +. ..  o  .. .+O|
+|*  .   o..o. ..o+|
++----[SHA256]-----+
+
+
+vagrant@vagrant:~$ ip -c -br a
+lo               UNKNOWN        127.0.0.1/8 ::1/128
+eth0             UP             10.0.2.15/24 fe80::a00:27ff:fe73:60cf/64
+eth1             UP             172.28.128.60/24 fe80::a00:27ff:fe6c:f3e9/64 //внимание сюда
+vagrant@vagrant:~$ sudo ssh-agent
+vagrant@vagrant:~$ sudo ssh-copy-id -i /home/vagrant/.ssh/id_rsa.pub vagrant@172.28.128.10
+ili
+vagrant@vagrant:~$ echo public_key_string >> ~/.ssh/authorized_keys
+vagrant@vagrant:~$ sudo ssh vagrant@172.28.128.10
+The authenticity of host '172.28.128.10 (172.28.128.10)' can't be established.
+ECDSA key fingerprint is SHA256:wSHl+h4vAtTT7mbkj2lbGyxWXWTUf6VUliwpncjwLPM.
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+Warning: Permanently added '172.28.128.10' (ECDSA) to the list of known hosts.
+vagrant@172.28.128.10's password:
+
+vagrant@vagrant:~$ ip -c -br a
+lo               UNKNOWN        127.0.0.1/8 ::1/128
+eth0             UP             10.0.2.15/24 fe80::a00:27ff:fe73:60cf/64
+eth1             UP             172.28.128.10/24 fe80::a00:27ff:fe8a:8e65/64 //успех
+dummy0           UNKNOWN        10.2.2.2/32 fe80::61:e8ff:fece:b1cb/64
+
+6)Переименуйте файлы ключей из задания 5. Настройте файл конфигурации SSH клиента, так чтобы вход на удаленный сервер осуществлялся по имени сервера.
+
+vagrant@vagrant:~$ sudo mv /home/vagrant/.ssh/id_rsa.pub /home/vagrant/.ssh/test.pub //переименовали
+vagrant@vagrant:~$ rm /home/vagrant/.ssh/authorized_keys //удалили с сервера
+vagrant@vagrant:~$ sudo ssh-copy-id -i /home/vagrant/.ssh/test.pub vagrant@172.28.128.10 //ошибка возникает, только если перегенирировать
+
+vagrant@vagrant:~$ sudo mv /home/vagrant/.ssh/test.pub /home/vagrant/.ssh/id_rsa.pub
+vagrant@vagrant:~$ sudo ssh-copy-id -i /home/vagrant/.ssh/id_rsa vagrant@172.28.128.10
+/usr/bin/ssh-copy-id: INFO: Source of key(s) to be installed: "/home/vagrant/.ssh/id_rsa.pub"
+/usr/bin/ssh-copy-id: INFO: attempting to log in with the new key(s), to filter out any that are already installed
+/usr/bin/ssh-copy-id: INFO: 1 key(s) remain to be installed -- if you are prompted now it is to install the new keys
+vagrant@172.28.128.10's password:
+
+Number of key(s) added: 1
+
+Now try logging into the machine, with:   "ssh 'vagrant@172.28.128.10'"
+and check to make sure that only the key(s) you wanted were added.
+
+vagrant@vagrant:~$ sudo vim /etc/hosts
+172.28.128.10   vagrant1
+
+vagrant@vagrant:~$ sudo ssh vagrant@vagrant1 //кульминация
+
+The authenticity of host 'vagrant1 (172.28.128.10)' can't be established.
+ECDSA key fingerprint is SHA256:wSHl+h4vAtTT7mbkj2lbGyxWXWTUf6VUliwpncjwLPM.
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+Warning: Permanently added 'vagrant1' (ECDSA) to the list of known hosts.
+vagrant@vagrant1's password:
+Welcome to Ubuntu 20.04.2 LTS (GNU/Linux 5.4.0-80-generic x86_64)
+
+vagrant@vagrant:~$ ip -c -br a
+lo               UNKNOWN        127.0.0.1/8 ::1/128
+eth0             UP             10.0.2.15/24 fe80::a00:27ff:fe73:60cf/64
+eth1             UP             172.28.128.10/24 fe80::a00:27ff:fe8a:8e65/64
+dummy0           UNKNOWN        10.2.2.2/32 fe80::61:e8ff:fece:b1cb/64
+
+7)Соберите дамп трафика утилитой tcpdump в формате pcap, 100 пакетов. Откройте файл pcap в Wireshark.
+//делаю по презентации
+vagrant@vagrant:~$ sudo apt install tcpdump
+vagrant@vagrant:~$ sudo tcpdump -w 0001.pcap -c 100 -i eth0
+
+D:\VMNetology\.vagrant>vagrant plugin install vagrant-scp
+D:\VMNetology\.vagrant>vagrant scp netology2:0001.pcap 0001.pcap
+Warning: Permanently added '[127.0.0.1]:2200' (ED25519) to the list of known hosts.
+vagrant@127.0.0.1's password:
+0001.pcap                                             100%  292   124.8KB/s   00:00
+
+https://disk.yandex.ru/i/8vv0cgkYoEoYxw
+// там мало пакетов спулилось виртуалка же
+
+8)Просканируйте хост scanme.nmap.org. Какие сервисы запущены?
+
+vagrant@vagrant:~$ sudo apt install nmap
+vagrant@vagrant:~$ sudo nmap -Pn -F -T5 scanme.nmap.org
+
+Starting Nmap 7.80 ( https://nmap.org ) at 2021-12-08 10:20 UTC
+Nmap scan report for scanme.nmap.org (45.33.32.156)
+Host is up (0.19s latency).
+Other addresses for scanme.nmap.org (not scanned): 2600:3c01::f03c:91ff:fe18:bb2f
+Not shown: 88 filtered ports
+PORT     STATE  SERVICE
+22/tcp   open   ssh
+53/tcp   closed domain
+80/tcp   open   http
+110/tcp  closed pop3
+111/tcp  closed rpcbind
+139/tcp  closed netbios-ssn
+199/tcp  closed smux
+554/tcp  closed rtsp
+993/tcp  closed imaps
+1025/tcp closed NFS-or-IIS
+5900/tcp closed vnc
+8080/tcp closed http-proxy
+
+Nmap done: 1 IP address (1 host up) scanned in 3.48 seconds
+
+9*. Установите и настройте фаервол ufw на web-сервер из задания 3. Откройте доступ снаружи только к портам 22,80,443
+vagrant@vagrant:~$ sudo apt install ufw
+vagrant@vagrant:~$ sudo ufw enable
+Command may disrupt existing ssh connections. Proceed with operation (y|n)? y
+Firewall is active and enabled on system startup
+
+vagrant@vagrant:~$ sudo ufw allow 22,80,443/tcp
+Rule added
+Rule added (v6)
+
+vagrant@vagrant:~$ sudo ufw status verbose
+Status: active
+Logging: on (low)
+Default: deny (incoming), allow (outgoing), disabled (routed)
+New profiles: skip
+
+To                         Action      From
+--                         ------      ----
+80,443/tcp (Apache Full)   ALLOW IN    Anywhere
+22,80,443/tcp              ALLOW IN    Anywhere
+80,443/tcp (Apache Full (v6)) ALLOW IN    Anywhere (v6)
+22,80,443/tcp (v6)         ALLOW IN    Anywhere (v6)
+
