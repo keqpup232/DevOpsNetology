@@ -37,12 +37,12 @@ Email Address []:admin@example.ru
 vagrant@vagrant:~$ sudo vim /etc/apache2/sites-available/example.ru.conf
 
 <VirtualHost *:80>
-    ServerName www.example.ru
+    ServerName example.ru
     Redirect / https://example.ru/
 </VirtualHost>
 
 <VirtualHost *:443>
-   ServerName www.example.ru
+   ServerName example.ru
    DocumentRoot /var/www/html/example.ru
 
    SSLEngine on
@@ -185,7 +185,7 @@ vagrant@vagrant:~$ sudo ssh-agent
 vagrant@vagrant:~$ sudo ssh-copy-id -i /home/vagrant/.ssh/id_rsa.pub vagrant@172.28.128.10
 ili
 vagrant@vagrant:~$ echo public_key_string >> ~/.ssh/authorized_keys
-vagrant@vagrant:~$ sudo ssh vagrant@172.28.128.10
+vagrant@vagrant:~$ ssh vagrant@172.28.128.10
 The authenticity of host '172.28.128.10 (172.28.128.10)' can't be established.
 ECDSA key fingerprint is SHA256:wSHl+h4vAtTT7mbkj2lbGyxWXWTUf6VUliwpncjwLPM.
 Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
@@ -199,7 +199,73 @@ eth1             UP             172.28.128.10/24 fe80::a00:27ff:fe8a:8e65/64 //�
 dummy0           UNKNOWN        10.2.2.2/32 fe80::61:e8ff:fece:b1cb/64
 
 6)Переименуйте файлы ключей из задания 5. Настройте файл конфигурации SSH клиента, так чтобы вход на удаленный сервер осуществлялся по имени сервера.
+//
+//новое решение
+//
+netology1 - server
+vagrant@netology1:~$ ip -c -br a | grep eth1
+eth1             UP             172.28.128.10/24 fe80::a00:27ff:fed0:b5c2/64
+netology2 - client
+vagrant@netology2:~$ ip -c -br a | grep eth1
+eth1             UP             172.28.128.60/24 fe80::a00:27ff:fef2:cff7/64
 
+
+vagrant@netology1:~$ cat  ~/.ssh/authorized_keys // показываю ключ
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQChFpfSzNlbWFGV+uw/sxkS1zosjzmxpzmhnyA6cGPfiMdmQzskafgM6/Wz12UeoY68w73zX/ZgzkrYTw0LN0YJpl7aD5KgV4nRre+/21hS8eVW31gSiEnQtpk0gZ1rlKHxmme6BjELGQwdDNTb1o0Gf1syehx0fbfLNm1p+XBUnZQAySei0XnoDECQWdYfXWR1jo85EMSQWnmRwAlpvvmIHxnAL84kMuPRAau3XMz0BOpB3l5X/MaYhbO9sEqjkKlnrCOsTvXrMfjEtOVn/paOMoIj+3+oo6lYb1+1OhQJg7t1XXIBp35IsPaMeaFONAh7Q4eq3WxGtPIxvpnDFjXH vagrant
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDNwMQyPdg1dszx4XyVNqgmkD7brijv0TXnp46v92uKNrvVoBDMGEmma0XXg+IYLVNG7xDYGePUDKwhs2En9HsLmL3SLyxi3w+1K9ZDahctZuMjXrifSvPqbGLCfMsnFJKoxG9xRm2dEcGezTpobgm8XVMiNSRSm9ewMCZNl978CkWDXTm9ZHgoIBatGWAia3FcKGI1a0Cx5+iZ08DMtPJzEDllRvvpyU9XIiIexcmDIpNce3Ch5P4wO3AaUqTtKhzoSS4/WGwExt7x2BRsDkYITvlOtv0T31c+omYVEcUgolIBl6S92TZ5nV7kx59kKDLzpaAUM2dnP39iv/5UFNXE/3/EGjlAhDcqpf/sxFceESRxlidJYpibuAAbVuFyFPvuLjul5S+e4eWuQoPtEPL5wSnPZTKOpU+XmG5p1nMgw2V8rZEID2SCU3ZDVSE2ZoGrB/HyuHfJSHzs1GlI8QHkxDtpA/d1JeBh10LpZcYxvcrisDJp47THH8N5tJZbNT0= root@netology2 // ключ клиента на сервере
+vagrant@netology1:~$ vim  ~/.ssh/authorized_keys
+vagrant@netology1:~$ cat  ~/.ssh/authorized_keys // показываю что поменялю ключ
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQChFpfSzNlbWFGV+uw/sxkS1zosjzmxpzmhnyA6cGPfiMdmQzskafgM6/Wz12UeoY68w73zX/ZgzkrYTw0LN0YJpl7aD5KgV4nRre+/21hS8eVW31gSiEnQtpk0gZ1rlKHxmme6BjELGQwdDNTb1o0Gf1syehx0fbfLNm1p+XBUnZQAySei0XnoDECQWdYfXWR1jo85EMSQWnmRwAlpvvmIHxnAL84kMuPRAau3XMz0BOpB3l5X/MaYhbO9sEqjkKlnrCOsTvXrMfjEtOVn/paOMoIj+3+oo6lYb1+1OhQJg7t1XXIBp35IsPaMeaFONAh7Q4eq3WxGtPIxvpnDFjXH vagrant
+ssh-rsa BAAAB3NzaC1yc2EAAAADAQABAAABgQDNwMQyPdg1dszx4XyVNqgmkD7brijv0TXnp46v92uKNrvVoBDMGEmma0XXg+IYLVNG7xDYGePUDKwhs2En9HsLmL3SLyxi3w+1K9ZDahctZuMjXrifSvPqbGLCfMsnFJKoxG9xRm2dEcGezTpobgm8XVMiNSRSm9ewMCZNl978CkWDXTm9ZHgoIBatGWAia3FcKGI1a0Cx5+iZ08DMtPJzEDllRvvpyU9XIiIexcmDIpNce3Ch5P4wO3AaUqTtKhzoSS4/WGwExt7x2BRsDkYITvlOtv0T31c+omYVEcUgolIBl6S92TZ5nV7kx59kKDLzpaAUM2dnP39iv/5UFNXE/3/EGjlAhDcqpf/sxFceESRxlidJYpibuAAbVuFyFPvuLjul5S+e4eWuQoPtEPL5wSnPZTKOpU+XmG5p1nMgw2V8rZEID2SCU3ZDVSE2ZoGrB/HyuHfJSHzs1GlI8QHkxDtpA/d1JeBh10LpZcYxvcrisDJp47THH8N5tJZbNT0= root@netology2 // ключ поменял первую букву
+
+vagrant@netology2:~$ chmod 700 ~/.ssh // даю права
+vagrant@netology2:~$ touch ~/.ssh/config && chmod 600 ~/.ssh/config //создаю и даю права на файл конфига у клиента
+vagrant@netology2:~$ vim ~/.ssh/config
+vagrant@netology2:~$ cat ~/.ssh/config // сам конфиг на клиенте
+Host myserver
+      HostName 172.28.128.10
+      User vagrant
+      IdentityFile ~/key
+vagrant@netology2:~$ cp /home/vagrant/.ssh/id_rsa.pub ~/key //копирую ключ на клиенте
+vagrant@netology2:~$ vim key
+vagrant@netology2:~$ cat key // меняю так же первую букву
+ssh-rsa BAAAB3NzaC1yc2EAAAADAQABAAABgQDNwMQyPdg1dszx4XyVNqgmkD7brijv0TXnp46v92uKNrvVoBDMGEmma0XXg+IYLVNG7xDYGePUDKwhs2En9HsLmL3SLyxi3w+1K9ZDahctZuMjXrifSvPqbGLCfMsnFJKoxG9xRm2dEcGezTpobgm8XVMiNSRSm9ewMCZNl978CkWDXTm9ZHgoIBatGWAia3FcKGI1a0Cx5+iZ08DMtPJzEDllRvvpyU9XIiIexcmDIpNce3Ch5P4wO3AaUqTtKhzoSS4/WGwExt7x2BRsDkYITvlOtv0T31c+omYVEcUgolIBl6S92TZ5nV7kx59kKDLzpaAUM2dnP39iv/5UFNXE/3/EGjlAhDcqpf/sxFceESRxlidJYpibuAAbVuFyFPvuLjul5S+e4eWuQoPtEPL5wSnPZTKOpU+XmG5p1nMgw2V8rZEID2SCU3ZDVSE2ZoGrB/HyuHfJSHzs1GlI8QHkxDtpA/d1JeBh10LpZcYxvcrisDJp47THH8N5tJZbNT0= root@netology2
+
+vagrant@netology2:~$ ssh myserver // подключаемся без sudo))
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@         WARNING: UNPROTECTED PRIVATE KEY FILE!          @
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+Permissions 0644 for '/home/vagrant/key' are too open.
+It is required that your private key files are NOT accessible by others.
+This private key will be ignored.
+Load key "/home/vagrant/key": bad permissions
+vagrant@172.28.128.10's password:
+Welcome to Ubuntu 20.04.2 LTS (GNU/Linux 5.4.0-80-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+  System information as of Fri 10 Dec 2021 09:21:54 PM UTC
+
+  System load:  0.0               Processes:             119
+  Usage of /:   2.5% of 61.31GB   Users logged in:       1
+  Memory usage: 23%               IPv4 address for eth0: 10.0.2.15
+  Swap usage:   0%                IPv4 address for eth1: 172.28.128.10
+
+
+This system is built by the Bento project by Chef Software
+More information can be found at https://github.com/chef/bento
+Last login: Fri Dec 10 19:38:14 2021 from 172.28.128.60
+vagrant@netology1:~$ ip -c -br a // выше и так было видно что все успешно, но для проверки пишу
+lo               UNKNOWN        127.0.0.1/8 ::1/128
+eth0             UP             10.0.2.15/24 fe80::a00:27ff:fe73:60cf/64
+eth1             UP             172.28.128.10/24 fe80::a00:27ff:fed0:b5c2/64
+
+
+//
+// страное решение 
+//
 vagrant@vagrant:~$ sudo mv /home/vagrant/.ssh/id_rsa.pub /home/vagrant/.ssh/test.pub //переименовали
 vagrant@vagrant:~$ rm /home/vagrant/.ssh/authorized_keys //удалили с сервера
 vagrant@vagrant:~$ sudo ssh-copy-id -i /home/vagrant/.ssh/test.pub vagrant@172.28.128.10 //ошибка возникает, только если перегенирировать
