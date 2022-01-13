@@ -4,7 +4,7 @@ import json
 
 dict = {'drive.google.com':'0.0.0.0', 'mail.google.com':'0.0.0.0', 'google.com':'0.0.0.0'}
 
-with open('4.4File.txt', 'r') as f:
+with open('4.2.4File.txt', 'r') as f:
     for line in f:
         dict = json.loads(line)
 
@@ -15,5 +15,5 @@ for url,ip in dict.items():
     dict[url]=ip_new
     print (url,' - ',ip_new)
 
-with open('4.4File.txt', 'w') as f:
+with open('4.2.4File.txt', 'w') as f:
     f.write(json.dumps(dict))
