@@ -1,0 +1,91 @@
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>883651ed-8707-421a-b922-6d96ec525f1a</ProjectGuid>
+    <ProjectHome>.</ProjectHome>
+    <StartupFile>test.py</StartupFile>
+    <SearchPath>
+    </SearchPath>
+    <WorkingDirectory>.</WorkingDirectory>
+    <OutputPath>.</OutputPath>
+    <Name>OOP_netology</Name>
+    <RootNamespace>OOP_netology</RootNamespace>
+    <InterpreterId>MSBuild|my_venv|$(MSBuildProjectFullPath)</InterpreterId>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>true</DebugSymbols>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugSymbols>true</DebugSymbols>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="test.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="z10\z10.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="z7.1.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="OOP_netology.py" />
+    <Compile Include="z7.3\z7.3.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="z8\z8.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="z9\z9.2.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="z9\z9.1.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="z9\z9.3.py">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="recipes.txt" />
+    <Content Include="z10\token_vk.txt" />
+    <Content Include="z7.3\1.txt" />
+    <Content Include="z7.3\2.txt" />
+    <Content Include="z7.3\3.txt" />
+    <Content Include="z7.3\result.txt" />
+    <Content Include="z8\newsafr.json" />
+    <Content Include="z8\newsafr.xml" />
+    <Content Include="z8\result_file.txt" />
+    <Content Include="z9\token_stackoverflow.txt" />
+    <Content Include="z9\token_yandex.txt" />
+    <Content Include="z9\token_superhero.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="z10\" />
+    <Folder Include="z9\" />
+    <Folder Include="z8\" />
+    <Folder Include="z7.3\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Interpreter Include="my_venv\">
+      <Id>my_venv</Id>
+      <Version>3.7</Version>
+      <Description>my_venv (Python 3.7 (64-bit))</Description>
+      <InterpreterPath>Scripts\python.exe</InterpreterPath>
+      <WindowsInterpreterPath>Scripts\pythonw.exe</WindowsInterpreterPath>
+      <PathEnvironmentVariable>PYTHONPATH</PathEnvironmentVariable>
+      <Architecture>X64</Architecture>
+    </Interpreter>
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
+  <!-- Uncomment the CoreCompile target to enable the Build command in
+       Visual Studio and specify your pre- and post-build commands in
+       the BeforeBuild and AfterBuild targets below. -->
+  <!--<Target Name="CoreCompile" />-->
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+</Project>

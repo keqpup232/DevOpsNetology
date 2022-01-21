@@ -3,4 +3,6 @@
 /.vs/slnx.sqlite
 /.vs/ProjectSettings.json
 *.suo
-/token_github.txt
+/01_DevOps_SysAdm/04-Python_Bash_YAML_JSON/Python/token_github.txt
+/python/z9/*.txt
+/python/z10/*.txt

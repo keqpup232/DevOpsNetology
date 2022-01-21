@@ -12,7 +12,7 @@ else:
     exit('need arguments')
 
 TOKEN = None
-with open("C:/Users/ivan-/PycharmProjects/DebOpsNetology/token_github.txt") as f:
+with open("/token_github.txt") as f:
     TOKEN = f.read().strip()
 
 username = 'keqpup232'
