@@ -1,1 +1,1 @@
-{"virtualbox":{"/vagrant":{"disabled":false,"guestpath":"/vagrant","hostpath":"C:/Users/ivan-/PycharmProjects/DevOpsNetology/02_VM_DB_Terraform/01_Virtualization/src/vagrant","__vagrantfile":true}}}
+{"virtualbox":{"/vagrant":{"disabled":false,"guestpath":"/vagrant","hostpath":"/home/ivan/PycharmProjects/DevOpsNetology/02_VM_DB_Terraform/01_Virtualization/src/vagrant","__vagrantfile":true}}}
