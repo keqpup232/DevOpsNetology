@@ -1,0 +1,28 @@
+# Use postgres/example user/password credentials
+version: '3.3'
+
+services:
+
+  db:
+    image: postgres:12
+    container_name: postgres_new
+    restart: always
+    environment:
+      #POSTGRES_DB: "test_db"
+      #POSTGRES_USER: "test-admin-user"
+      POSTGRES_PASSWORD: "pass"
+      #PGDATA: "/var/lib/postgresql/data/pgdata"
+      POSTGRES_DB: "test_db"
+    volumes:
+      #- ./DB:/var/lib/postgresql/data/
+      - ./DB_new:/var/lib/postgresql/data/
+      - ./Backup:/var/lib/postgresql/Backup
+    ports:
+      - 5432:5432
+
+# Из примера докерхаба постгреса, пусть тоже весит
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
