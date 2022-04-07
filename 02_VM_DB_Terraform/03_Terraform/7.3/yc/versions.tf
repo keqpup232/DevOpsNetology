@@ -11,28 +11,10 @@ terraform {
     bucket     = "keqpup232"
     region     = "ru-central1"
     key        = "terraform.tfstate"
-    access_key = "YCAJEksfRdBhSHk4rfMey7qpy"
-    secret_key = "YCMjtIkcy5333HmMjRCBTOp8FpqHHXoDcqIIK6i6"
+    access_key = env
+    secret_key = env
 
     skip_region_validation      = true
     skip_credentials_validation = true
-  }
-}
-
-resource "yandex_storage_bucket" "log_bucket" {
-  bucket = "keqpup232"
-}
-
-resource "yandex_storage_bucket" "version" {
-  bucket = "keqpup232_version"
-  acl    = "private"
-
-  logging {
-    target_bucket = yandex_storage_bucket.log_bucket.id
-    target_prefix = "log/"
-  }
-
-  versioning {
-    enabled = true
   }
 }

@@ -3,6 +3,24 @@ provider "yandex" {
   zone      = "ru-central1-a"
 }
 
+resource "yandex_storage_bucket" "log_bucket" {
+  bucket = "keqpup232"
+}
+
+resource "yandex_storage_bucket" "version" {
+  bucket = "keqpup232_version"
+  acl    = "private"
+
+  logging {
+    target_bucket = yandex_storage_bucket.log_bucket.id
+    target_prefix = "log/"
+  }
+
+  versioning {
+    enabled = true
+  }
+}
+
 data "yandex_compute_image" "my_image" {
   family = "ubuntu-2004-lts"
 }
@@ -21,7 +39,6 @@ resource "yandex_compute_instance" "vm" {
   name = "vm-${count.index}"
   platform_id = local.web_instance_type_map[terraform.workspace]
   zone        = "ru-central1-a"
-
 
   resources {
     cores  = 2
@@ -43,7 +60,6 @@ resource "yandex_compute_instance" "vm" {
     foo      = "bar"
     ssh-keys = "ubuntu:${file("~/.ssh/id_rsa.pub")}"
   }
-
 }
 
 resource "yandex_compute_instance" "vm_for_each" {
@@ -73,8 +89,6 @@ resource "yandex_compute_instance" "vm_for_each" {
     foo      = "bar"
     ssh-keys = "ubuntu:${file("~/.ssh/id_rsa.pub")}"
   }
-
-
 }
 
 data "yandex_client_config" "client" {}
