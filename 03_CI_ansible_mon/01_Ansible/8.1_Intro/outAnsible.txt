@@ -15,9 +15,9 @@ Step 3/3 : RUN /bin/bash -c 'apt-get update -y;                   apt-get instal
  ---> 54dee5b0b272
 Successfully built 54dee5b0b272
 Successfully tagged keqpup232/ubuntu:python
-ee916973dfba14b82ac80ca99548eb78d3e2cc6e234a276ddf75d423ffac118c
-9ca6a242680a9bb43d16f17ec55ca2d7c976ebcf72c553c8238b90c5bf296e1d
-c46d340be5f9315409c86ed3aaa9e08c4fe47db411e9f0c420dd18945378d0c0
+0e9fc646d60de0009d78199fdab484119a992d73a5970eb2df5f1f68ca342b4d
+223c7a78375a6f62f41f87a1d3435ef12b1ac820d17d8ad8d58d7539023802ff
+b2de6921b81262621b2935c07aa6a6e24abdeb2ab82aa5bef464a94d0813f6c8
 start playbook
 
 

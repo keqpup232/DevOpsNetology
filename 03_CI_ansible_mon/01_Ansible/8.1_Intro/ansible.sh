@@ -22,4 +22,4 @@ echo $'done'
 
 git add outAnsible.txt
 git commit -a -m "playbook init"
-git push
+git push origin master
