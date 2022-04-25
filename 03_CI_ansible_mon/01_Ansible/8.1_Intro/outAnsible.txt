@@ -15,9 +15,9 @@ Step 3/3 : RUN /bin/bash -c 'apt-get update -y;                   apt-get instal
  ---> 54dee5b0b272
 Successfully built 54dee5b0b272
 Successfully tagged keqpup232/ubuntu:python
-f95baf0044d9c460b852ea1c18f996f8b95609162b74d36911f253c7f9d3175f
-debe106f9348f67d7010ef419fab5068afca4a60acec7f51b12770435f1cbe92
-671cf8ff2d14a0a40f7495a6a5c5fdc76853a78d52800956c13c785f285e1910
+ce0e8ef1541245a89d9bd7006309378a55314839eb3a5bbeab4d5340a72599ac
+372b58f2647de856492e90e9b34992a7091d776532d8468c9c335b1e09c22c8b
+be5e0de1b76f1e17444d46501df3d28c0b67fffb0be28f6a0f2de3f4acd8a7dc
 start playbook
 
 
@@ -25,9 +25,9 @@ PLAY [Print os facts] **********************************************************
 
 TASK [Gathering Facts] *********************************************************
 ok: [localhost]
+ok: [ubuntu]
 ok: [fedora]
 ok: [centos7]
-ok: [ubuntu]
 
 TASK [Print OS] ****************************************************************
 ok: [localhost] => {
@@ -47,11 +47,11 @@ TASK [Print fact] **************************************************************
 ok: [localhost] => {
     "msg": "PaSSw0rd"
 }
-ok: [centos7] => {
-    "msg": "el default fact"
-}
 ok: [ubuntu] => {
     "msg": "deb default fact"
+}
+ok: [centos7] => {
+    "msg": "el default fact"
 }
 ok: [fedora] => {
     "msg": "fed default fact"
