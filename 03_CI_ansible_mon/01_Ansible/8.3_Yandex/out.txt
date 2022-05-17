@@ -1,0 +1,470 @@
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  + create
+
+Terraform will perform the following actions:
+
+  # local_file.inventory will be created
+  + resource "local_file" "inventory" {
+      + content              = (known after apply)
+      + directory_permission = "0777"
+      + file_permission      = "0777"
+      + filename             = "../playbook/inventory/prod.yml"
+      + id                   = (known after apply)
+    }
+
+  # local_file.vector will be created
+  + resource "local_file" "vector" {
+      + content              = (known after apply)
+      + directory_permission = "0777"
+      + file_permission      = "0777"
+      + filename             = "../playbook/group_vars/vector/vector.toml"
+      + id                   = (known after apply)
+    }
+
+  # null_resource.cluster will be created
+  + resource "null_resource" "cluster" {
+      + id = (known after apply)
+    }
+
+  # null_resource.wait will be created
+  + resource "null_resource" "wait" {
+      + id = (known after apply)
+    }
+
+  # yandex_compute_instance.vm_for_each["clickhouse.netology.yc"] will be created
+  + resource "yandex_compute_instance" "vm_for_each" {
+      + created_at                = (known after apply)
+      + folder_id                 = (known after apply)
+      + fqdn                      = (known after apply)
+      + hostname                  = "clickhouse.netology.yc"
+      + id                        = (known after apply)
+      + metadata                  = {
+          + "ssh-keys" = (sensitive)
+        }
+      + name                      = "node-clickhouse"
+      + network_acceleration_type = "standard"
+      + platform_id               = "standard-v1"
+      + service_account_id        = (known after apply)
+      + status                    = (known after apply)
+      + zone                      = "ru-central1-a"
+
+      + boot_disk {
+          + auto_delete = true
+          + device_name = (known after apply)
+          + disk_id     = (known after apply)
+          + mode        = (known after apply)
+
+          + initialize_params {
+              + block_size  = (known after apply)
+              + description = (known after apply)
+              + image_id    = "fd8v9fc454c44fr6lngi"
+              + name        = (known after apply)
+              + size        = (known after apply)
+              + snapshot_id = (known after apply)
+              + type        = "network-hdd"
+            }
+        }
+
+      + network_interface {
+          + index              = (known after apply)
+          + ip_address         = (known after apply)
+          + ipv4               = true
+          + ipv6               = (known after apply)
+          + ipv6_address       = (known after apply)
+          + mac_address        = (known after apply)
+          + nat                = true
+          + nat_ip_address     = (known after apply)
+          + nat_ip_version     = (known after apply)
+          + security_group_ids = (known after apply)
+          + subnet_id          = (known after apply)
+        }
+
+      + placement_policy {
+          + host_affinity_rules = (known after apply)
+          + placement_group_id  = (known after apply)
+        }
+
+      + resources {
+          + core_fraction = 100
+          + cores         = 2
+          + memory        = 4
+        }
+
+      + scheduling_policy {
+          + preemptible = (known after apply)
+        }
+    }
+
+  # yandex_compute_instance.vm_for_each["lighthouse.netology.yc"] will be created
+  + resource "yandex_compute_instance" "vm_for_each" {
+      + created_at                = (known after apply)
+      + folder_id                 = (known after apply)
+      + fqdn                      = (known after apply)
+      + hostname                  = "lighthouse.netology.yc"
+      + id                        = (known after apply)
+      + metadata                  = {
+          + "ssh-keys" = (sensitive)
+        }
+      + name                      = "node-lighthouse"
+      + network_acceleration_type = "standard"
+      + platform_id               = "standard-v1"
+      + service_account_id        = (known after apply)
+      + status                    = (known after apply)
+      + zone                      = "ru-central1-a"
+
+      + boot_disk {
+          + auto_delete = true
+          + device_name = (known after apply)
+          + disk_id     = (known after apply)
+          + mode        = (known after apply)
+
+          + initialize_params {
+              + block_size  = (known after apply)
+              + description = (known after apply)
+              + image_id    = "fd8v9fc454c44fr6lngi"
+              + name        = (known after apply)
+              + size        = (known after apply)
+              + snapshot_id = (known after apply)
+              + type        = "network-hdd"
+            }
+        }
+
+      + network_interface {
+          + index              = (known after apply)
+          + ip_address         = (known after apply)
+          + ipv4               = true
+          + ipv6               = (known after apply)
+          + ipv6_address       = (known after apply)
+          + mac_address        = (known after apply)
+          + nat                = true
+          + nat_ip_address     = (known after apply)
+          + nat_ip_version     = (known after apply)
+          + security_group_ids = (known after apply)
+          + subnet_id          = (known after apply)
+        }
+
+      + placement_policy {
+          + host_affinity_rules = (known after apply)
+          + placement_group_id  = (known after apply)
+        }
+
+      + resources {
+          + core_fraction = 100
+          + cores         = 2
+          + memory        = 4
+        }
+
+      + scheduling_policy {
+          + preemptible = (known after apply)
+        }
+    }
+
+  # yandex_compute_instance.vm_for_each["vector.netology.yc"] will be created
+  + resource "yandex_compute_instance" "vm_for_each" {
+      + created_at                = (known after apply)
+      + folder_id                 = (known after apply)
+      + fqdn                      = (known after apply)
+      + hostname                  = "vector.netology.yc"
+      + id                        = (known after apply)
+      + metadata                  = {
+          + "ssh-keys" = (sensitive)
+        }
+      + name                      = "node-vector"
+      + network_acceleration_type = "standard"
+      + platform_id               = "standard-v1"
+      + service_account_id        = (known after apply)
+      + status                    = (known after apply)
+      + zone                      = "ru-central1-a"
+
+      + boot_disk {
+          + auto_delete = true
+          + device_name = (known after apply)
+          + disk_id     = (known after apply)
+          + mode        = (known after apply)
+
+          + initialize_params {
+              + block_size  = (known after apply)
+              + description = (known after apply)
+              + image_id    = "fd8v9fc454c44fr6lngi"
+              + name        = (known after apply)
+              + size        = (known after apply)
+              + snapshot_id = (known after apply)
+              + type        = "network-hdd"
+            }
+        }
+
+      + network_interface {
+          + index              = (known after apply)
+          + ip_address         = (known after apply)
+          + ipv4               = true
+          + ipv6               = (known after apply)
+          + ipv6_address       = (known after apply)
+          + mac_address        = (known after apply)
+          + nat                = true
+          + nat_ip_address     = (known after apply)
+          + nat_ip_version     = (known after apply)
+          + security_group_ids = (known after apply)
+          + subnet_id          = (known after apply)
+        }
+
+      + placement_policy {
+          + host_affinity_rules = (known after apply)
+          + placement_group_id  = (known after apply)
+        }
+
+      + resources {
+          + core_fraction = 100
+          + cores         = 2
+          + memory        = 4
+        }
+
+      + scheduling_policy {
+          + preemptible = (known after apply)
+        }
+    }
+
+  # yandex_vpc_network.foo will be created
+  + resource "yandex_vpc_network" "foo" {
+      + created_at                = (known after apply)
+      + default_security_group_id = (known after apply)
+      + folder_id                 = (known after apply)
+      + id                        = (known after apply)
+      + labels                    = (known after apply)
+      + name                      = (known after apply)
+      + subnet_ids                = (known after apply)
+    }
+
+  # yandex_vpc_subnet.foo will be created
+  + resource "yandex_vpc_subnet" "foo" {
+      + created_at     = (known after apply)
+      + folder_id      = (known after apply)
+      + id             = (known after apply)
+      + labels         = (known after apply)
+      + name           = (known after apply)
+      + network_id     = (known after apply)
+      + v4_cidr_blocks = [
+          + "192.168.101.0/24",
+        ]
+      + v6_cidr_blocks = (known after apply)
+      + zone           = "ru-central1-a"
+    }
+
+Plan: 9 to add, 0 to change, 0 to destroy.
+
+Changes to Outputs:
+  + external_ip_address = [
+      + (known after apply),
+      + (known after apply),
+      + (known after apply),
+    ]
+  + local_ip_address    = [
+      + (known after apply),
+      + (known after apply),
+      + (known after apply),
+    ]
+yandex_vpc_network.foo: Creating...
+yandex_vpc_network.foo: Creation complete after 7s [id=enpktrt8do9piidc7h4d]
+yandex_vpc_subnet.foo: Creating...
+yandex_vpc_subnet.foo: Creation complete after 2s [id=e9bdpbffmub85tuhs3t0]
+yandex_compute_instance.vm_for_each["lighthouse.netology.yc"]: Creating...
+yandex_compute_instance.vm_for_each["clickhouse.netology.yc"]: Creating...
+yandex_compute_instance.vm_for_each["vector.netology.yc"]: Creating...
+yandex_compute_instance.vm_for_each["clickhouse.netology.yc"]: Still creating... [10s elapsed]
+yandex_compute_instance.vm_for_each["lighthouse.netology.yc"]: Still creating... [10s elapsed]
+yandex_compute_instance.vm_for_each["vector.netology.yc"]: Still creating... [10s elapsed]
+yandex_compute_instance.vm_for_each["vector.netology.yc"]: Still creating... [20s elapsed]
+yandex_compute_instance.vm_for_each["lighthouse.netology.yc"]: Still creating... [20s elapsed]
+yandex_compute_instance.vm_for_each["clickhouse.netology.yc"]: Still creating... [20s elapsed]
+yandex_compute_instance.vm_for_each["vector.netology.yc"]: Creation complete after 27s [id=fhmqbi59vimenc9imedg]
+yandex_compute_instance.vm_for_each["clickhouse.netology.yc"]: Creation complete after 27s [id=fhmbgquhnn2lnfgkggra]
+yandex_compute_instance.vm_for_each["lighthouse.netology.yc"]: Still creating... [30s elapsed]
+yandex_compute_instance.vm_for_each["lighthouse.netology.yc"]: Creation complete after 31s [id=fhmbso1mh9vr8t5f1vj6]
+local_file.inventory: Creating...
+local_file.inventory: Creation complete after 0s [id=2cdf68ca4d5b9afc1c223c541a0e5f032a5d9f62]
+local_file.vector: Creating...
+local_file.vector: Creation complete after 0s [id=67a3a129ca0c45377c9066b22225cf4def6b68c5]
+null_resource.wait: Creating...
+null_resource.wait: Provisioning with 'local-exec'...
+null_resource.wait (local-exec): Executing: ["/bin/sh" "-c" "sleep 100"]
+null_resource.wait: Still creating... [10s elapsed]
+null_resource.wait: Still creating... [20s elapsed]
+null_resource.wait: Still creating... [30s elapsed]
+null_resource.wait: Still creating... [40s elapsed]
+null_resource.wait: Still creating... [50s elapsed]
+null_resource.wait: Still creating... [1m0s elapsed]
+null_resource.wait: Still creating... [1m10s elapsed]
+null_resource.wait: Still creating... [1m20s elapsed]
+null_resource.wait: Still creating... [1m30s elapsed]
+null_resource.wait: Creation complete after 1m40s [id=7752545750728266134]
+null_resource.cluster: Creating...
+null_resource.cluster: Provisioning with 'local-exec'...
+null_resource.cluster (local-exec): Executing: ["/bin/sh" "-c" "ansible-playbook -i ../playbook/inventory/prod.yml ../playbook/site.yml"]
+
+null_resource.cluster (local-exec): PLAY [Install Clickhouse] ******************************************************
+
+null_resource.cluster (local-exec): TASK [Gathering Facts] *********************************************************
+null_resource.cluster: Still creating... [10s elapsed]
+null_resource.cluster: Still creating... [20s elapsed]
+null_resource.cluster (local-exec): ok: [node-clickhouse]
+
+null_resource.cluster (local-exec): TASK [Get clickhouse distrib] **************************************************
+null_resource.cluster: Still creating... [30s elapsed]
+null_resource.cluster: Still creating... [40s elapsed]
+null_resource.cluster (local-exec): changed: [node-clickhouse] => (item=clickhouse-client)
+null_resource.cluster: Still creating... [50s elapsed]
+null_resource.cluster: Still creating... [1m0s elapsed]
+null_resource.cluster (local-exec): changed: [node-clickhouse] => (item=clickhouse-server)
+null_resource.cluster: Still creating... [1m10s elapsed]
+null_resource.cluster (local-exec): failed: [node-clickhouse] (item=clickhouse-common-static) => {"ansible_loop_var": "item", "changed": false, "dest": "./clickhouse-common-static-22.3.3.44.rpm", "elapsed": 0, "item": "clickhouse-common-static", "msg": "Request failed", "response": "HTTP Error 404: Not Found", "status_code": 404, "url": "https://packages.clickhouse.com/rpm/stable/clickhouse-common-static-22.3.3.44.noarch.rpm"}
+
+null_resource.cluster (local-exec): TASK [Get clickhouse distrib] **************************************************
+null_resource.cluster: Still creating... [1m20s elapsed]
+null_resource.cluster (local-exec): changed: [node-clickhouse]
+
+null_resource.cluster (local-exec): TASK [Install clickhouse packages] *********************************************
+null_resource.cluster: Still creating... [1m30s elapsed]
+null_resource.cluster: Still creating... [1m40s elapsed]
+null_resource.cluster: Still creating... [1m50s elapsed]
+null_resource.cluster (local-exec): changed: [node-clickhouse]
+
+null_resource.cluster (local-exec): TASK [Configurate] *************************************************************
+null_resource.cluster: Still creating... [2m0s elapsed]
+null_resource.cluster: Still creating... [2m10s elapsed]
+null_resource.cluster (local-exec): changed: [node-clickhouse]
+
+null_resource.cluster (local-exec): TASK [Flush handlers] **********************************************************
+
+null_resource.cluster (local-exec): RUNNING HANDLER [restart clickhouse service] ***********************************
+null_resource.cluster: Still creating... [2m20s elapsed]
+null_resource.cluster (local-exec): changed: [node-clickhouse]
+
+null_resource.cluster (local-exec): TASK [Create database] *********************************************************
+null_resource.cluster: Still creating... [2m30s elapsed]
+null_resource.cluster (local-exec): changed: [node-clickhouse]
+
+null_resource.cluster (local-exec): TASK [Create table] ************************************************************
+null_resource.cluster: Still creating... [2m40s elapsed]
+null_resource.cluster (local-exec): changed: [node-clickhouse]
+
+null_resource.cluster (local-exec): PLAY [Install Vector] **********************************************************
+
+null_resource.cluster (local-exec): TASK [Gathering Facts] *********************************************************
+null_resource.cluster: Still creating... [2m50s elapsed]
+null_resource.cluster: Still creating... [3m0s elapsed]
+null_resource.cluster (local-exec): ok: [node-vector]
+
+null_resource.cluster (local-exec): TASK [Get vector distrib] ******************************************************
+null_resource.cluster: Still creating... [3m10s elapsed]
+null_resource.cluster (local-exec): changed: [node-vector]
+
+null_resource.cluster (local-exec): TASK [Create directory for Vector] *********************************************
+null_resource.cluster: Still creating... [3m20s elapsed]
+null_resource.cluster (local-exec): changed: [node-vector]
+
+null_resource.cluster (local-exec): TASK [extractor presents] ******************************************************
+null_resource.cluster: Still creating... [3m30s elapsed]
+null_resource.cluster: Still creating... [3m40s elapsed]
+null_resource.cluster (local-exec): changed: [node-vector]
+
+null_resource.cluster (local-exec): TASK [Extract vector in directory] *********************************************
+null_resource.cluster: Still creating... [3m50s elapsed]
+null_resource.cluster: Still creating... [4m0s elapsed]
+null_resource.cluster: Still creating... [4m10s elapsed]
+null_resource.cluster (local-exec): changed: [node-vector]
+
+null_resource.cluster (local-exec): TASK [Create a symbolic link] **************************************************
+null_resource.cluster: Still creating... [4m20s elapsed]
+null_resource.cluster (local-exec): changed: [node-vector]
+
+null_resource.cluster (local-exec): TASK [Copy config vector] ******************************************************
+null_resource.cluster: Still creating... [4m30s elapsed]
+null_resource.cluster: Still creating... [4m40s elapsed]
+null_resource.cluster: Still creating... [4m50s elapsed]
+null_resource.cluster (local-exec): changed: [node-vector]
+
+null_resource.cluster (local-exec): TASK [Start toml config file] **************************************************
+null_resource.cluster: Still creating... [5m0s elapsed]
+null_resource.cluster (local-exec): changed: [node-vector]
+
+null_resource.cluster (local-exec): TASK [Send test data syslog in clickhouse] *************************************
+null_resource.cluster: Still creating... [5m10s elapsed]
+null_resource.cluster (local-exec): changed: [node-vector]
+
+null_resource.cluster (local-exec): RUNNING HANDLER [Check succses install vector] *********************************
+null_resource.cluster: Still creating... [5m20s elapsed]
+null_resource.cluster (local-exec): changed: [node-vector]
+
+null_resource.cluster (local-exec): RUNNING HANDLER [debug details] ************************************************
+null_resource.cluster (local-exec): ok: [node-vector] => {
+null_resource.cluster (local-exec):     "msg": "vector 0.21.1 (x86_64-unknown-linux-gnu 18787c0 2022-04-22)"
+null_resource.cluster (local-exec): }
+
+null_resource.cluster (local-exec): PLAY [Install NGINX in lighthouse node] ****************************************
+
+null_resource.cluster (local-exec): TASK [Gathering Facts] *********************************************************
+null_resource.cluster: Still creating... [5m30s elapsed]
+null_resource.cluster: Still creating... [5m40s elapsed]
+null_resource.cluster (local-exec): ok: [node-lighthouse]
+
+null_resource.cluster (local-exec): TASK [Add epel-release repo] ***************************************************
+null_resource.cluster: Still creating... [5m50s elapsed]
+null_resource.cluster: Still creating... [6m0s elapsed]
+null_resource.cluster (local-exec): changed: [node-lighthouse]
+
+null_resource.cluster (local-exec): TASK [Install nginx] ***********************************************************
+null_resource.cluster: Still creating... [6m10s elapsed]
+null_resource.cluster: Still creating... [6m20s elapsed]
+null_resource.cluster (local-exec): changed: [node-lighthouse]
+
+null_resource.cluster (local-exec): PLAY [Install Lighthouse] ******************************************************
+
+null_resource.cluster (local-exec): TASK [Gathering Facts] *********************************************************
+null_resource.cluster: Still creating... [6m30s elapsed]
+null_resource.cluster (local-exec): ok: [node-lighthouse]
+
+null_resource.cluster (local-exec): TASK [git install] *************************************************************
+null_resource.cluster: Still creating... [6m40s elapsed]
+null_resource.cluster: Still creating... [6m50s elapsed]
+null_resource.cluster: Still creating... [7m0s elapsed]
+null_resource.cluster (local-exec): changed: [node-lighthouse]
+
+null_resource.cluster (local-exec): TASK [Recursively remove directory] ********************************************
+null_resource.cluster: Still creating... [7m10s elapsed]
+null_resource.cluster (local-exec): changed: [node-lighthouse]
+
+null_resource.cluster (local-exec): TASK [Create a directory if it does not exist] *********************************
+null_resource.cluster: Still creating... [7m20s elapsed]
+null_resource.cluster (local-exec): changed: [node-lighthouse]
+
+null_resource.cluster (local-exec): TASK [Git checkout] ************************************************************
+null_resource.cluster: Still creating... [7m30s elapsed]
+null_resource.cluster (local-exec): changed: [node-lighthouse]
+
+null_resource.cluster (local-exec): RUNNING HANDLER [restart nginx] ************************************************
+null_resource.cluster: Still creating... [7m40s elapsed]
+null_resource.cluster: Still creating... [7m50s elapsed]
+null_resource.cluster (local-exec): changed: [node-lighthouse]
+
+null_resource.cluster (local-exec): PLAY RECAP *********************************************************************
+null_resource.cluster (local-exec): node-clickhouse            : ok=7    changed=6    unreachable=0    failed=0    skipped=0    rescued=1    ignored=0
+null_resource.cluster (local-exec): node-lighthouse            : ok=9    changed=7    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+null_resource.cluster (local-exec): node-vector                : ok=11   changed=9    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+
+null_resource.cluster: Creation complete after 7m55s [id=3795516074741360846]
+
+Apply complete! Resources: 9 added, 0 changed, 0 destroyed.
+
+Outputs:
+
+external_ip_address = [
+  "node-clickhouse is 51.250.83.212",
+  "node-lighthouse is 51.250.86.122",
+  "node-vector is 51.250.84.51",
+]
+local_ip_address = [
+  "node-clickhouse is 192.168.101.10",
+  "node-lighthouse is 192.168.101.3",
+  "node-vector is 192.168.101.16",
+]
