@@ -1,0 +1,370 @@
+Started by user admin
+ > git rev-parse --resolve-git-dir /var/lib/jenkins/caches/git-59106f68b9a1aa8a3982f2840a011ce1/.git # timeout=10
+Setting origin to git@github.com:keqpup232/vector-role.git
+ > git config remote.origin.url git@github.com:keqpup232/vector-role.git # timeout=10
+Fetching origin...
+Fetching upstream changes from origin
+ > git --version # timeout=10
+ > git --version # 'git version 2.31.1'
+ > git config --get remote.origin.url # timeout=10
+using GIT_SSH to set credentials
+[INFO] Currently running in a labeled security context
+[INFO] Currently SELinux is 'enforcing' on the host
+ > /usr/bin/chcon --type=ssh_home_t /var/lib/jenkins/caches/git-59106f68b9a1aa8a3982f2840a011ce1@tmp/jenkins-gitclient-ssh6191078205252846663.key
+ > git fetch --tags --force --progress -- origin +refs/heads/*:refs/remotes/origin/* # timeout=10
+Seen branch in repository origin/jenkinse
+Seen branch in repository origin/main
+Seen 2 remote branches
+Obtained Jenkinsfile from 32c2f616b943961dd556ef9969adabbcf16c0c8b
+[Pipeline] Start of Pipeline
+[Pipeline] node
+Running on agent-1 in /opt/jenkins_agent/workspace/multipipe_jenkinse
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (Declarative: Checkout SCM)
+[Pipeline] checkout
+Selected Git installation does not exist. Using Default
+The recommended git tool is: NONE
+using credential 2844bee6-94bf-4c3b-ad15-f48b41ddc99a
+Fetching changes from the remote Git repository
+Fetching without tags
+ > git rev-parse --resolve-git-dir /opt/jenkins_agent/workspace/multipipe_jenkinse/.git # timeout=10
+ > git config remote.origin.url git@github.com:keqpup232/vector-role.git # timeout=10
+Fetching upstream changes from git@github.com:keqpup232/vector-role.git
+ > git --version # timeout=10
+ > git --version # 'git version 2.31.1'
+using GIT_SSH to set credentials
+[INFO] Currently running in a labeled security context
+[INFO] Currently SELinux is 'enforcing' on the host
+ > /usr/bin/chcon --type=ssh_home_t /opt/jenkins_agent/workspace/multipipe_jenkinse@tmp/jenkins-gitclient-ssh7942132022596609623.key
+ > git fetch --no-tags --force --progress -- git@github.com:keqpup232/vector-role.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+Checking out Revision 32c2f616b943961dd556ef9969adabbcf16c0c8b (jenkinse)
+Commit message: "change test"
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f 32c2f616b943961dd556ef9969adabbcf16c0c8b # timeout=10
+ > git rev-list --no-walk 1905e10eba900a16674ec2e33c4433933d984929 # timeout=10
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] withEnv
+[Pipeline] {
+[Pipeline] stage
+[Pipeline] { (get repo vector-role with tag 1.1.0)
+[Pipeline] checkout
+Selected Git installation does not exist. Using Default
+The recommended git tool is: NONE
+using credential 2844bee6-94bf-4c3b-ad15-f48b41ddc99a
+Fetching changes from the remote Git repository
+ > git rev-parse --resolve-git-dir /opt/jenkins_agent/workspace/multipipe_jenkinse/.git # timeout=10
+ > git config remote.origin.url git@github.com:keqpup232/vector-role.git # timeout=10
+Fetching upstream changes from git@github.com:keqpup232/vector-role.git
+ > git --version # timeout=10
+ > git --version # 'git version 2.31.1'
+using GIT_SSH to set credentials
+[INFO] Currently running in a labeled security context
+[INFO] Currently SELinux is 'enforcing' on the host
+ > /usr/bin/chcon --type=ssh_home_t /opt/jenkins_agent/workspace/multipipe_jenkinse@tmp/jenkins-gitclient-ssh12192721801760977149.key
+ > git fetch --tags --force --progress -- git@github.com:keqpup232/vector-role.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+Checking out Revision 12ff3edb1a39dcb99c06e1c6312535743884907d (1.1.0)
+Commit message: "add molecule"
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (install molecule and m_docker)
+[Pipeline] sh
++ pip3 install molecule==3.4.0 molecule_docker
+ > git rev-parse origin/1.1.0^{commit} # timeout=10
+ > git rev-parse 1.1.0^{commit} # timeout=10
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f 12ff3edb1a39dcb99c06e1c6312535743884907d # timeout=10
+Defaulting to user installation because normal site-packages is not writeable
+Requirement already satisfied: molecule==3.4.0 in /home/jenkins/.local/lib/python3.8/site-packages (3.4.0)
+Requirement already satisfied: molecule_docker in /home/jenkins/.local/lib/python3.8/site-packages (1.1.0)
+Requirement already satisfied: PyYAML<6,>=5.1 in /home/jenkins/.local/lib/python3.8/site-packages (from molecule==3.4.0) (5.4.1)
+Requirement already satisfied: cerberus!=1.3.3,!=1.3.4,>=1.3.1 in /home/jenkins/.local/lib/python3.8/site-packages (from molecule==3.4.0) (1.3.2)
+Requirement already satisfied: cookiecutter>=1.7.3 in /home/jenkins/.local/lib/python3.8/site-packages (from molecule==3.4.0) (2.1.1)
+Requirement already satisfied: click-help-colors>=0.9 in /home/jenkins/.local/lib/python3.8/site-packages (from molecule==3.4.0) (0.9.1)
+Requirement already satisfied: packaging in /usr/local/lib/python3.8/site-packages (from molecule==3.4.0) (21.3)
+Requirement already satisfied: rich>=9.5.1 in /home/jenkins/.local/lib/python3.8/site-packages (from molecule==3.4.0) (12.4.4)
+Requirement already satisfied: paramiko<3,>=2.5.0 in /home/jenkins/.local/lib/python3.8/site-packages (from molecule==3.4.0) (2.11.0)
+Requirement already satisfied: selinux in /usr/local/lib/python3.8/site-packages (from molecule==3.4.0) (0.2.1)
+Requirement already satisfied: setuptools>=42 in /home/jenkins/.local/lib/python3.8/site-packages (from molecule==3.4.0) (62.4.0)
+Requirement already satisfied: subprocess-tee>=0.3.2 in /home/jenkins/.local/lib/python3.8/site-packages (from molecule==3.4.0) (0.3.5)
+Requirement already satisfied: Jinja2>=2.11.3 in /usr/local/lib/python3.8/site-packages (from molecule==3.4.0) (3.1.2)
+Requirement already satisfied: click<9,>=8.0 in /home/jenkins/.local/lib/python3.8/site-packages (from molecule==3.4.0) (8.1.3)
+Requirement already satisfied: enrich>=1.2.5 in /home/jenkins/.local/lib/python3.8/site-packages (from molecule==3.4.0) (1.2.7)
+Requirement already satisfied: ansible-lint>=5.1.1 in /home/jenkins/.local/lib/python3.8/site-packages (from molecule==3.4.0) (5.4.0)
+Requirement already satisfied: pluggy<1.0,>=0.7.1 in /home/jenkins/.local/lib/python3.8/site-packages (from molecule==3.4.0) (0.13.1)
+Requirement already satisfied: docker>=4.3.1 in /home/jenkins/.local/lib/python3.8/site-packages (from molecule_docker) (5.0.3)
+Requirement already satisfied: ansible-compat>=0.5.0 in /home/jenkins/.local/lib/python3.8/site-packages (from molecule_docker) (2.1.0)
+Requirement already satisfied: requests in /home/jenkins/.local/lib/python3.8/site-packages (from molecule_docker) (2.28.0)
+Requirement already satisfied: jsonschema>=4.5.1 in /home/jenkins/.local/lib/python3.8/site-packages (from ansible-compat>=0.5.0->molecule_docker) (4.6.0)
+Requirement already satisfied: tenacity in /home/jenkins/.local/lib/python3.8/site-packages (from ansible-lint>=5.1.1->molecule==3.4.0) (8.0.1)
+Requirement already satisfied: ruamel.yaml<1,>=0.15.37 in /home/jenkins/.local/lib/python3.8/site-packages (from ansible-lint>=5.1.1->molecule==3.4.0) (0.17.21)
+Requirement already satisfied: wcmatch>=7.0 in /home/jenkins/.local/lib/python3.8/site-packages (from ansible-lint>=5.1.1->molecule==3.4.0) (8.4)
+Requirement already satisfied: binaryornot>=0.4.4 in /home/jenkins/.local/lib/python3.8/site-packages (from cookiecutter>=1.7.3->molecule==3.4.0) (0.4.4)
+Requirement already satisfied: python-slugify>=4.0.0 in /home/jenkins/.local/lib/python3.8/site-packages (from cookiecutter>=1.7.3->molecule==3.4.0) (6.1.2)
+Requirement already satisfied: jinja2-time>=0.2.0 in /home/jenkins/.local/lib/python3.8/site-packages (from cookiecutter>=1.7.3->molecule==3.4.0) (0.2.0)
+Requirement already satisfied: websocket-client>=0.32.0 in /home/jenkins/.local/lib/python3.8/site-packages (from docker>=4.3.1->molecule_docker) (1.3.2)
+Requirement already satisfied: MarkupSafe>=2.0 in /usr/local/lib64/python3.8/site-packages (from Jinja2>=2.11.3->molecule==3.4.0) (2.1.1)
+Requirement already satisfied: six in /home/jenkins/.local/lib/python3.8/site-packages (from paramiko<3,>=2.5.0->molecule==3.4.0) (1.16.0)
+Requirement already satisfied: pynacl>=1.0.1 in /home/jenkins/.local/lib/python3.8/site-packages (from paramiko<3,>=2.5.0->molecule==3.4.0) (1.5.0)
+Requirement already satisfied: cryptography>=2.5 in /usr/local/lib64/python3.8/site-packages (from paramiko<3,>=2.5.0->molecule==3.4.0) (37.0.2)
+Requirement already satisfied: bcrypt>=3.1.3 in /home/jenkins/.local/lib/python3.8/site-packages (from paramiko<3,>=2.5.0->molecule==3.4.0) (3.2.2)
+Requirement already satisfied: certifi>=2017.4.17 in /home/jenkins/.local/lib/python3.8/site-packages (from requests->molecule_docker) (2022.6.15)
+Requirement already satisfied: urllib3<1.27,>=1.21.1 in /home/jenkins/.local/lib/python3.8/site-packages (from requests->molecule_docker) (1.26.9)
+Requirement already satisfied: charset-normalizer~=2.0.0 in /home/jenkins/.local/lib/python3.8/site-packages (from requests->molecule_docker) (2.0.12)
+Requirement already satisfied: idna<4,>=2.5 in /home/jenkins/.local/lib/python3.8/site-packages (from requests->molecule_docker) (3.3)
+Requirement already satisfied: commonmark<0.10.0,>=0.9.0 in /home/jenkins/.local/lib/python3.8/site-packages (from rich>=9.5.1->molecule==3.4.0) (0.9.1)
+Requirement already satisfied: pygments<3.0.0,>=2.6.0 in /home/jenkins/.local/lib/python3.8/site-packages (from rich>=9.5.1->molecule==3.4.0) (2.12.0)
+Requirement already satisfied: typing-extensions<5.0,>=4.0.0 in /home/jenkins/.local/lib/python3.8/site-packages (from rich>=9.5.1->molecule==3.4.0) (4.2.0)
+Requirement already satisfied: pyparsing!=3.0.5,>=2.0.2 in /usr/local/lib/python3.8/site-packages (from packaging->molecule==3.4.0) (3.0.9)
+Requirement already satisfied: distro>=1.3.0 in /usr/local/lib/python3.8/site-packages (from selinux->molecule==3.4.0) (1.7.0)
+Requirement already satisfied: cffi>=1.1 in /usr/local/lib64/python3.8/site-packages (from bcrypt>=3.1.3->paramiko<3,>=2.5.0->molecule==3.4.0) (1.15.0)
+Requirement already satisfied: chardet>=3.0.2 in /home/jenkins/.local/lib/python3.8/site-packages (from binaryornot>=0.4.4->cookiecutter>=1.7.3->molecule==3.4.0) (4.0.0)
+Requirement already satisfied: arrow in /home/jenkins/.local/lib/python3.8/site-packages (from jinja2-time>=0.2.0->cookiecutter>=1.7.3->molecule==3.4.0) (1.2.2)
+Requirement already satisfied: importlib-resources>=1.4.0 in /home/jenkins/.local/lib/python3.8/site-packages (from jsonschema>=4.5.1->ansible-compat>=0.5.0->molecule_docker) (5.8.0)
+Requirement already satisfied: pyrsistent!=0.17.0,!=0.17.1,!=0.17.2,>=0.14.0 in /home/jenkins/.local/lib/python3.8/site-packages (from jsonschema>=4.5.1->ansible-compat>=0.5.0->molecule_docker) (0.18.1)
+Requirement already satisfied: attrs>=17.4.0 in /home/jenkins/.local/lib/python3.8/site-packages (from jsonschema>=4.5.1->ansible-compat>=0.5.0->molecule_docker) (21.4.0)
+Requirement already satisfied: text-unidecode>=1.3 in /home/jenkins/.local/lib/python3.8/site-packages (from python-slugify>=4.0.0->cookiecutter>=1.7.3->molecule==3.4.0) (1.3)
+Requirement already satisfied: ruamel.yaml.clib>=0.2.6 in /home/jenkins/.local/lib/python3.8/site-packages (from ruamel.yaml<1,>=0.15.37->ansible-lint>=5.1.1->molecule==3.4.0) (0.2.6)
+Requirement already satisfied: bracex>=2.1.1 in /home/jenkins/.local/lib/python3.8/site-packages (from wcmatch>=7.0->ansible-lint>=5.1.1->molecule==3.4.0) (2.3.post1)
+Requirement already satisfied: pycparser in /usr/local/lib/python3.8/site-packages (from cffi>=1.1->bcrypt>=3.1.3->paramiko<3,>=2.5.0->molecule==3.4.0) (2.21)
+Requirement already satisfied: zipp>=3.1.0 in /home/jenkins/.local/lib/python3.8/site-packages (from importlib-resources>=1.4.0->jsonschema>=4.5.1->ansible-compat>=0.5.0->molecule_docker) (3.8.0)
+Requirement already satisfied: python-dateutil>=2.7.0 in /home/jenkins/.local/lib/python3.8/site-packages (from arrow->jinja2-time>=0.2.0->cookiecutter>=1.7.3->molecule==3.4.0) (2.8.2)
++ molecule --version
+molecule 3.4.0 using python 3.8
+    ansible:2.13.0
+    delegated:3.4.0 from molecule
+    docker:1.1.0 from molecule_docker requiring collections: community.docker>=1.9.1
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] stage
+[Pipeline] { (molecule test)
+[Pipeline] sh
++ molecule test
+INFO     default scenario test matrix: dependency, lint, cleanup, destroy, syntax, create, prepare, converge, idempotence, side_effect, verify, cleanup, destroy
+INFO     Performing prerun...
+INFO     Guessed /opt/jenkins_agent/workspace/multipipe_jenkinse as project root directory
+WARNING  Computed fully qualified role name of multipipe_jenkinse does not follow current galaxy requirements.
+Please edit meta/main.yml and assure we can correctly determine full role name:
+
+galaxy_info:
+role_name: my_name  # if absent directory name hosting role is used instead
+namespace: my_galaxy_namespace  # if absent, author is used instead
+
+Namespace: https://galaxy.ansible.com/docs/contributing/namespaces.html#galaxy-namespace-limitations
+Role: https://galaxy.ansible.com/docs/contributing/creating_role.html#role-names
+
+As an alternative, you can add 'role-name' to either skip_list or warn_list.
+
+INFO     Using /home/jenkins/.cache/ansible-lint/120185/roles/multipipe_jenkinse symlink to current repository in order to enable Ansible to find the role using its expected full name.
+INFO     Added ANSIBLE_ROLES_PATH=~/.ansible/roles:/usr/share/ansible/roles:/etc/ansible/roles:/home/jenkins/.cache/ansible-lint/120185/roles
+INFO     Running default > dependency
+WARNING  Skipping, missing the requirements file.
+WARNING  Skipping, missing the requirements file.
+INFO     Running default > lint
+INFO     Lint is disabled.
+INFO     Running default > cleanup
+WARNING  Skipping, cleanup playbook not configured.
+INFO     Running default > destroy
+INFO     Sanity checks: 'docker'
+
+PLAY [Destroy] *****************************************************************
+
+TASK [Destroy molecule instance(s)] ********************************************
+changed: [localhost] => (item=centos8)
+changed: [localhost] => (item=centos7)
+
+TASK [Wait for instance(s) deletion to complete] *******************************
+ok: [localhost] => (item=centos8)
+ok: [localhost] => (item=centos7)
+
+TASK [Delete docker networks(s)] ***********************************************
+
+PLAY RECAP *********************************************************************
+localhost                  : ok=2    changed=1    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0
+
+INFO     Running default > syntax
+
+playbook: /opt/jenkins_agent/workspace/multipipe_jenkinse/molecule/default/converge.yml
+INFO     Running default > create
+
+PLAY [Create] ******************************************************************
+
+TASK [Log into a Docker registry] **********************************************
+skipping: [localhost] => (item=None)
+skipping: [localhost] => (item=None)
+skipping: [localhost]
+
+TASK [Check presence of custom Dockerfiles] ************************************
+ok: [localhost] => (item={'dockerfile': '../resources/Dockerfile', 'image': 'docker.io/pycontribs/centos:8', 'name': 'centos8'})
+ok: [localhost] => (item={'image': 'docker.io/pycontribs/centos:7', 'name': 'centos7', 'pre_build_image': True})
+
+TASK [Create Dockerfiles from image names] *************************************
+changed: [localhost] => (item={'dockerfile': '../resources/Dockerfile', 'image': 'docker.io/pycontribs/centos:8', 'name': 'centos8'})
+skipping: [localhost] => (item={'image': 'docker.io/pycontribs/centos:7', 'name': 'centos7', 'pre_build_image': True})
+
+TASK [Discover local Docker images] ********************************************
+ok: [localhost] => (item={'diff': [], 'dest': '/home/jenkins/.cache/molecule/multipipe_jenkinse/default/Dockerfile_docker_io_pycontribs_centos_8', 'src': '/home/jenkins/.ansible/tmp/ansible-tmp-1655480410.9320796-83938-135251215604248/source', 'md5sum': '698165e8995f1bffd79fb165a929d255', 'checksum': 'fac207aed49e513619e67757112b648ec2738816', 'changed': True, 'uid': 1001, 'gid': 100, 'owner': 'jenkins', 'group': 'users', 'mode': '0600', 'state': 'file', 'secontext': 'unconfined_u:object_r:cache_home_t:s0', 'size': 261, 'invocation': {'module_args': {'src': '/home/jenkins/.ansible/tmp/ansible-tmp-1655480410.9320796-83938-135251215604248/source', 'dest': '/home/jenkins/.cache/molecule/multipipe_jenkinse/default/Dockerfile_docker_io_pycontribs_centos_8', 'mode': '0600', 'follow': False, '_original_basename': 'Dockerfile', 'checksum': 'fac207aed49e513619e67757112b648ec2738816', 'backup': False, 'force': True, 'unsafe_writes': False, 'content': None, 'validate': None, 'directory_mode': None, 'remote_src': None, 'local_follow': None, 'owner': None, 'group': None, 'seuser': None, 'serole': None, 'selevel': None, 'setype': None, 'attributes': None}}, 'failed': False, 'item': {'dockerfile': '../resources/Dockerfile', 'image': 'docker.io/pycontribs/centos:8', 'name': 'centos8'}, 'ansible_loop_var': 'item', 'i': 0, 'ansible_index_var': 'i'})
+ok: [localhost] => (item={'changed': False, 'skipped': True, 'skip_reason': 'Conditional result was False', 'item': {'image': 'docker.io/pycontribs/centos:7', 'name': 'centos7', 'pre_build_image': True}, 'ansible_loop_var': 'item', 'i': 1, 'ansible_index_var': 'i'})
+
+TASK [Build an Ansible compatible image (new)] *********************************
+ok: [localhost] => (item=molecule_local/docker.io/pycontribs/centos:8)
+skipping: [localhost] => (item=molecule_local/docker.io/pycontribs/centos:7)
+
+TASK [Create docker network(s)] ************************************************
+
+TASK [Determine the CMD directives] ********************************************
+ok: [localhost] => (item={'dockerfile': '../resources/Dockerfile', 'image': 'docker.io/pycontribs/centos:8', 'name': 'centos8'})
+ok: [localhost] => (item={'image': 'docker.io/pycontribs/centos:7', 'name': 'centos7', 'pre_build_image': True})
+
+TASK [Create molecule instance(s)] *********************************************
+changed: [localhost] => (item=centos8)
+changed: [localhost] => (item=centos7)
+
+TASK [Wait for instance(s) creation to complete] *******************************
+FAILED - RETRYING: [localhost]: Wait for instance(s) creation to complete (300 retries left).
+changed: [localhost] => (item={'failed': 0, 'started': 1, 'finished': 0, 'ansible_job_id': '420926176454.84083', 'results_file': '/home/jenkins/.ansible_async/420926176454.84083', 'changed': True, 'item': {'dockerfile': '../resources/Dockerfile', 'image': 'docker.io/pycontribs/centos:8', 'name': 'centos8'}, 'ansible_loop_var': 'item'})
+changed: [localhost] => (item={'failed': 0, 'started': 1, 'finished': 0, 'ansible_job_id': '809173573467.84104', 'results_file': '/home/jenkins/.ansible_async/809173573467.84104', 'changed': True, 'item': {'image': 'docker.io/pycontribs/centos:7', 'name': 'centos7', 'pre_build_image': True}, 'ansible_loop_var': 'item'})
+
+PLAY RECAP *********************************************************************
+localhost                  : ok=7    changed=3    unreachable=0    failed=0    skipped=2    rescued=0    ignored=0
+
+INFO     Running default > prepare
+WARNING  Skipping, prepare playbook not configured.
+INFO     Running default > converge
+
+PLAY [Converge] ****************************************************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [centos8]
+ok: [centos7]
+
+TASK [Include vector-role] *****************************************************
+
+TASK [vector-role : Get vector distrib] ****************************************
+changed: [centos7]
+changed: [centos8]
+
+TASK [vector-role : Create directory for Vector] *******************************
+changed: [centos7]
+changed: [centos8]
+
+TASK [vector-role : extractor presents] ****************************************
+changed: [centos8]
+changed: [centos7]
+
+TASK [vector-role : Extract vector in directory] *******************************
+changed: [centos8]
+changed: [centos7]
+
+TASK [vector-role : Create a symbolic link] ************************************
+changed: [centos7]
+changed: [centos8]
+
+RUNNING HANDLER [vector-role : Check succses install vector] *******************
+changed: [centos8]
+changed: [centos7]
+
+RUNNING HANDLER [vector-role : debug details] **********************************
+ok: [centos7] => {
+    "msg": "vector 0.21.1 (x86_64-unknown-linux-gnu 18787c0 2022-04-22)"
+}
+ok: [centos8] => {
+    "msg": "vector 0.21.1 (x86_64-unknown-linux-gnu 18787c0 2022-04-22)"
+}
+
+PLAY RECAP *********************************************************************
+centos7                    : ok=8    changed=6    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+centos8                    : ok=8    changed=6    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+
+INFO     Running default > idempotence
+
+PLAY [Converge] ****************************************************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [centos8]
+ok: [centos7]
+
+TASK [Include vector-role] *****************************************************
+
+TASK [vector-role : Get vector distrib] ****************************************
+ok: [centos7]
+ok: [centos8]
+
+TASK [vector-role : Create directory for Vector] *******************************
+ok: [centos7]
+ok: [centos8]
+
+TASK [vector-role : extractor presents] ****************************************
+ok: [centos7]
+ok: [centos8]
+
+TASK [vector-role : Extract vector in directory] *******************************
+skipping: [centos7]
+skipping: [centos8]
+
+TASK [vector-role : Create a symbolic link] ************************************
+ok: [centos7]
+ok: [centos8]
+
+PLAY RECAP *********************************************************************
+centos7                    : ok=5    changed=0    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0
+centos8                    : ok=5    changed=0    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0
+
+INFO     Idempotence completed successfully.
+INFO     Running default > side_effect
+WARNING  Skipping, side effect playbook not configured.
+INFO     Running default > verify
+INFO     Running Ansible Verifier
+
+PLAY [Verify] ******************************************************************
+
+TASK [Check succses install vector] ********************************************
+changed: [centos8]
+changed: [centos7]
+
+TASK [Example assertion] *******************************************************
+ok: [centos7] => {
+    "changed": false,
+    "msg": "nice version"
+}
+ok: [centos8] => {
+    "changed": false,
+    "msg": "nice version"
+}
+
+PLAY RECAP *********************************************************************
+centos7                    : ok=2    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+centos8                    : ok=2    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+
+INFO     Verifier completed successfully.
+INFO     Running default > cleanup
+WARNING  Skipping, cleanup playbook not configured.
+INFO     Running default > destroy
+
+PLAY [Destroy] *****************************************************************
+
+TASK [Destroy molecule instance(s)] ********************************************
+changed: [localhost] => (item=centos8)
+changed: [localhost] => (item=centos7)
+
+TASK [Wait for instance(s) deletion to complete] *******************************
+FAILED - RETRYING: [localhost]: Wait for instance(s) deletion to complete (300 retries left).
+changed: [localhost] => (item=centos8)
+changed: [localhost] => (item=centos7)
+
+TASK [Delete docker networks(s)] ***********************************************
+
+PLAY RECAP *********************************************************************
+localhost                  : ok=2    changed=2    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0
+
+INFO     Pruning extra files from scenario ephemeral directory
+[Pipeline] }
+[Pipeline] // stage
+[Pipeline] }
+[Pipeline] // withEnv
+[Pipeline] }
+[Pipeline] // node
+[Pipeline] End of Pipeline
+Finished: SUCCESS
