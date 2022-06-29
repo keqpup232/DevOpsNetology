@@ -123,4 +123,9 @@ http://51.250.78.171:8080/login?from=%2F
    wget https://download.java.net/java/ga/jdk11/openjdk-11_linux-x64_bin.tar.gz
    mv openjdk-11_linux-x64_bin.tar.gz /tmp/jdk-openjdk-11-linux.tar.gz
    ```
+
+<p align="center">
+  <img src="./assets/scripted.png">
+</p>
+
 8) Declarative [Pipeline](./files/Jenkinsfile)  --  Scripted [Pipeline](./pipeline/Jenkinsfile)
