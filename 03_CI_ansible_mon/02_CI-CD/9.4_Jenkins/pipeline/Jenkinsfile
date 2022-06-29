@@ -1,23 +1,25 @@
-node (label: 'centos8stream') {
+node {
     stage("Git checkout"){
-        git credentialsId: 'c9e14b59-7949-4199-a9da-52f1c0d930cc', url: 'git@github.com:aragastmatb/example-playbook.git'
+        git credentialsId: '9f36676a-3b64-4803-b647-8d9180f3261d', url: 'git@github.com:aragastmatb/example-playbook.git'
     }
     stage("Sample define secret_check"){
         secret_check=true
     }
+    stage("Download dependencies"){
+        sh 'ansible-galaxy install -r requirements.yml -p roles'
+    }
     stage('get repo vector-role with tag 1.1.0') {
         dir('./roles/java') {
-            checkout([$class: 'GitSCM', branches: [[name: '1.0.1']], extensions: [], userRemoteConfigs: [[credentialsId: 'c9e14b59-7949-4199-a9da-52f1c0d930cc', url: 'git@github.com:netology-code/mnt-homeworks-ansible.git']]])
+            checkout([$class: 'GitSCM', branches: [[name: '1.0.1']], extensions: [], userRemoteConfigs: [[credentialsId: '9f36676a-3b64-4803-b647-8d9180f3261d', url: 'git@github.com:netology-code/mnt-homeworks-ansible.git']]])
         }
     }
-
     stage("Run playbook"){
         if (secret_check){
             if (params.prod_run){
-                sh 'ansible-playbook site.yml -i inventory/prod.yml -e "ansible_become_password=password" -vvv'
+                sh 'ansible-playbook site.yml -i inventory/prod.yml'
             }
             else{
-                sh 'ansible-playbook site.yml -i inventory/prod.yml --check --diff --user=cloud-user --extra-vars "ansible_sudo_pass=password"'
+                sh 'ansible-playbook site.yml -i inventory/prod.yml --check --diff'
             }
         }
         else{
@@ -25,6 +27,3 @@ node (label: 'centos8stream') {
         }
     }
 }
-    stage("Sample define secret_check"){
-        sh 'docker run -dt --name centos centos'
-    }

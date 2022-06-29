@@ -106,5 +106,21 @@ http://51.250.78.171:8080/login?from=%2F
 
 5) Create Scripted Pipeline
 6) Change pipeline
-7) Возникает ошибка в проверке подлинности ключа
+7) Все очень криво, но что бы это взлетело надо:
+   - Добавить ключи гитхаба в пользователя jenkins или выкачать роль java с репозитория
+   - Обязательно выполнить действия на агенте
+   ```bash
+   sudo su    
+   visudo -f /etc/sudoers
+
+   #add add following line at the end.
+   jenkins ALL= NOPASSWD: ALL
+   
+   mkdir /opt/jdk
+   mkdir /opt/jdk/openjdk-11
+   
+   sudo yum install wget
+   wget https://download.java.net/java/ga/jdk11/openjdk-11_linux-x64_bin.tar.gz
+   mv openjdk-11_linux-x64_bin.tar.gz /tmp/jdk-openjdk-11-linux.tar.gz
+   ```
 8) Declarative [Pipeline](./files/Jenkinsfile)  --  Scripted [Pipeline](./pipeline/Jenkinsfile)
