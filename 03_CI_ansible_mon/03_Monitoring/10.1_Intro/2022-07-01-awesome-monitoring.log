@@ -1,0 +1,30 @@
+[
+  {
+    "timestamp": "1656681841",
+    "loadavg": "0.71",
+    "memfree": "958564",
+    "nrfreepages": "239633",
+    "uptime": "612792.02"
+  },
+  {
+    "timestamp": "1656681901",
+    "loadavg": "0.65",
+    "memfree": "959512",
+    "nrfreepages": "239750",
+    "uptime": "612852.07"
+  },
+  {
+    "timestamp": "1656681961",
+    "loadavg": "0.46",
+    "memfree": "958492",
+    "nrfreepages": "239552",
+    "uptime": "612912.13"
+  },
+  {
+    "timestamp": "1656682021",
+    "loadavg": "0.56",
+    "memfree": "952508",
+    "nrfreepages": "238119",
+    "uptime": "612972.18"
+  }
+]
