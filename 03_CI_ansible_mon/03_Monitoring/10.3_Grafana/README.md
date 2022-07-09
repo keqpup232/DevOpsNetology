@@ -108,7 +108,7 @@ node_filesystem_free_bytes{fstype!~"tmpfs|fuse.lxcfs|squashfs|vfat"} / (1024 * 1
   <img src="./assets/2.png">
 </p>
 
-3) Создал плерты и бота
+3) Создал алерты и бота
 <p align="center">
   <img src="./assets/3.png">
 </p>
