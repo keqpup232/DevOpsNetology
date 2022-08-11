@@ -121,7 +121,9 @@ https://ultimate-comparisons.github.io/ultimate-message-broker-comparison/
 
 Результатом выполнения задачи должен быть docker compose файл запустив который можно локально выполнить следующие команды с успешным результатом.
 Предполагается что для реализации API Gateway будет написан конфиг для NGinx или другого балансировщика нагрузки который будет запущен как сервис через docker-compose и будет обеспечивать балансировку и проверку аутентификации входящих запросов.
-Авторизаци
+
+**Авторизации**
+
 curl -X POST -H 'Content-Type: application/json' -d '{"login":"bob", "password":"qwe123"}' http://localhost/token
 
 **Загрузка файла**
@@ -129,6 +131,7 @@ curl -X POST -H 'Content-Type: application/json' -d '{"login":"bob", "password":
 curl -X POST -H 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJib2IifQ.hiMVLmssoTsy1MqbmIoviDeFPvo-nCd92d4UFiN2O2I' -H 'Content-Type: octet/stream' --data-binary @yourfilename.jpg http://localhost/upload
 
 **Получение файла**
+
 curl -X GET http://localhost/images/4e6df220-295e-4231-82bc-45e4b1484430.jpg
 
 ---
@@ -137,3 +140,24 @@ curl -X GET http://localhost/images/4e6df220-295e-4231-82bc-45e4b1484430.jpg
 
 ---
 
+Конфиг [nginx.conf](./gateway/nginx.conf)
+
+Вывод
+```bash
+ivan@MBP-Ivan services % curl -X POST -H 'Content-Type: application/json' -d '{"login":"bob", "password":"qwe123"}' http://localhost/token
+eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJib2IifQ.hiMVLmssoTsy1MqbmIoviDeFPvo-nCd92d4UFiN2O2I%                                                                                 
+
+ivan@MBP-Ivan services % curl -X POST -H 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJib2IifQ.hiMVLmssoTsy1MqbmIoviDeFPvo-nCd92d4UFiN2O2I' -H 'Content-Type: octet/stream' --data-binary @1.jpg http://localhost/upload
+<?xml version="1.0" encoding="UTF-8"?>
+<Error><Code>BadRequest</Code><Message>An error occurred when parsing the HTTP request POST at &#39;/v1/upload&#39;</Message><Resource>/v1/upload</Resource><RequestId></RequestId><HostId>93ca7dc2-d5d8-4f5c-b916-fb7af116c411</HostId></Error>%     
+ 
+ivan@MBP-Ivan services % curl localhost/images/c31e9789-3fab-4689-aa67-e7ac2684fb0e.jpg > c31e9789-3fab-4689-aa67-e7ac2684fb0e.jpg                                                                                                                   ivan@MBP-Ivan services % curl localhost/images/c31e9789-3fab-4689-aa67-e7ac2684fb0e.jpg > c31e9789-3fab-4689-aa67-e7ac2684fb0e.jpg
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100   153  100   153    0     0   5397      0 --:--:-- --:--:-- --:--:--  8500
+
+ivan@MBP-Ivan services % ls
+1.jpg                                           gateway                                         uploader
+c31e9789-3fab-4689-aa67-e7ac2684fb0e.jpg        readme.md
+docker-compose.yaml                             security
+```
