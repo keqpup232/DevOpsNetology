@@ -32,6 +32,8 @@ $ curl -X POST -H 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.ey
 Загрузить картинку и проверить что она открывается
 ```
 curl localhost/image/<filnename> > <filnename>
+curl localhost/image/eb72a71d-feac-4c22-94d7-e4f331a848d7.jpg > eb72a71d-feac-4c22-94d7-e4f331a848d7.jpg
+curl -X GET http://localhost/images/4e6df220-295e-4231-82bc-45e4b1484430.jpg
 ```
 Example
 ```
