@@ -140,7 +140,10 @@ curl -X GET http://localhost/images/4e6df220-295e-4231-82bc-45e4b1484430.jpg
 
 ---
 
+### Ответ
+
 Конфиг [nginx.conf](./services/gateway/nginx.conf)
+
 Конфиг [docker-compose](./services/docker-compose.yaml)
 
 Вывод
