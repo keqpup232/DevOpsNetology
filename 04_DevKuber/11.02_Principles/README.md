@@ -140,7 +140,8 @@ curl -X GET http://localhost/images/4e6df220-295e-4231-82bc-45e4b1484430.jpg
 
 ---
 
-Конфиг [nginx.conf](./gateway/nginx.conf)
+Конфиг [nginx.conf](./services/gateway/nginx.conf)
+Конфиг [docker-compose](./services/docker-compose.yaml)
 
 Вывод
 ```bash
@@ -151,10 +152,10 @@ ivan@MBP-Ivan services % curl -X POST -H 'Authorization: Bearer eyJ0eXAiOiJKV1Qi
 <?xml version="1.0" encoding="UTF-8"?>
 <Error><Code>BadRequest</Code><Message>An error occurred when parsing the HTTP request POST at &#39;/v1/upload&#39;</Message><Resource>/v1/upload</Resource><RequestId></RequestId><HostId>93ca7dc2-d5d8-4f5c-b916-fb7af116c411</HostId></Error>%     
  
-ivan@MBP-Ivan services % curl localhost/images/c31e9789-3fab-4689-aa67-e7ac2684fb0e.jpg > c31e9789-3fab-4689-aa67-e7ac2684fb0e.jpg                                                                                                                   ivan@MBP-Ivan services % curl localhost/images/c31e9789-3fab-4689-aa67-e7ac2684fb0e.jpg > c31e9789-3fab-4689-aa67-e7ac2684fb0e.jpg
+ivan@MacBook-Pro-Ivan services % curl -X GET -H 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJib2IifQ.hiMVLmssoTsy1MqbmIoviDeFPvo-nCd92d4UFiN2O2I' http://localhost/images/85c2a342-d19a-40d3-bdaf-7a214b4f45b4.jpg > 2.jpg
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
-100   153  100   153    0     0   5397      0 --:--:-- --:--:-- --:--:--  8500
+100   99k  100   99k    0     0  2901k      0 --:--:-- --:--:-- --:--:-- 4532k
 
 ivan@MBP-Ivan services % ls
 1.jpg                                           gateway                                         uploader
