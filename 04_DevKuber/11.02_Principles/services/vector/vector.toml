@@ -1,0 +1,21 @@
+[sources.docker]
+type = "docker_logs"
+include_containers = [ "security","minio_mc","uploader" ]
+
+[transforms.del]
+type = "remap"
+inputs = [ "docker" ]
+source = """
+del(.label)"""
+
+[sinks.elasticsearch]
+type = "elasticsearch"
+inputs = ["del"]
+endpoint = "https://elasticsearch:9200"
+bulk.action = "create"
+bulk.index  = "vector-%Y-%m-%d"
+suppress_type_name = true
+auth.strategy = "basic"
+auth.user = "elastic"
+auth.password = "qwerty123456"
+tls.ca_file = "/certs/ca/ca.crt"

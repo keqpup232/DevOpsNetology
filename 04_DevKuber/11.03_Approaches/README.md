@@ -114,3 +114,46 @@ docker compose файл запустив который можно перейт�
 Логин в Grafana должен быть admin пароль qwerty123456
 
 ---
+
+
+### Ответ
+
+Конфиг [nginx.conf](../11.02_Principles/services/gateway/nginx.conf)
+
+Конфиг [docker-compose](../11.02_Principles/services/docker-compose.yaml)
+
+Конфиг [grafana](../11.02_Principles/services/grafana/)
+
+Конфиг [kibana](../11.02_Principles/services/kibana/kibana.yml)
+
+Конфиг [prometheus](../11.02_Principles/services/prometheus/prometheus.yml)
+
+Конфиг [vector](../11.02_Principles/services/vector/vector.toml)
+
+---
+
+### Elasticsearch + vector + kibana 
+
+url: http://localhost:5061
+
+login: elastic
+
+pass: qwerty123456
+
+<p align="center">
+  <img src="../11.02_Principles/assets/2.png">
+</p>
+
+---
+
+### Prometheus + Grafana
+
+url: http://localhost:3001
+
+login: admin
+
+pass: qwerty123456
+
+<p align="center">
+  <img src="../11.02_Principles/assets/3.png">
+</p>
