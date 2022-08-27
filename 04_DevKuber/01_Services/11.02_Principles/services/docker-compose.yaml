@@ -51,7 +51,7 @@ services:
       "
 
   uploader:
-    build: ./uploader
+    build: uploader
     hostname: uploader
     container_name: uploader
     depends_on:
@@ -70,7 +70,7 @@ services:
       - net
   
   security:
-    build: ./security
+    build: security
     hostname: security
     container_name: security
     expose: 

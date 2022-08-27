@@ -1,0 +1,10 @@
+---
+- name: download kubectl
+  ansible.builtin.shell: "curl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/amd64/kubectl"
+
+- name: Move kubectl to bin
+  ansible.builtin.copy:
+    src: /home/centos/kubectl
+    dest: /usr/local/bin/
+    remote_src: yes
+    mode: a+x

@@ -1,0 +1,881 @@
+data.yandex_compute_image.my_image: Reading...
+data.yandex_compute_image.my_image: Read complete after 0s [id=fd88d14a6790do254kj7]
+
+Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the following symbols:
+  + create
+
+Terraform will perform the following actions:
+
+  # local_file.inventory will be created
+  + resource "local_file" "inventory" {
+      + content              = (known after apply)
+      + directory_permission = "0777"
+      + file_permission      = "0777"
+      + filename             = "../playbook/inventory/prod.yml"
+      + id                   = (known after apply)
+    }
+
+  # local_file.kubectl_conf will be created
+  + resource "local_file" "kubectl_conf" {
+      + content              = (known after apply)
+      + directory_permission = "0777"
+      + file_permission      = "0777"
+      + filename             = "../playbook/kubectl/config"
+      + id                   = (known after apply)
+    }
+
+  # null_resource.cluster will be created
+  + resource "null_resource" "cluster" {
+      + id = (known after apply)
+    }
+
+  # null_resource.wait will be created
+  + resource "null_resource" "wait" {
+      + id = (known after apply)
+    }
+
+  # yandex_compute_instance.vm_for_each["client.kuber.netology.yc"] will be created
+  + resource "yandex_compute_instance" "vm_for_each" {
+      + created_at                = (known after apply)
+      + folder_id                 = (known after apply)
+      + fqdn                      = (known after apply)
+      + hostname                  = "client.kuber.netology.yc"
+      + id                        = (known after apply)
+      + metadata                  = {
+          + "ssh-keys" = (sensitive)
+        }
+      + name                      = "node-client"
+      + network_acceleration_type = "standard"
+      + platform_id               = "standard-v1"
+      + service_account_id        = (known after apply)
+      + status                    = (known after apply)
+      + zone                      = "ru-central1-a"
+
+      + boot_disk {
+          + auto_delete = true
+          + device_name = (known after apply)
+          + disk_id     = (known after apply)
+          + mode        = (known after apply)
+
+          + initialize_params {
+              + block_size  = (known after apply)
+              + description = (known after apply)
+              + image_id    = "fd88d14a6790do254kj7"
+              + name        = (known after apply)
+              + size        = 100
+              + snapshot_id = (known after apply)
+              + type        = "network-hdd"
+            }
+        }
+
+      + network_interface {
+          + index              = (known after apply)
+          + ip_address         = (known after apply)
+          + ipv4               = true
+          + ipv6               = (known after apply)
+          + ipv6_address       = (known after apply)
+          + mac_address        = (known after apply)
+          + nat                = true
+          + nat_ip_address     = (known after apply)
+          + nat_ip_version     = (known after apply)
+          + security_group_ids = (known after apply)
+          + subnet_id          = (known after apply)
+        }
+
+      + placement_policy {
+          + host_affinity_rules = (known after apply)
+          + placement_group_id  = (known after apply)
+        }
+
+      + resources {
+          + core_fraction = 100
+          + cores         = 2
+          + memory        = 4
+        }
+
+      + scheduling_policy {
+          + preemptible = (known after apply)
+        }
+    }
+
+  # yandex_compute_instance.vm_for_each["master.kuber.netology.yc"] will be created
+  + resource "yandex_compute_instance" "vm_for_each" {
+      + created_at                = (known after apply)
+      + folder_id                 = (known after apply)
+      + fqdn                      = (known after apply)
+      + hostname                  = "master.kuber.netology.yc"
+      + id                        = (known after apply)
+      + metadata                  = {
+          + "ssh-keys" = (sensitive)
+        }
+      + name                      = "node-master"
+      + network_acceleration_type = "standard"
+      + platform_id               = "standard-v1"
+      + service_account_id        = (known after apply)
+      + status                    = (known after apply)
+      + zone                      = "ru-central1-a"
+
+      + boot_disk {
+          + auto_delete = true
+          + device_name = (known after apply)
+          + disk_id     = (known after apply)
+          + mode        = (known after apply)
+
+          + initialize_params {
+              + block_size  = (known after apply)
+              + description = (known after apply)
+              + image_id    = "fd88d14a6790do254kj7"
+              + name        = (known after apply)
+              + size        = 100
+              + snapshot_id = (known after apply)
+              + type        = "network-hdd"
+            }
+        }
+
+      + network_interface {
+          + index              = (known after apply)
+          + ip_address         = (known after apply)
+          + ipv4               = true
+          + ipv6               = (known after apply)
+          + ipv6_address       = (known after apply)
+          + mac_address        = (known after apply)
+          + nat                = true
+          + nat_ip_address     = (known after apply)
+          + nat_ip_version     = (known after apply)
+          + security_group_ids = (known after apply)
+          + subnet_id          = (known after apply)
+        }
+
+      + placement_policy {
+          + host_affinity_rules = (known after apply)
+          + placement_group_id  = (known after apply)
+        }
+
+      + resources {
+          + core_fraction = 100
+          + cores         = 2
+          + memory        = 4
+        }
+
+      + scheduling_policy {
+          + preemptible = (known after apply)
+        }
+    }
+
+  # yandex_vpc_network.foo will be created
+  + resource "yandex_vpc_network" "foo" {
+      + created_at                = (known after apply)
+      + default_security_group_id = (known after apply)
+      + folder_id                 = (known after apply)
+      + id                        = (known after apply)
+      + labels                    = (known after apply)
+      + name                      = (known after apply)
+      + subnet_ids                = (known after apply)
+    }
+
+  # yandex_vpc_subnet.foo will be created
+  + resource "yandex_vpc_subnet" "foo" {
+      + created_at     = (known after apply)
+      + folder_id      = (known after apply)
+      + id             = (known after apply)
+      + labels         = (known after apply)
+      + name           = (known after apply)
+      + network_id     = (known after apply)
+      + v4_cidr_blocks = [
+          + "192.168.101.0/24",
+        ]
+      + v6_cidr_blocks = (known after apply)
+      + zone           = "ru-central1-a"
+    }
+
+Plan: 8 to add, 0 to change, 0 to destroy.
+
+Changes to Outputs:
+  + external_ip_address_minikube = [
+      + (known after apply),
+      + (known after apply),
+    ]
+  + external_ip_address_service  = [
+      + (known after apply),
+      + (known after apply),
+    ]
+yandex_vpc_network.foo: Creating...
+yandex_vpc_network.foo: Creation complete after 1s [id=enpi8ekjb6ichml80dce]
+yandex_vpc_subnet.foo: Creating...
+yandex_vpc_subnet.foo: Creation complete after 1s [id=e9bpe042pdhv7cai9f2d]
+yandex_compute_instance.vm_for_each["master.kuber.netology.yc"]: Creating...
+yandex_compute_instance.vm_for_each["client.kuber.netology.yc"]: Creating...
+yandex_compute_instance.vm_for_each["master.kuber.netology.yc"]: Still creating... [10s elapsed]
+yandex_compute_instance.vm_for_each["client.kuber.netology.yc"]: Still creating... [10s elapsed]
+yandex_compute_instance.vm_for_each["client.kuber.netology.yc"]: Still creating... [20s elapsed]
+yandex_compute_instance.vm_for_each["master.kuber.netology.yc"]: Still creating... [20s elapsed]
+yandex_compute_instance.vm_for_each["master.kuber.netology.yc"]: Creation complete after 25s [id=fhmle3mi61i76qs2ki5g]
+yandex_compute_instance.vm_for_each["client.kuber.netology.yc"]: Creation complete after 25s [id=fhmql1n1jmccc91cari3]
+local_file.inventory: Creating...
+local_file.inventory: Creation complete after 0s [id=7e8fb5b98e0d715f7d2d25e6c631c1f8968b6425]
+local_file.kubectl_conf: Creating...
+local_file.kubectl_conf: Creation complete after 0s [id=554e34c4cb1bdac33f6a4858947144c50ef3bfda]
+null_resource.wait: Creating...
+null_resource.wait: Provisioning with 'local-exec'...
+null_resource.wait (local-exec): Executing: ["/bin/sh" "-c" "sleep 60"]
+null_resource.wait: Still creating... [10s elapsed]
+null_resource.wait: Still creating... [20s elapsed]
+null_resource.wait: Still creating... [30s elapsed]
+null_resource.wait: Still creating... [40s elapsed]
+null_resource.wait: Still creating... [50s elapsed]
+null_resource.wait: Still creating... [1m0s elapsed]
+null_resource.wait: Creation complete after 1m0s [id=3886327385792629393]
+null_resource.cluster: Creating...
+null_resource.cluster: Provisioning with 'local-exec'...
+null_resource.cluster (local-exec): Executing: ["/bin/sh" "-c" "ansible-playbook -i ../playbook/inventory/prod.yml ../playbook/site.yml"]
+
+null_resource.cluster (local-exec): PLAY [Install minikube] ********************************************************
+
+null_resource.cluster (local-exec): TASK [Gathering Facts] *********************************************************
+null_resource.cluster (local-exec): ok: [master]
+
+null_resource.cluster (local-exec): TASK [minikube : Update] *******************************************************
+null_resource.cluster: Still creating... [10s elapsed]
+null_resource.cluster: Still creating... [20s elapsed]
+null_resource.cluster: Still creating... [30s elapsed]
+null_resource.cluster: Still creating... [40s elapsed]
+null_resource.cluster: Still creating... [50s elapsed]
+null_resource.cluster: Still creating... [1m0s elapsed]
+null_resource.cluster: Still creating... [1m10s elapsed]
+null_resource.cluster: Still creating... [1m20s elapsed]
+null_resource.cluster: Still creating... [1m30s elapsed]
+null_resource.cluster: Still creating... [1m40s elapsed]
+null_resource.cluster: Still creating... [1m50s elapsed]
+null_resource.cluster: Still creating... [2m0s elapsed]
+null_resource.cluster: Still creating... [2m10s elapsed]
+null_resource.cluster: Still creating... [2m20s elapsed]
+null_resource.cluster: Still creating... [2m30s elapsed]
+null_resource.cluster: Still creating... [2m40s elapsed]
+null_resource.cluster: Still creating... [2m50s elapsed]
+null_resource.cluster: Still creating... [3m0s elapsed]
+null_resource.cluster: Still creating... [3m10s elapsed]
+null_resource.cluster: Still creating... [3m20s elapsed]
+null_resource.cluster: Still creating... [3m30s elapsed]
+null_resource.cluster: Still creating... [3m40s elapsed]
+null_resource.cluster: Still creating... [3m50s elapsed]
+null_resource.cluster (local-exec): changed: [master]
+
+null_resource.cluster (local-exec): TASK [minikube : epel-release] *************************************************
+null_resource.cluster: Still creating... [4m0s elapsed]
+null_resource.cluster (local-exec): changed: [master]
+
+null_resource.cluster (local-exec): TASK [minikube : libvirt and wget] *********************************************
+null_resource.cluster: Still creating... [4m10s elapsed]
+null_resource.cluster: Still creating... [4m20s elapsed]
+null_resource.cluster: Still creating... [4m30s elapsed]
+null_resource.cluster: Still creating... [4m40s elapsed]
+null_resource.cluster: Still creating... [4m50s elapsed]
+null_resource.cluster: Still creating... [5m0s elapsed]
+null_resource.cluster (local-exec): changed: [master]
+
+null_resource.cluster (local-exec): TASK [minikube : systemd libvirt start enable] *********************************
+null_resource.cluster: Still creating... [5m10s elapsed]
+null_resource.cluster (local-exec): changed: [master]
+
+null_resource.cluster (local-exec): TASK [minikube : add the user to the libvirtd] *********************************
+null_resource.cluster (local-exec): changed: [master]
+
+null_resource.cluster (local-exec): TASK [minikube : restart libvirt] **********************************************
+null_resource.cluster (local-exec): changed: [master]
+
+null_resource.cluster (local-exec): TASK [minikube : Download minikube] ********************************************
+null_resource.cluster (local-exec): changed: [master]
+
+null_resource.cluster (local-exec): TASK [minikube version] ********************************************************
+null_resource.cluster (local-exec): changed: [master]
+
+null_resource.cluster (local-exec): TASK [stdout] ******************************************************************
+null_resource.cluster (local-exec): ok: [master] => {
+null_resource.cluster (local-exec):     "msg": "minikube version: v1.26.1\ncommit: 62e108c3dfdec8029a890ad6d8ef96b6461426dc"
+null_resource.cluster (local-exec): }
+
+null_resource.cluster (local-exec): PLAY [Install kubectl] *********************************************************
+
+null_resource.cluster (local-exec): TASK [Gathering Facts] *********************************************************
+null_resource.cluster (local-exec): ok: [client]
+null_resource.cluster (local-exec): ok: [master]
+
+null_resource.cluster (local-exec): TASK [kubectl : download kubectl] **********************************************
+null_resource.cluster: Still creating... [5m20s elapsed]
+null_resource.cluster (local-exec): changed: [master]
+null_resource.cluster (local-exec): changed: [client]
+
+null_resource.cluster (local-exec): TASK [kubectl : Move kubectl to bin] *******************************************
+null_resource.cluster (local-exec): changed: [master]
+null_resource.cluster (local-exec): changed: [client]
+
+null_resource.cluster (local-exec): TASK [kubectl version] *********************************************************
+null_resource.cluster (local-exec): changed: [master]
+null_resource.cluster (local-exec): changed: [client]
+
+null_resource.cluster (local-exec): TASK [stdout] ******************************************************************
+null_resource.cluster (local-exec): ok: [master] => {
+null_resource.cluster (local-exec):     "msg": {
+null_resource.cluster (local-exec):         "clientVersion": {
+null_resource.cluster (local-exec):             "buildDate": "2022-08-23T17:44:59Z",
+null_resource.cluster (local-exec):             "compiler": "gc",
+null_resource.cluster (local-exec):             "gitCommit": "a866cbe2e5bbaa01cfd5e969aa3e033f3282a8a2",
+null_resource.cluster (local-exec):             "gitTreeState": "clean",
+null_resource.cluster (local-exec):             "gitVersion": "v1.25.0",
+null_resource.cluster (local-exec):             "goVersion": "go1.19",
+null_resource.cluster (local-exec):             "major": "1",
+null_resource.cluster (local-exec):             "minor": "25",
+null_resource.cluster (local-exec):             "platform": "linux/amd64"
+null_resource.cluster (local-exec):         },
+null_resource.cluster (local-exec):         "kustomizeVersion": "v4.5.7"
+null_resource.cluster (local-exec):     }
+null_resource.cluster (local-exec): }
+null_resource.cluster (local-exec): ok: [client] => {
+null_resource.cluster (local-exec):     "msg": {
+null_resource.cluster (local-exec):         "clientVersion": {
+null_resource.cluster (local-exec):             "buildDate": "2022-08-23T17:44:59Z",
+null_resource.cluster (local-exec):             "compiler": "gc",
+null_resource.cluster (local-exec):             "gitCommit": "a866cbe2e5bbaa01cfd5e969aa3e033f3282a8a2",
+null_resource.cluster (local-exec):             "gitTreeState": "clean",
+null_resource.cluster (local-exec):             "gitVersion": "v1.25.0",
+null_resource.cluster (local-exec):             "goVersion": "go1.19",
+null_resource.cluster (local-exec):             "major": "1",
+null_resource.cluster (local-exec):             "minor": "25",
+null_resource.cluster (local-exec):             "platform": "linux/amd64"
+null_resource.cluster (local-exec):         },
+null_resource.cluster (local-exec):         "kustomizeVersion": "v4.5.7"
+null_resource.cluster (local-exec):     }
+null_resource.cluster (local-exec): }
+
+null_resource.cluster (local-exec): PLAY [Install docker] **********************************************************
+
+null_resource.cluster (local-exec): TASK [Gathering Facts] *********************************************************
+null_resource.cluster (local-exec): ok: [master]
+
+null_resource.cluster (local-exec): TASK [docker : download docker] ************************************************
+null_resource.cluster: Still creating... [5m30s elapsed]
+null_resource.cluster: Still creating... [5m40s elapsed]
+null_resource.cluster: Still creating... [5m50s elapsed]
+null_resource.cluster: Still creating... [6m0s elapsed]
+null_resource.cluster: Still creating... [6m10s elapsed]
+null_resource.cluster: Still creating... [6m20s elapsed]
+null_resource.cluster: Still creating... [6m30s elapsed]
+null_resource.cluster (local-exec): changed: [master]
+
+null_resource.cluster (local-exec): TASK [docker : systemd docker start] *******************************************
+null_resource.cluster: Still creating... [6m40s elapsed]
+null_resource.cluster (local-exec): changed: [master]
+
+null_resource.cluster (local-exec): TASK [docker : add centos user to docker group] ********************************
+null_resource.cluster (local-exec): changed: [master]
+
+null_resource.cluster (local-exec): TASK [docker : reset ssh connection to allow user changes to affect ansible user] ***
+
+null_resource.cluster (local-exec): PLAY [start MiniKube on Docker Engine] *****************************************
+
+null_resource.cluster (local-exec): TASK [Gathering Facts] *********************************************************
+null_resource.cluster (local-exec): ok: [master]
+
+null_resource.cluster (local-exec): TASK [start MiniKube] **********************************************************
+null_resource.cluster: Still creating... [6m50s elapsed]
+null_resource.cluster: Still creating... [7m0s elapsed]
+null_resource.cluster: Still creating... [7m10s elapsed]
+null_resource.cluster: Still creating... [7m20s elapsed]
+null_resource.cluster: Still creating... [7m30s elapsed]
+null_resource.cluster: Still creating... [7m40s elapsed]
+null_resource.cluster: Still creating... [7m50s elapsed]
+null_resource.cluster: Still creating... [8m0s elapsed]
+null_resource.cluster: Still creating... [8m10s elapsed]
+null_resource.cluster: Still creating... [8m20s elapsed]
+null_resource.cluster: Still creating... [8m30s elapsed]
+null_resource.cluster: Still creating... [8m40s elapsed]
+null_resource.cluster: Still creating... [8m50s elapsed]
+null_resource.cluster: Still creating... [9m0s elapsed]
+null_resource.cluster: Still creating... [9m10s elapsed]
+null_resource.cluster: Still creating... [9m20s elapsed]
+null_resource.cluster: Still creating... [9m30s elapsed]
+null_resource.cluster (local-exec): changed: [master]
+
+null_resource.cluster (local-exec): TASK [MiniKube status] *********************************************************
+null_resource.cluster (local-exec): changed: [master]
+
+null_resource.cluster (local-exec): TASK [stdout] ******************************************************************
+null_resource.cluster (local-exec): ok: [master] => {
+null_resource.cluster (local-exec):     "msg": {
+null_resource.cluster (local-exec):         "APIServer": "Running",
+null_resource.cluster (local-exec):         "Host": "Running",
+null_resource.cluster (local-exec):         "Kubeconfig": "Configured",
+null_resource.cluster (local-exec):         "Kubelet": "Running",
+null_resource.cluster (local-exec):         "Name": "minikube",
+null_resource.cluster (local-exec):         "Worker": false
+null_resource.cluster (local-exec):     }
+null_resource.cluster (local-exec): }
+
+null_resource.cluster (local-exec): PLAY [create Deployment and services] ******************************************
+
+null_resource.cluster (local-exec): TASK [Gathering Facts] *********************************************************
+null_resource.cluster: Still creating... [9m40s elapsed]
+null_resource.cluster (local-exec): ok: [master]
+
+null_resource.cluster (local-exec): TASK [delete deployment] *******************************************************
+null_resource.cluster (local-exec): fatal: [master]: FAILED! => {"changed": true, "cmd": "kubectl delete deployment hello-node", "delta": "0:00:00.778894", "end": "2022-08-27 17:23:30.821049", "msg": "non-zero return code", "rc": 1, "start": "2022-08-27 17:23:30.042155", "stderr": "Error from server (NotFound): deployments.apps \"hello-node\" not found", "stderr_lines": ["Error from server (NotFound): deployments.apps \"hello-node\" not found"], "stdout": "", "stdout_lines": []}
+null_resource.cluster (local-exec): ...ignoring
+
+null_resource.cluster (local-exec): TASK [delete service] **********************************************************
+null_resource.cluster (local-exec): fatal: [master]: FAILED! => {"changed": true, "cmd": "kubectl delete service hello-node", "delta": "0:00:00.118960", "end": "2022-08-27 17:23:32.479871", "msg": "non-zero return code", "rc": 1, "start": "2022-08-27 17:23:32.360911", "stderr": "Error from server (NotFound): services \"hello-node\" not found", "stderr_lines": ["Error from server (NotFound): services \"hello-node\" not found"], "stdout": "", "stdout_lines": []}
+null_resource.cluster (local-exec): ...ignoring
+
+null_resource.cluster (local-exec): TASK [create deployment] *******************************************************
+null_resource.cluster (local-exec): changed: [master]
+
+null_resource.cluster (local-exec): TASK [Pause for 1 minutes to build app cache] **********************************
+null_resource.cluster (local-exec): Pausing for 60 seconds
+null_resource.cluster (local-exec): (ctrl+C then 'C' = continue early, ctrl+C then 'A' = abort)
+null_resource.cluster: Still creating... [9m50s elapsed]
+null_resource.cluster: Still creating... [10m0s elapsed]
+null_resource.cluster: Still creating... [10m10s elapsed]
+null_resource.cluster: Still creating... [10m20s elapsed]
+null_resource.cluster: Still creating... [10m30s elapsed]
+null_resource.cluster: Still creating... [10m40s elapsed]
+null_resource.cluster (local-exec): ok: [master]
+
+null_resource.cluster (local-exec): TASK [expose deployment] *******************************************************
+null_resource.cluster (local-exec): changed: [master]
+
+null_resource.cluster (local-exec): TASK [Pause for 1 minutes to build app cache] **********************************
+null_resource.cluster (local-exec): Pausing for 60 seconds
+null_resource.cluster (local-exec): (ctrl+C then 'C' = continue early, ctrl+C then 'A' = abort)
+null_resource.cluster: Still creating... [10m50s elapsed]
+null_resource.cluster: Still creating... [11m0s elapsed]
+null_resource.cluster: Still creating... [11m10s elapsed]
+null_resource.cluster: Still creating... [11m20s elapsed]
+null_resource.cluster: Still creating... [11m30s elapsed]
+null_resource.cluster: Still creating... [11m40s elapsed]
+null_resource.cluster (local-exec): ok: [master]
+
+null_resource.cluster (local-exec): TASK [create service] **********************************************************
+null_resource.cluster: Still creating... [11m50s elapsed]
+null_resource.cluster (local-exec): changed: [master]
+
+null_resource.cluster (local-exec): TASK [stdout] ******************************************************************
+null_resource.cluster (local-exec): ok: [master] => {
+null_resource.cluster (local-exec):     "msg": "|-----------|------------|-------------|---------------------------|\n| NAMESPACE |    NAME    | TARGET PORT |            URL            |\n|-----------|------------|-------------|---------------------------|\n| default   | hello-node |        8080 | http://192.168.49.2:31269 |\n|-----------|------------|-------------|---------------------------|\n* Opening service default/hello-node in default browser...\n  http://192.168.49.2:31269"
+null_resource.cluster (local-exec): }
+
+null_resource.cluster (local-exec): TASK [enable ingress addon] ****************************************************
+null_resource.cluster: Still creating... [12m0s elapsed]
+null_resource.cluster: Still creating... [12m10s elapsed]
+null_resource.cluster (local-exec): changed: [master]
+
+null_resource.cluster (local-exec): TASK [addons list] *************************************************************
+null_resource.cluster (local-exec): changed: [master]
+
+null_resource.cluster (local-exec): TASK [stdout] ******************************************************************
+null_resource.cluster (local-exec): ok: [master] => {
+null_resource.cluster (local-exec):     "msg": "|-----------------------------|----------|--------------|--------------------------------|\n|         ADDON NAME          | PROFILE  |    STATUS    |           MAINTAINER           |\n|-----------------------------|----------|--------------|--------------------------------|\n| ambassador                  | minikube | disabled     | 3rd party (Ambassador)         |\n| auto-pause                  | minikube | disabled     | Google                         |\n| csi-hostpath-driver         | minikube | disabled     | Kubernetes                     |\n| dashboard                   | minikube | disabled     | Kubernetes                     |\n| default-storageclass        | minikube | enabled ✅   | Kubernetes                     |\n| efk                         | minikube | disabled     | 3rd party (Elastic)            |\n| freshpod                    | minikube | disabled     | Google                         |\n| gcp-auth                    | minikube | disabled     | Google                         |\n| gvisor                      | minikube | disabled     | Google                         |\n| headlamp                    | minikube | disabled     | 3rd party (kinvolk.io)         |\n| helm-tiller                 | minikube | disabled     | 3rd party (Helm)               |\n| inaccel                     | minikube | disabled     | 3rd party (InAccel             |\n|                             |          |              | [info@inaccel.com])            |\n| ingress                     | minikube | enabled ✅   | Kubernetes                     |\n| ingress-dns                 | minikube | disabled     | Google                         |\n| istio                       | minikube | disabled     | 3rd party (Istio)              |\n| istio-provisioner           | minikube | disabled     | 3rd party (Istio)              |\n| kong                        | minikube | disabled     | 3rd party (Kong HQ)            |\n| kubevirt                    | minikube | disabled     | 3rd party (KubeVirt)           |\n| logviewer                   | minikube | disabled     | 3rd party (unknown)            |\n| metallb                     | minikube | disabled     | 3rd party (MetalLB)            |\n| metrics-server              | minikube | disabled     | Kubernetes                     |\n| nvidia-driver-installer     | minikube | disabled     | Google                         |\n| nvidia-gpu-device-plugin    | minikube | disabled     | 3rd party (Nvidia)             |\n| olm                         | minikube | disabled     | 3rd party (Operator Framework) |\n| pod-security-policy         | minikube | disabled     | 3rd party (unknown)            |\n| portainer                   | minikube | disabled     | 3rd party (Portainer.io)       |\n| registry                    | minikube | disabled     | Google                         |\n| registry-aliases            | minikube | disabled     | 3rd party (unknown)            |\n| registry-creds              | minikube | disabled     | 3rd party (UPMC Enterprises)   |\n| storage-provisioner         | minikube | enabled ✅   | Google                         |\n| storage-provisioner-gluster | minikube | disabled     | 3rd party (Gluster)            |\n| volumesnapshots             | minikube | disabled     | Kubernetes                     |\n|-----------------------------|----------|--------------|--------------------------------|"
+null_resource.cluster (local-exec): }
+
+null_resource.cluster (local-exec): TASK [enable port-forward] *****************************************************
+null_resource.cluster (local-exec): changed: [master]
+
+null_resource.cluster (local-exec): TASK [enable dashboard] ********************************************************
+null_resource.cluster: Still creating... [12m20s elapsed]
+null_resource.cluster (local-exec): changed: [master]
+
+null_resource.cluster (local-exec): TASK [enable proxy] ************************************************************
+null_resource.cluster (local-exec): changed: [master]
+
+null_resource.cluster (local-exec): TASK [kubectl status deployments pods services] ********************************
+null_resource.cluster (local-exec): changed: [master]
+
+null_resource.cluster (local-exec): TASK [stdout] ******************************************************************
+null_resource.cluster (local-exec): ok: [master] => {
+null_resource.cluster (local-exec):     "msg": {
+null_resource.cluster (local-exec):         "apiVersion": "v1",
+null_resource.cluster (local-exec):         "items": [
+null_resource.cluster (local-exec):             {
+null_resource.cluster (local-exec):                 "apiVersion": "apps/v1",
+null_resource.cluster (local-exec):                 "kind": "Deployment",
+null_resource.cluster (local-exec):                 "metadata": {
+null_resource.cluster (local-exec):                     "annotations": {
+null_resource.cluster (local-exec):                         "deployment.kubernetes.io/revision": "1"
+null_resource.cluster (local-exec):                     },
+null_resource.cluster (local-exec):                     "creationTimestamp": "2022-08-27T17:23:34Z",
+null_resource.cluster (local-exec):                     "generation": 1,
+null_resource.cluster (local-exec):                     "labels": {
+null_resource.cluster (local-exec):                         "app": "hello-node"
+null_resource.cluster (local-exec):                     },
+null_resource.cluster (local-exec):                     "name": "hello-node",
+null_resource.cluster (local-exec):                     "namespace": "default",
+null_resource.cluster (local-exec):                     "resourceVersion": "405",
+null_resource.cluster (local-exec):                     "uid": "49c22ed1-0cb2-40ee-86f1-862455162ffc"
+null_resource.cluster (local-exec):                 },
+null_resource.cluster (local-exec):                 "spec": {
+null_resource.cluster (local-exec):                     "progressDeadlineSeconds": 600,
+null_resource.cluster (local-exec):                     "replicas": 1,
+null_resource.cluster (local-exec):                     "revisionHistoryLimit": 10,
+null_resource.cluster (local-exec):                     "selector": {
+null_resource.cluster (local-exec):                         "matchLabels": {
+null_resource.cluster (local-exec):                             "app": "hello-node"
+null_resource.cluster (local-exec):                         }
+null_resource.cluster (local-exec):                     },
+null_resource.cluster (local-exec):                     "strategy": {
+null_resource.cluster (local-exec):                         "rollingUpdate": {
+null_resource.cluster (local-exec):                             "maxSurge": "25%",
+null_resource.cluster (local-exec):                             "maxUnavailable": "25%"
+null_resource.cluster (local-exec):                         },
+null_resource.cluster (local-exec):                         "type": "RollingUpdate"
+null_resource.cluster (local-exec):                     },
+null_resource.cluster (local-exec):                     "template": {
+null_resource.cluster (local-exec):                         "metadata": {
+null_resource.cluster (local-exec):                             "creationTimestamp": null,
+null_resource.cluster (local-exec):                             "labels": {
+null_resource.cluster (local-exec):                                 "app": "hello-node"
+null_resource.cluster (local-exec):                             }
+null_resource.cluster (local-exec):                         },
+null_resource.cluster (local-exec):                         "spec": {
+null_resource.cluster (local-exec):                             "containers": [
+null_resource.cluster (local-exec):                                 {
+null_resource.cluster (local-exec):                                     "image": "k8s.gcr.io/echoserver:1.4",
+null_resource.cluster (local-exec):                                     "imagePullPolicy": "IfNotPresent",
+null_resource.cluster (local-exec):                                     "name": "echoserver",
+null_resource.cluster (local-exec):                                     "resources": {},
+null_resource.cluster (local-exec):                                     "terminationMessagePath": "/dev/termination-log",
+null_resource.cluster (local-exec):                                     "terminationMessagePolicy": "File"
+null_resource.cluster (local-exec):                                 }
+null_resource.cluster (local-exec):                             ],
+null_resource.cluster (local-exec):                             "dnsPolicy": "ClusterFirst",
+null_resource.cluster (local-exec):                             "restartPolicy": "Always",
+null_resource.cluster (local-exec):                             "schedulerName": "default-scheduler",
+null_resource.cluster (local-exec):                             "securityContext": {},
+null_resource.cluster (local-exec):                             "terminationGracePeriodSeconds": 30
+null_resource.cluster (local-exec):                         }
+null_resource.cluster (local-exec):                     }
+null_resource.cluster (local-exec):                 },
+null_resource.cluster (local-exec):                 "status": {
+null_resource.cluster (local-exec):                     "availableReplicas": 1,
+null_resource.cluster (local-exec):                     "conditions": [
+null_resource.cluster (local-exec):                         {
+null_resource.cluster (local-exec):                             "lastTransitionTime": "2022-08-27T17:23:48Z",
+null_resource.cluster (local-exec):                             "lastUpdateTime": "2022-08-27T17:23:48Z",
+null_resource.cluster (local-exec):                             "message": "Deployment has minimum availability.",
+null_resource.cluster (local-exec):                             "reason": "MinimumReplicasAvailable",
+null_resource.cluster (local-exec):                             "status": "True",
+null_resource.cluster (local-exec):                             "type": "Available"
+null_resource.cluster (local-exec):                         },
+null_resource.cluster (local-exec):                         {
+null_resource.cluster (local-exec):                             "lastTransitionTime": "2022-08-27T17:23:34Z",
+null_resource.cluster (local-exec):                             "lastUpdateTime": "2022-08-27T17:23:48Z",
+null_resource.cluster (local-exec):                             "message": "ReplicaSet \"hello-node-6d5f754cc9\" has successfully progressed.",
+null_resource.cluster (local-exec):                             "reason": "NewReplicaSetAvailable",
+null_resource.cluster (local-exec):                             "status": "True",
+null_resource.cluster (local-exec):                             "type": "Progressing"
+null_resource.cluster (local-exec):                         }
+null_resource.cluster (local-exec):                     ],
+null_resource.cluster (local-exec):                     "observedGeneration": 1,
+null_resource.cluster (local-exec):                     "readyReplicas": 1,
+null_resource.cluster (local-exec):                     "replicas": 1,
+null_resource.cluster (local-exec):                     "updatedReplicas": 1
+null_resource.cluster (local-exec):                 }
+null_resource.cluster (local-exec):             },
+null_resource.cluster (local-exec):             {
+null_resource.cluster (local-exec):                 "apiVersion": "v1",
+null_resource.cluster (local-exec):                 "kind": "Pod",
+null_resource.cluster (local-exec):                 "metadata": {
+null_resource.cluster (local-exec):                     "creationTimestamp": "2022-08-27T17:23:34Z",
+null_resource.cluster (local-exec):                     "generateName": "hello-node-6d5f754cc9-",
+null_resource.cluster (local-exec):                     "labels": {
+null_resource.cluster (local-exec):                         "app": "hello-node",
+null_resource.cluster (local-exec):                         "pod-template-hash": "6d5f754cc9"
+null_resource.cluster (local-exec):                     },
+null_resource.cluster (local-exec):                     "name": "hello-node-6d5f754cc9-gwhm9",
+null_resource.cluster (local-exec):                     "namespace": "default",
+null_resource.cluster (local-exec):                     "ownerReferences": [
+null_resource.cluster (local-exec):                         {
+null_resource.cluster (local-exec):                             "apiVersion": "apps/v1",
+null_resource.cluster (local-exec):                             "blockOwnerDeletion": true,
+null_resource.cluster (local-exec):                             "controller": true,
+null_resource.cluster (local-exec):                             "kind": "ReplicaSet",
+null_resource.cluster (local-exec):                             "name": "hello-node-6d5f754cc9",
+null_resource.cluster (local-exec):                             "uid": "f819b20a-2acd-44d1-8966-e0f468e2bce0"
+null_resource.cluster (local-exec):                         }
+null_resource.cluster (local-exec):                     ],
+null_resource.cluster (local-exec):                     "resourceVersion": "403",
+null_resource.cluster (local-exec):                     "uid": "96e00257-a79f-4745-8033-e928c6a96ffc"
+null_resource.cluster (local-exec):                 },
+null_resource.cluster (local-exec):                 "spec": {
+null_resource.cluster (local-exec):                     "containers": [
+null_resource.cluster (local-exec):                         {
+null_resource.cluster (local-exec):                             "image": "k8s.gcr.io/echoserver:1.4",
+null_resource.cluster (local-exec):                             "imagePullPolicy": "IfNotPresent",
+null_resource.cluster (local-exec):                             "name": "echoserver",
+null_resource.cluster (local-exec):                             "resources": {},
+null_resource.cluster (local-exec):                             "terminationMessagePath": "/dev/termination-log",
+null_resource.cluster (local-exec):                             "terminationMessagePolicy": "File",
+null_resource.cluster (local-exec):                             "volumeMounts": [
+null_resource.cluster (local-exec):                                 {
+null_resource.cluster (local-exec):                                     "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+null_resource.cluster (local-exec):                                     "name": "kube-api-access-8wmkt",
+null_resource.cluster (local-exec):                                     "readOnly": true
+null_resource.cluster (local-exec):                                 }
+null_resource.cluster (local-exec):                             ]
+null_resource.cluster (local-exec):                         }
+null_resource.cluster (local-exec):                     ],
+null_resource.cluster (local-exec):                     "dnsPolicy": "ClusterFirst",
+null_resource.cluster (local-exec):                     "enableServiceLinks": true,
+null_resource.cluster (local-exec):                     "nodeName": "minikube",
+null_resource.cluster (local-exec):                     "preemptionPolicy": "PreemptLowerPriority",
+null_resource.cluster (local-exec):                     "priority": 0,
+null_resource.cluster (local-exec):                     "restartPolicy": "Always",
+null_resource.cluster (local-exec):                     "schedulerName": "default-scheduler",
+null_resource.cluster (local-exec):                     "securityContext": {},
+null_resource.cluster (local-exec):                     "serviceAccount": "default",
+null_resource.cluster (local-exec):                     "serviceAccountName": "default",
+null_resource.cluster (local-exec):                     "terminationGracePeriodSeconds": 30,
+null_resource.cluster (local-exec):                     "tolerations": [
+null_resource.cluster (local-exec):                         {
+null_resource.cluster (local-exec):                             "effect": "NoExecute",
+null_resource.cluster (local-exec):                             "key": "node.kubernetes.io/not-ready",
+null_resource.cluster (local-exec):                             "operator": "Exists",
+null_resource.cluster (local-exec):                             "tolerationSeconds": 300
+null_resource.cluster (local-exec):                         },
+null_resource.cluster (local-exec):                         {
+null_resource.cluster (local-exec):                             "effect": "NoExecute",
+null_resource.cluster (local-exec):                             "key": "node.kubernetes.io/unreachable",
+null_resource.cluster (local-exec):                             "operator": "Exists",
+null_resource.cluster (local-exec):                             "tolerationSeconds": 300
+null_resource.cluster (local-exec):                         }
+null_resource.cluster (local-exec):                     ],
+null_resource.cluster (local-exec):                     "volumes": [
+null_resource.cluster (local-exec):                         {
+null_resource.cluster (local-exec):                             "name": "kube-api-access-8wmkt",
+null_resource.cluster (local-exec):                             "projected": {
+null_resource.cluster (local-exec):                                 "defaultMode": 420,
+null_resource.cluster (local-exec):                                 "sources": [
+null_resource.cluster (local-exec):                                     {
+null_resource.cluster (local-exec):                                         "serviceAccountToken": {
+null_resource.cluster (local-exec):                                             "expirationSeconds": 3607,
+null_resource.cluster (local-exec):                                             "path": "token"
+null_resource.cluster (local-exec):                                         }
+null_resource.cluster (local-exec):                                     },
+null_resource.cluster (local-exec):                                     {
+null_resource.cluster (local-exec):                                         "configMap": {
+null_resource.cluster (local-exec):                                             "items": [
+null_resource.cluster (local-exec):                                                 {
+null_resource.cluster (local-exec):                                                     "key": "ca.crt",
+null_resource.cluster (local-exec):                                                     "path": "ca.crt"
+null_resource.cluster (local-exec):                                                 }
+null_resource.cluster (local-exec):                                             ],
+null_resource.cluster (local-exec):                                             "name": "kube-root-ca.crt"
+null_resource.cluster (local-exec):                                         }
+null_resource.cluster (local-exec):                                     },
+null_resource.cluster (local-exec):                                     {
+null_resource.cluster (local-exec):                                         "downwardAPI": {
+null_resource.cluster (local-exec):                                             "items": [
+null_resource.cluster (local-exec):                                                 {
+null_resource.cluster (local-exec):                                                     "fieldRef": {
+null_resource.cluster (local-exec):                                                         "apiVersion": "v1",
+null_resource.cluster (local-exec):                                                         "fieldPath": "metadata.namespace"
+null_resource.cluster (local-exec):                                                     },
+null_resource.cluster (local-exec):                                                     "path": "namespace"
+null_resource.cluster (local-exec):                                                 }
+null_resource.cluster (local-exec):                                             ]
+null_resource.cluster (local-exec):                                         }
+null_resource.cluster (local-exec):                                     }
+null_resource.cluster (local-exec):                                 ]
+null_resource.cluster (local-exec):                             }
+null_resource.cluster (local-exec):                         }
+null_resource.cluster (local-exec):                     ]
+null_resource.cluster (local-exec):                 },
+null_resource.cluster (local-exec):                 "status": {
+null_resource.cluster (local-exec):                     "conditions": [
+null_resource.cluster (local-exec):                         {
+null_resource.cluster (local-exec):                             "lastProbeTime": null,
+null_resource.cluster (local-exec):                             "lastTransitionTime": "2022-08-27T17:23:35Z",
+null_resource.cluster (local-exec):                             "status": "True",
+null_resource.cluster (local-exec):                             "type": "Initialized"
+null_resource.cluster (local-exec):                         },
+null_resource.cluster (local-exec):                         {
+null_resource.cluster (local-exec):                             "lastProbeTime": null,
+null_resource.cluster (local-exec):                             "lastTransitionTime": "2022-08-27T17:23:48Z",
+null_resource.cluster (local-exec):                             "status": "True",
+null_resource.cluster (local-exec):                             "type": "Ready"
+null_resource.cluster (local-exec):                         },
+null_resource.cluster (local-exec):                         {
+null_resource.cluster (local-exec):                             "lastProbeTime": null,
+null_resource.cluster (local-exec):                             "lastTransitionTime": "2022-08-27T17:23:48Z",
+null_resource.cluster (local-exec):                             "status": "True",
+null_resource.cluster (local-exec):                             "type": "ContainersReady"
+null_resource.cluster (local-exec):                         },
+null_resource.cluster (local-exec):                         {
+null_resource.cluster (local-exec):                             "lastProbeTime": null,
+null_resource.cluster (local-exec):                             "lastTransitionTime": "2022-08-27T17:23:35Z",
+null_resource.cluster (local-exec):                             "status": "True",
+null_resource.cluster (local-exec):                             "type": "PodScheduled"
+null_resource.cluster (local-exec):                         }
+null_resource.cluster (local-exec):                     ],
+null_resource.cluster (local-exec):                     "containerStatuses": [
+null_resource.cluster (local-exec):                         {
+null_resource.cluster (local-exec):                             "containerID": "docker://be0bb2d4ec1c5e6c075b068bef3e58c0dbfe884b41062b258e741f33b6158333",
+null_resource.cluster (local-exec):                             "image": "k8s.gcr.io/echoserver:1.4",
+null_resource.cluster (local-exec):                             "imageID": "docker-pullable://k8s.gcr.io/echoserver@sha256:5d99aa1120524c801bc8c1a7077e8f5ec122ba16b6dda1a5d3826057f67b9bcb",
+null_resource.cluster (local-exec):                             "lastState": {},
+null_resource.cluster (local-exec):                             "name": "echoserver",
+null_resource.cluster (local-exec):                             "ready": true,
+null_resource.cluster (local-exec):                             "restartCount": 0,
+null_resource.cluster (local-exec):                             "started": true,
+null_resource.cluster (local-exec):                             "state": {
+null_resource.cluster (local-exec):                                 "running": {
+null_resource.cluster (local-exec):                                     "startedAt": "2022-08-27T17:23:48Z"
+null_resource.cluster (local-exec):                                 }
+null_resource.cluster (local-exec):                             }
+null_resource.cluster (local-exec):                         }
+null_resource.cluster (local-exec):                     ],
+null_resource.cluster (local-exec):                     "hostIP": "192.168.49.2",
+null_resource.cluster (local-exec):                     "phase": "Running",
+null_resource.cluster (local-exec):                     "podIP": "172.17.0.3",
+null_resource.cluster (local-exec):                     "podIPs": [
+null_resource.cluster (local-exec):                         {
+null_resource.cluster (local-exec):                             "ip": "172.17.0.3"
+null_resource.cluster (local-exec):                         }
+null_resource.cluster (local-exec):                     ],
+null_resource.cluster (local-exec):                     "qosClass": "BestEffort",
+null_resource.cluster (local-exec):                     "startTime": "2022-08-27T17:23:35Z"
+null_resource.cluster (local-exec):                 }
+null_resource.cluster (local-exec):             },
+null_resource.cluster (local-exec):             {
+null_resource.cluster (local-exec):                 "apiVersion": "v1",
+null_resource.cluster (local-exec):                 "kind": "Service",
+null_resource.cluster (local-exec):                 "metadata": {
+null_resource.cluster (local-exec):                     "creationTimestamp": "2022-08-27T17:24:35Z",
+null_resource.cluster (local-exec):                     "labels": {
+null_resource.cluster (local-exec):                         "app": "hello-node"
+null_resource.cluster (local-exec):                     },
+null_resource.cluster (local-exec):                     "name": "hello-node",
+null_resource.cluster (local-exec):                     "namespace": "default",
+null_resource.cluster (local-exec):                     "resourceVersion": "446",
+null_resource.cluster (local-exec):                     "uid": "afbe1da5-7bf7-4deb-9082-4c73b6352046"
+null_resource.cluster (local-exec):                 },
+null_resource.cluster (local-exec):                 "spec": {
+null_resource.cluster (local-exec):                     "allocateLoadBalancerNodePorts": true,
+null_resource.cluster (local-exec):                     "clusterIP": "10.107.243.242",
+null_resource.cluster (local-exec):                     "clusterIPs": [
+null_resource.cluster (local-exec):                         "10.107.243.242"
+null_resource.cluster (local-exec):                     ],
+null_resource.cluster (local-exec):                     "externalTrafficPolicy": "Cluster",
+null_resource.cluster (local-exec):                     "internalTrafficPolicy": "Cluster",
+null_resource.cluster (local-exec):                     "ipFamilies": [
+null_resource.cluster (local-exec):                         "IPv4"
+null_resource.cluster (local-exec):                     ],
+null_resource.cluster (local-exec):                     "ipFamilyPolicy": "SingleStack",
+null_resource.cluster (local-exec):                     "ports": [
+null_resource.cluster (local-exec):                         {
+null_resource.cluster (local-exec):                             "nodePort": 31269,
+null_resource.cluster (local-exec):                             "port": 8080,
+null_resource.cluster (local-exec):                             "protocol": "TCP",
+null_resource.cluster (local-exec):                             "targetPort": 8080
+null_resource.cluster (local-exec):                         }
+null_resource.cluster (local-exec):                     ],
+null_resource.cluster (local-exec):                     "selector": {
+null_resource.cluster (local-exec):                         "app": "hello-node"
+null_resource.cluster (local-exec):                     },
+null_resource.cluster (local-exec):                     "sessionAffinity": "None",
+null_resource.cluster (local-exec):                     "type": "LoadBalancer"
+null_resource.cluster (local-exec):                 },
+null_resource.cluster (local-exec):                 "status": {
+null_resource.cluster (local-exec):                     "loadBalancer": {}
+null_resource.cluster (local-exec):                 }
+null_resource.cluster (local-exec):             },
+null_resource.cluster (local-exec):             {
+null_resource.cluster (local-exec):                 "apiVersion": "v1",
+null_resource.cluster (local-exec):                 "kind": "Service",
+null_resource.cluster (local-exec):                 "metadata": {
+null_resource.cluster (local-exec):                     "creationTimestamp": "2022-08-27T17:23:13Z",
+null_resource.cluster (local-exec):                     "labels": {
+null_resource.cluster (local-exec):                         "component": "apiserver",
+null_resource.cluster (local-exec):                         "provider": "kubernetes"
+null_resource.cluster (local-exec):                     },
+null_resource.cluster (local-exec):                     "name": "kubernetes",
+null_resource.cluster (local-exec):                     "namespace": "default",
+null_resource.cluster (local-exec):                     "resourceVersion": "200",
+null_resource.cluster (local-exec):                     "uid": "1e995073-4a98-4ccf-9e24-d294d43def76"
+null_resource.cluster (local-exec):                 },
+null_resource.cluster (local-exec):                 "spec": {
+null_resource.cluster (local-exec):                     "clusterIP": "10.96.0.1",
+null_resource.cluster (local-exec):                     "clusterIPs": [
+null_resource.cluster (local-exec):                         "10.96.0.1"
+null_resource.cluster (local-exec):                     ],
+null_resource.cluster (local-exec):                     "internalTrafficPolicy": "Cluster",
+null_resource.cluster (local-exec):                     "ipFamilies": [
+null_resource.cluster (local-exec):                         "IPv4"
+null_resource.cluster (local-exec):                     ],
+null_resource.cluster (local-exec):                     "ipFamilyPolicy": "SingleStack",
+null_resource.cluster (local-exec):                     "ports": [
+null_resource.cluster (local-exec):                         {
+null_resource.cluster (local-exec):                             "name": "https",
+null_resource.cluster (local-exec):                             "port": 443,
+null_resource.cluster (local-exec):                             "protocol": "TCP",
+null_resource.cluster (local-exec):                             "targetPort": 8443
+null_resource.cluster (local-exec):                         }
+null_resource.cluster (local-exec):                     ],
+null_resource.cluster (local-exec):                     "sessionAffinity": "None",
+null_resource.cluster (local-exec):                     "type": "ClusterIP"
+null_resource.cluster (local-exec):                 },
+null_resource.cluster (local-exec):                 "status": {
+null_resource.cluster (local-exec):                     "loadBalancer": {}
+null_resource.cluster (local-exec):                 }
+null_resource.cluster (local-exec):             }
+null_resource.cluster (local-exec):         ],
+null_resource.cluster (local-exec):         "kind": "List",
+null_resource.cluster (local-exec):         "metadata": {
+null_resource.cluster (local-exec):             "resourceVersion": ""
+null_resource.cluster (local-exec):         }
+null_resource.cluster (local-exec):     }
+null_resource.cluster (local-exec): }
+
+null_resource.cluster (local-exec): TASK [curl service] ************************************************************
+null_resource.cluster (local-exec): changed: [master]
+
+null_resource.cluster (local-exec): TASK [stdout] ******************************************************************
+null_resource.cluster (local-exec): ok: [master] => {
+null_resource.cluster (local-exec):     "msg": "CLIENT VALUES:\nclient_address=172.17.0.1\ncommand=GET\nreal path=/\nquery=nil\nrequest_version=1.1\nrequest_uri=http://192.168.49.2:8080/\n\nSERVER VALUES:\nserver_version=nginx: 1.10.0 - lua: 10001\n\nHEADERS RECEIVED:\naccept=*/*\nhost=192.168.49.2:31269\nuser-agent=curl/7.29.0\nBODY:\n-no body in request-"
+null_resource.cluster (local-exec): }
+
+null_resource.cluster (local-exec): PLAY [create Deployment and services] ******************************************
+
+null_resource.cluster (local-exec): TASK [Gathering Facts] *********************************************************
+null_resource.cluster (local-exec): ok: [client]
+
+null_resource.cluster (local-exec): TASK [Create a directory] ******************************************************
+null_resource.cluster (local-exec): changed: [client]
+
+null_resource.cluster (local-exec): TASK [Copy file configs] *******************************************************
+null_resource.cluster (local-exec): changed: [client]
+
+null_resource.cluster (local-exec): TASK [kubectl status pods] *****************************************************
+null_resource.cluster: Still creating... [12m30s elapsed]
+null_resource.cluster (local-exec): changed: [client]
+
+null_resource.cluster (local-exec): TASK [stdout] ******************************************************************
+null_resource.cluster (local-exec): ok: [client] => {
+null_resource.cluster (local-exec):     "msg": "NAME                          READY   STATUS    RESTARTS   AGE\nhello-node-6d5f754cc9-gwhm9   1/1     Running   0          2m44s"
+null_resource.cluster (local-exec): }
+
+null_resource.cluster (local-exec): PLAY RECAP *********************************************************************
+null_resource.cluster (local-exec): client                     : ok=10   changed=6    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+null_resource.cluster (local-exec): master                     : ok=42   changed=28   unreachable=0    failed=0    skipped=0    rescued=0    ignored=2
+
+null_resource.cluster: Creation complete after 12m31s [id=40975047541500668]
+
+Apply complete! Resources: 8 added, 0 changed, 0 destroyed.
+
+Outputs:
+
+external_ip_address_minikube = [
+  "node-client minikube http://62.84.126.117:8001/api/v1/namespaces/kubernetes-dashboard/services/http:kubernetes-dashboard:/proxy/",
+  "node-master minikube http://62.84.127.148:8001/api/v1/namespaces/kubernetes-dashboard/services/http:kubernetes-dashboard:/proxy/",
+]
+external_ip_address_service = [
+  "node-client service http://62.84.126.117:8082",
+  "node-master service http://62.84.127.148:8082",
+]

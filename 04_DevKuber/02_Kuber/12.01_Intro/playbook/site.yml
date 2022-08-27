@@ -1,0 +1,164 @@
+---
+- name: Install minikube
+  hosts: master
+  become: yes
+  become_user: root
+  remote_user: centos
+  tags: minikube
+  roles:
+    - minikube
+  post_tasks:
+    - name: minikube version
+      become: no
+      ansible.builtin.command: minikube version
+      register: result
+    - name: stdout
+      ansible.builtin.debug:
+        msg: "{{ result.stdout }}"
+
+- name: Install kubectl
+  hosts:
+    - master
+    - client
+  become: yes
+  become_user: root
+  remote_user: centos
+  tags: kubectl
+  roles:
+    - kubectl
+  post_tasks:
+    - name: kubectl version
+      become: no
+      ansible.builtin.command: kubectl version --client -o json
+      register: result
+    - name: stdout
+      ansible.builtin.debug:
+        msg: "{{ result.stdout }}"
+
+- name: Install docker
+  hosts: master
+  become: yes
+  become_user: root
+  remote_user: centos
+  tags: docker
+  roles:
+    - docker
+
+- name: start MiniKube on Docker Engine
+  hosts: master
+  become_user: root
+  remote_user: centos
+  tags: start
+  tasks:
+    - name: start MiniKube
+      ansible.builtin.shell: "minikube start — driver=docker --memory=3096"
+  post_tasks:
+    - name: MiniKube status
+      ansible.builtin.command: minikube status --output json
+      register: result
+    - name: stdout
+      ansible.builtin.debug:
+        msg: "{{ result.stdout }}"
+
+- name: create Deployment and services
+  hosts: master
+  become_user: root
+  remote_user: centos
+  tags: create
+  tasks:
+    - name: delete deployment
+      ansible.builtin.shell: "kubectl delete deployment hello-node"
+      ignore_errors: yes
+    - name: delete service
+      ansible.builtin.shell: "kubectl delete service hello-node"
+      ignore_errors: yes
+    - name: create deployment
+      ansible.builtin.shell: "kubectl create deployment hello-node --image=k8s.gcr.io/echoserver:1.4"
+    - name: Pause for 1 minutes to build app cache
+      ansible.builtin.pause:
+        minutes: 1
+    - name: expose deployment
+      ansible.builtin.shell: "kubectl expose deployment hello-node --type=LoadBalancer --port=8080"
+    - name: Pause for 1 minutes to build app cache
+      ansible.builtin.pause:
+        minutes: 1
+
+    - name: create service
+      ansible.builtin.shell: "minikube service hello-node"
+      register: result
+    - name: stdout
+      ansible.builtin.debug:
+        msg: "{{ result.stdout }}"
+
+    - name: enable ingress addon
+      ansible.builtin.command: minikube addons enable ingress
+    - name: addons list
+
+      ansible.builtin.command: minikube addons list
+      register: result
+    - name: stdout
+      ansible.builtin.debug:
+        msg: "{{ result.stdout }}"
+
+    - name: enable port-forward
+      ansible.builtin.shell: nohup kubectl port-forward "$(kubectl get pods -o name | grep hello-node | sed "s/^.\{4\}//")" 8082:8080 --address=0.0.0.0 </dev/null >/dev/null 2>&1 &
+    - name: enable dashboard
+      ansible.builtin.shell: nohup minikube dashboard --url=true </dev/null >/dev/null 2>&1 &
+    - name: enable proxy
+      ansible.builtin.shell: nohup kubectl proxy --address='0.0.0.0' --disable-filter=true </dev/null >/dev/null 2>&1 &
+
+  post_tasks:
+    - name: kubectl status deployments pods services
+      ansible.builtin.command: kubectl get deployments,pods,services -o json
+      register: result
+    - name: stdout
+      ansible.builtin.debug:
+        msg: "{{ result.stdout }}"
+
+    - name: curl service
+      ansible.builtin.shell: "curl $(minikube service hello-node --url)"
+      register: result
+    - name: stdout
+      ansible.builtin.debug:
+        msg: "{{ result.stdout }}"
+
+- name: create Deployment and services
+  hosts: client
+  become_user: root
+  remote_user: centos
+  tags: client
+  tasks:
+    - name: Create a directory
+      ansible.builtin.file:
+        path: /home/centos/.kube
+        state: directory
+    - name: Copy file configs
+      ansible.builtin.copy:
+        src: ./kubectl/config
+        dest: /home/centos/.kube/config
+
+  post_tasks:
+    - name: kubectl status pods
+      ansible.builtin.command: kubectl get pods
+      register: result
+    - name: stdout
+      ansible.builtin.debug:
+        msg: "{{ result.stdout }}"
+
+#- name: add desktop
+#  hosts: master
+#  become: yes
+#  become_user: root
+#  remote_user: centos
+#  tags: desktop
+#  vars:
+#    mypassword: "qwerty123"
+#  roles:
+#    - desktop
+#
+#  post_tasks:
+#    - name: change password
+#      ansible.builtin.user:
+#       name: centos
+#        state: present
+#        password: "{{ mypassword | password_hash('sha512') }}"
