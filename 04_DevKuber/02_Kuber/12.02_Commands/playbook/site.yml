@@ -1,0 +1,160 @@
+---
+- name: Install minikube
+  hosts: master
+  become: yes
+  become_user: root
+  remote_user: centos
+  tags: minikube
+  roles:
+    - minikube
+  post_tasks:
+    - name: minikube version
+      become: no
+      ansible.builtin.command: minikube version
+      register: result
+    - name: stdout
+      ansible.builtin.debug:
+        msg: "{{ result.stdout.split('\n') }}"
+
+- name: Install kubectl
+  hosts: master
+  become: yes
+  become_user: root
+  remote_user: centos
+  tags: kubectl
+  roles:
+    - kubectl
+  post_tasks:
+    - name: kubectl version
+      become: no
+      ansible.builtin.command: kubectl version --client -o json
+      register: result
+    - name: stdout
+      ansible.builtin.debug:
+        msg: "{{ result.stdout.split('\n') }}"
+
+- name: Install docker
+  hosts: master
+  become: yes
+  become_user: root
+  remote_user: centos
+  tags: docker
+  roles:
+    - docker
+
+- name: start MiniKube on Docker Engine
+  hosts: master
+  become_user: root
+  remote_user: centos
+  tags: start
+  tasks:
+    - name: start MiniKube
+      ansible.builtin.shell: "minikube start — driver=docker --memory=3096"
+  post_tasks:
+    - name: MiniKube status
+      ansible.builtin.command: minikube status --output json
+      register: result
+    - name: stdout
+      ansible.builtin.debug:
+        msg: "{{ result.stdout.split('\n') }}"
+
+- name: create Deployment and services
+  hosts: master
+  become_user: root
+  remote_user: centos
+  tags: create
+  tasks:
+
+    - name: create namespace app-namespace
+      ansible.builtin.shell: "kubectl create namespace app-namespace"
+      ignore_errors: True
+
+    - name: Copy file ServiceAccount
+      ansible.builtin.copy:
+        src: ./kubectl/All.yaml
+        dest: /home/centos/.kube/All.yaml
+    - name: create ServiceAccount
+      ansible.builtin.shell: "kubectl apply -f /home/centos/.kube/All.yaml"
+
+    - name: Copy file deployment_2
+      ansible.builtin.copy:
+        src: ./kubectl/deployment_2.yaml
+        dest: /home/centos/.kube/deployment_2.yaml
+    - name: create deployment
+      ansible.builtin.shell: "kubectl apply -f /home/centos/.kube/deployment_2.yaml"
+    - name: Pause for 1 minutes to build app cache
+      ansible.builtin.pause:
+        minutes: 1
+
+    - name: get SSL
+      ansible.builtin.shell: kubectl get secret secret-sa-sample -o jsonpath="{.data.ca\.crt}" -n app-namespace
+      register: SSL
+    - name: get server IP
+      ansible.builtin.shell: kubectl config view -o jsonpath={.clusters[0].cluster.server}
+      register: IP
+    - name: get TOKEN
+      ansible.builtin.shell: kubectl get secret secret-sa-sample -o jsonpath={.data.token} -n app-namespace| base64 -d
+      register: TOKEN
+
+    - name: write to file
+      ansible.builtin.template:
+        src: ./kubectl/config.j2
+        dest: /home/centos/.kube/client
+
+    - name: Store file
+      ansible.builtin.fetch:
+        src: /home/centos/.kube/client
+        dest: ./kubectl/config
+        flat: yes
+
+  post_tasks:
+    - name: kubectl status deployments pods
+      ansible.builtin.command: kubectl get deployments,pods -n app-namespace -o json
+      register: result
+      ignore_errors: True
+    - name: stdout
+      ansible.builtin.debug:
+        msg: "{{ result.stdout.split('\n') }}"
+      ignore_errors: True
+
+    - name: kubectl client status pods
+      ansible.builtin.command: kubectl --kubeconfig /home/centos/.kube/client get pods -n app-namespace -o json
+      register: result
+      ignore_errors: True
+    - name: stdout
+      ansible.builtin.debug:
+        msg: "{{ result.stdout.split('\n') }}"
+      ignore_errors: True
+
+    - name: kubectl client status deployments
+      ansible.builtin.command: kubectl --kubeconfig /home/centos/.kube/client get deployments -n app-namespace -o json
+      register: result
+      ignore_errors: True
+    - name: stdout
+      ansible.builtin.debug:
+        msg: "{{ result.stdout.split('\n') }}"
+      ignore_errors: True
+
+- name: change count deployment
+  hosts: master
+  become_user: root
+  remote_user: centos
+  tags: change
+  tasks:
+    - name: Copy file configs
+      ansible.builtin.copy:
+        src: ./kubectl/deployment_5.yaml
+        dest: /home/centos/.kube/deployment_5.yaml
+    - name: create deployment
+      ansible.builtin.shell: "kubectl apply -f /home/centos/.kube/deployment_5.yaml"
+    - name: Pause for 1 minutes to build app cache
+      ansible.builtin.pause:
+        minutes: 1
+
+  post_tasks:
+    - name: kubectl status pods
+      ansible.builtin.command: kubectl get pods -n app-namespace
+      register: result
+    - name: stdout
+      ansible.builtin.debug:
+        msg: "{{ result.stdout.split('\n') }}"

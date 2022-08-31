@@ -1,0 +1,24 @@
+---
+- name: Install nux
+  ansible.builtin.yum:
+    name: http://li.nux.ro/download/nux/dextop/el7/x86_64/nux-dextop-release-0-1.el7.nux.noarch.rpm
+    state: present
+
+- name: GNOME Desktop
+  ansible.builtin.command: yum groupinstall "GNOME Desktop" "Graphical Administration Tools"
+
+- name: Reboot from CLI to GUI
+  ansible.builtin.command: ln -sf /lib/systemd/system/runlevel5.target /etc/systemd/system/default.target
+
+- name: RDP Service
+  ansible.builtin.yum:
+    name:
+      - xrdp
+      - tigervnc-server
+    state: latest
+
+- name: systemd xrdp start enable
+  ansible.builtin.systemd:
+    name: xrdp.service
+    state: started
+    enabled: yes

@@ -1,0 +1,43 @@
+---
+- name: Update
+  ansible.builtin.yum:
+    name: '*'
+    state: latest
+
+- name: epel-release
+  ansible.builtin.yum:
+    name: epel-release
+    state: latest
+
+- name: libvirt and wget
+  ansible.builtin.yum:
+    name:
+      - qemu-kvm
+      - libvirt
+      - bridge-utils
+      - libguestfs-tools
+      - virt-install
+      - virt-top
+      - wget
+    state: latest
+
+- name: systemd libvirt start enable
+  ansible.builtin.systemd:
+    name: libvirtd
+    state: started
+    enabled: yes
+
+- name: add the user to the libvirtd
+  ansible.builtin.command: sudo usermod -a -G libvirt centos
+
+- name: restart libvirt
+  ansible.builtin.systemd:
+    name: libvirtd.service
+    state: restarted
+    daemon_reload: yes
+
+- name: Download minikube
+  ansible.builtin.get_url:
+    url: https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+    dest: /usr/local/bin/minikube
+    mode: a+x

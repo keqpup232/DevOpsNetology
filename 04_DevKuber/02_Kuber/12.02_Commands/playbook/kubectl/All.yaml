@@ -1,0 +1,39 @@
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: jane
+  namespace: app-namespace
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: secret-sa-sample
+  namespace: app-namespace
+  annotations:
+    kubernetes.io/service-account.name: jane
+type: kubernetes.io/service-account-token
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: list-view
+  namespace: app-namespace
+rules:
+- apiGroups: ["", "apps"]
+  resources: ["pods", "pods/log"]
+  verbs: ["get", "list", "watch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: jane
+  namespace: app-namespace
+subjects:
+- kind: ServiceAccount
+  name: jane
+  namespace: app-namespace
+roleRef:
+  kind: Role
+  name: list-view
+  apiGroup: rbac.authorization.k8s.io

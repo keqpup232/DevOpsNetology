@@ -1,0 +1,18 @@
+---
+- name: download docker
+  ansible.builtin.shell: "curl -fsSL https://get.docker.com/ | sh"
+
+- name: systemd docker start
+  ansible.builtin.systemd:
+    name: docker
+    state: started
+
+- name: add centos user to docker group
+  ansible.builtin.user:
+    name: centos
+    groups: docker
+    append: yes
+
+- name: reset ssh connection to allow user changes to affect ansible user
+  ansible.builtin.meta:
+    reset_connection

@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello-minikube
+  namespace: app-namespace
+  labels:
+    app: hello
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: hello
+  template:
+    metadata:
+      labels:
+        app: hello
+    spec:
+      serviceAccountName: jane
+      containers:
+      - name: hello
+        image: k8s.gcr.io/echoserver:1.10
+        ports:
+        - containerPort: 8080
