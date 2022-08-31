@@ -27,8 +27,6 @@
 
 ## Ответ:
 
-Есть статья с рекомендуемыми параметрами [Kubernetes Cluster Hardware Recommendations](https://docs.kublr.com/installation/hardware-recommendation/)
-
 #### 1) Сначала сделайте расчет всех необходимых ресурсов.
 
 | Components | CPU              | ОЗУ                |
@@ -42,6 +40,8 @@
 ---
 
 #### 2) Затем прикиньте количество рабочих нод, которые справятся с такой нагрузкой.
+
+Есть статья с рекомендуемыми параметрами [Kubernetes Cluster Hardware Recommendations](https://docs.kublr.com/installation/hardware-recommendation/)
 
 Для работы точно понадобится мастер нода, воркер с ControlPlane и логами и допустим еще 2 воркер ноды с нашими компонентами всего получается 4 ноды
 
