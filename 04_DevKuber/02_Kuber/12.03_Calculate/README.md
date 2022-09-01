@@ -61,19 +61,19 @@
 
 #### 3. Добавьте к полученным цифрам запас, который учитывает выход из строя как минимум одной ноды.
 
-Добавим еще одного мастера и еще один ControlPlane Worker уменьшим ресурсы worker т.к воркеров теперь больше
+Добавим еще одного мастера и еще ControlPlane Worker уменьшим ресурсы worker т.к воркеров теперь больше
 
-|                                    | Master node  x2  | ControlPlane Worker x2 | Simple Worker x2      |
+|                                    | Master node  x2  | ControlPlane Worker x3 | Simple Worker x2      |
 |------------------------------------|------------------|------------------------|-----------------------|
 | Kublr-Kubernetes master components | 2 GB, 1.5 vCPU   |                        |                       | 
-| Kublr-Kubernetes worker components |                  | 7.75 GB, 4.25 vCPU     | 7.75 GB, 4.25 vCPU    | 
+| Kublr-Kubernetes worker components |                  | 3.5 GB, 2 vCPU         | 7.75 GB, 4.25 vCPU    | 
 | Feature: ControlPlane              |                  | 1.9GB, 1.2 vCPU        |                       | 
 | Feature: Centralized monitoring    |                  | 5 GB, 1.2 vCPU         |                       |
 | Feature: k8s core components       |                  | 0.5 GB, 0.15 vCPU      |                       |
 | Feature: Centralized logging       |                  | 11GB, 1.4 vCPU         |                       |
-| **Result**                         | **4 GB, 3 vCPU** | **52.3 GB, 16.4 vCPU** | **15.5 GB, 8.5 vCPU** |
+| **Result**                         | **4 GB, 3 vCPU** | **65.7 GB, 18 vCPU**   | **15.5 GB, 8.5 vCPU** |
 
-Уже нам потребуется 28 ядра и 72 оперативки
+Уже нам потребуется 30 ядра и 85 оперативки
 
 ---
 
@@ -86,10 +86,10 @@
 
 2-Master node: По 2 ядер и 2 Гб
 
-2-ControlPlane Worker: По 8 ядер и 26 Гб
+3-ControlPlane Worker: По 6 ядер и 22 Гб
 
 2-Worker: По 4 ядер и 8 Гб
 
-Всего 6 нод из них 2 мастера и 4 воркера.
+Всего 7 нод из них 2 мастера и 5 воркера.
 
 Общее кол-во ресурсов 28 CPU и 72 Гб ОЗУ
