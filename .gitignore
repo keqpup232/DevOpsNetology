@@ -16,3 +16,7 @@
 !/04_DevKuber/02_Kuber/12.02_Commands/terraform/terraform.tfstate.d/
 !/04_DevKuber/02_Kuber/12.02_Commands/terraform/.terraform/
 !/04_DevKuber/02_Kuber/12.02_Commands/terraform/key.json
+/04_DevKuber/02_Kuber/12.04_Kubespray/terraform/key.json
+/04_DevKuber/02_Kuber/12.04_Kubespray/terraform/.terraform.lock.hcl
+/04_DevKuber/02_Kuber/12.04_Kubespray/terraform/terraform.tfstate.d/
+/04_DevKuber/02_Kuber/12.04_Kubespray/terraform/.terraform/
