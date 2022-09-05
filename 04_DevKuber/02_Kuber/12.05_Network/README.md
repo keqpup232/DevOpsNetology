@@ -17,7 +17,7 @@
 
 ## Задание 1
 
-Создаем файл с приложением [hello-world.yaml](./giles/hello-world.yaml) и политикой [network.yaml](./files/network.yaml)
+Создаем файл с приложением [hello-world.yaml](./files/hello-world.yaml) и политикой [network.yaml](./files/network.yaml)
 
 Создаем deployment и service
 ```bash
