@@ -1,0 +1,38 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: default-deny-all
+  namespace: hello-world
+spec:
+  podSelector: {}
+  policyTypes:
+  - Ingress
+  - Egress
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: test-network-policy
+  namespace: hello-world
+spec:
+  podSelector:
+    matchLabels:
+      app: hello-world
+  ingress:
+  - from:
+    - ipBlock:
+        cidr: 192.168.101.0/24
+    ports:
+    - protocol: TCP
+      port: 8080
+  egress:
+    - to:
+      - ipBlock:
+          cidr: 192.168.101.0/24
+      - podSelector:
+          matchLabels:
+            app: hello-world
+      ports:
+      - protocol: TCP
+        port: 30402
