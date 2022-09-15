@@ -5,9 +5,10 @@ metadata:
   labels:
     app: main
 spec:
-  type: LoadBalancer
+  type: NodePort
   ports:
   - port: 8000
+    targetPort: 80
     name: frontend
   - port: 9000
     name: backend
