@@ -24,6 +24,7 @@ spec:
           env:
             - name: DATABASE_URL
               value: postgres://postgres:postgres@db:5432/news
+      restartPolicy: Always
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -51,3 +52,4 @@ spec:
           env:
             - name: BASE_URL
               value: http://localhost:9000
+      restartPolicy: Always

@@ -27,8 +27,9 @@ spec:
         - image: keqpup232/frontend:1.1
           name: frontend
           ports:
-            - containerPort: 8000
+            - containerPort: 80
               name: frontend
           env:
             - name: BASE_URL
               value: http://localhost:9000
+      restartPolicy: Always
