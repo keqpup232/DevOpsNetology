@@ -1,0 +1,30 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: main
+  labels:
+    app: main
+spec:
+  type: ClusterIP
+  ports:
+  - port: 8000
+    targetPort: 80
+    name: frontend
+  - port: 9000
+    name: backend
+  selector:
+    app: main
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: db
+  labels:
+    app: db
+spec:
+  type: ClusterIP
+  ports:
+  - port: 5432
+    targetPort: 5432
+  selector:
+    app: db

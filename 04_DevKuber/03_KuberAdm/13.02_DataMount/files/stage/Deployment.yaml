@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: main
+  name: main
+  namespace: default
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: main
+  template:
+    metadata:
+      labels:
+        app: main
+    spec:
+      containers:
+        - image: keqpup232/backend:1.1
+          name: backend
+          ports:
+            - containerPort: 9000
+              name: backend
+          volumeMounts:
+            - mountPath: /static
+              name: static
+          env:
+            - name: DATABASE_URL
+              value: postgres://postgres:postgres@db:5432/news
+        - image: keqpup232/frontend:1.1
+          name: frontend
+          ports:
+            - containerPort: 80
+              name: frontend
+          volumeMounts:
+            - mountPath: /static
+              name: static
+          env:
+            - name: BASE_URL
+              value: http://localhost:9000
+      volumes:
+        - name: static
+          emptyDir: { }
+      restartPolicy: Always

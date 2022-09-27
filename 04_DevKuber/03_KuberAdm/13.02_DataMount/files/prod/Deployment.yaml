@@ -1,0 +1,69 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: backend
+  name: backend
+  namespace: default
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+        - image: keqpup232/backend:1.1
+          name: backend
+          ports:
+            - containerPort: 9000
+              name: backend
+          env:
+            - name: DATABASE_URL
+              value: postgres://postgres:postgres@db:5432/news
+          volumeMounts:
+            - mountPath: /static
+              name: my-volume
+      volumes:
+        - name: my-volume
+          persistentVolumeClaim:
+            claimName: pvc
+      restartPolicy: Always
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: frontend
+  name: frontend
+  namespace: default
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+        - image: keqpup232/frontend:1.1
+          name: frontend
+          ports:
+            - containerPort: 80
+              name: frontend
+          env:
+            - name: BASE_URL
+              value: http://localhost:9000
+          volumeMounts:
+            - mountPath: /static
+              name: my-volume
+      volumes:
+        - name: my-volume
+          persistentVolumeClaim:
+            claimName: pvc
+      restartPolicy: Always
