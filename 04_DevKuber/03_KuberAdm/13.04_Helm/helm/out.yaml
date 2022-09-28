@@ -1,0 +1,202 @@
+---
+# Source: first/templates/Statefulset.yaml
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: local-storage-release-name
+provisioner: kubernetes.io/no-provisioner
+volumeBindingMode: WaitForFirstConsumer
+---
+# Source: first/templates/Statefulset.yaml
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-local-node-1-release-name
+spec:
+  capacity:
+    storage: 10Gi
+  volumeMode: Filesystem
+  accessModes:
+  - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: local-storage-release-name
+  local:
+    path: /mnt/local-storage
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          - master01
+---
+# Source: first/templates/PVC.yaml
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: pvc-release-name
+spec:
+  storageClassName: "nfs"
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 100Mi
+---
+# Source: first/templates/Statefulset.yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: local-volume-release-name
+spec:
+  storageClassName: "local-storage-release-name"
+  accessModes:
+  - ReadWriteMany
+  resources:
+    requests:
+      storage: 10Gi
+---
+# Source: first/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-release-name
+  labels:
+    app: backend-release-name
+spec:
+  type: ClusterIP
+  ports:
+  - port: 9000
+  selector:
+    app: backend-release-name
+---
+# Source: first/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-release-name
+  labels:
+    app: frontend-release-name
+spec:
+  type: ClusterIP
+  ports:
+  - port: 8000
+  selector:
+    app: frontend-release-name
+---
+# Source: first/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: db-release-name
+  labels:
+    app: db-release-name
+spec:
+  type: ClusterIP
+  ports:
+  - port: 5432
+  selector:
+    app: db-release-name
+---
+# Source: first/templates/back.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: backend-release-name
+  name: backend-release-name
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend-release-name
+  template:
+    metadata:
+      labels:
+        app: backend-release-name
+    spec:
+      containers:
+        - image: keqpup232/backend:1.1
+          name: backend-release-name
+          ports:
+            - containerPort: 9000
+          env:
+            - name: DATABASE_URL
+              value: postgres://postgres:postgres@db-release-name:5432/news
+          volumeMounts:
+            - mountPath: /static
+              name: my-volume
+      volumes:
+        - name: my-volume
+          persistentVolumeClaim:
+            claimName: pvc-release-name
+      restartPolicy: Always
+---
+# Source: first/templates/front.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: frontend-release-name
+  name: frontend-release-name
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frontend-release-name
+  template:
+    metadata:
+      labels:
+        app: frontend-release-name
+    spec:
+      containers:
+        - image: keqpup232/frontend:1.1
+          name: frontend-release-name
+          ports:
+            - containerPort: 8000
+          env:
+            - name: BASE_URL
+              value: http://localhost:9000
+          volumeMounts:
+            - mountPath: /static
+              name: my-volume
+      volumes:
+        - name: my-volume
+          persistentVolumeClaim:
+            claimName: pvc-release-name
+      restartPolicy: Always
+---
+# Source: first/templates/Statefulset.yaml
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: db-release-name
+spec:
+  selector:
+    matchLabels:
+      app: db-release-name
+  serviceName: db-release-name
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: db-release-name
+    spec:
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: local-volume-release-name
+      containers:
+      - name: postgres
+        image: postgres:13-alpine
+        volumeMounts:
+        - name: data
+          mountPath: /mnt
+        env:
+          - name: POSTGRES_PASSWORD
+            value: postgres
+          - name: POSTGRES_USER
+            value: postgres
+          - name: POSTGRES_DB
+            value: news

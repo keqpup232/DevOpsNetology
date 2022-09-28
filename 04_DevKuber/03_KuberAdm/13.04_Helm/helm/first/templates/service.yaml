@@ -1,0 +1,38 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-{{ .Release.Name }}
+  labels:
+    app: backend-{{ .Release.Name }}
+spec:
+  type: ClusterIP
+  ports:
+  - port: {{ .Values.backend.port }}
+  selector:
+    app: backend-{{ .Release.Name }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-{{ .Release.Name }}
+  labels:
+    app: frontend-{{ .Release.Name }}
+spec:
+  type: ClusterIP
+  ports:
+  - port: {{ .Values.frontend.port }}
+  selector:
+    app: frontend-{{ .Release.Name }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: db-{{ .Release.Name }}
+  labels:
+    app: db-{{ .Release.Name }}
+spec:
+  type: ClusterIP
+  ports:
+  - port: {{ .Values.postgres.port }}
+  selector:
+    app: db-{{ .Release.Name }}

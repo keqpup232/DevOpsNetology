@@ -1,0 +1,4 @@
+Use port-forward to watch its all works
+kubectl port-forward service/backend-{{ .Release.Name }} 8080:{{ .Values.backend.port }}
+kubectl port-forward service/frontend-{{ .Release.Name }} 8081:{{ .Values.frontend.port }}
+kubectl port-forward service/db-{{ .Release.Name }} 8082:{{ .Values.postgres.port }}

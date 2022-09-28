@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: frontend-{{ .Release.Name }}
+  name: frontend-{{ .Release.Name }}
+spec:
+  replicas: {{ .Values.frontend.replicas }}
+  selector:
+    matchLabels:
+      app: frontend-{{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: frontend-{{ .Release.Name }}
+    spec:
+      containers:
+        - image: {{ .Values.frontend.image }}
+          name: frontend-{{ .Release.Name }}
+          ports:
+            - containerPort: {{ .Values.frontend.port }}
+          env:
+            - name: BASE_URL
+              value: {{ .Values.frontend.BASE_URL }}:{{ .Values.backend.port }}
+          volumeMounts:
+            - mountPath: {{ .Values.volumeMounts.mountPath }}
+              name: my-volume
+      volumes:
+        - name: my-volume
+          persistentVolumeClaim:
+            claimName: {{ .Values.pvc.claimName }}-{{ .Release.Name }}
+      restartPolicy: Always

@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: backend-{{ .Release.Name }}
+  name: backend-{{ .Release.Name }}
+spec:
+  replicas: {{ .Values.backend.replicas }}
+  selector:
+    matchLabels:
+      app: backend-{{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: backend-{{ .Release.Name }}
+    spec:
+      containers:
+        - image: {{ .Values.backend.image }}
+          name: backend-{{ .Release.Name }}
+          ports:
+            - containerPort: {{ .Values.backend.port }}
+          env:
+            - name: DATABASE_URL
+              value: postgres://{{ .Values.postgres.dbuser }}:{{ .Values.postgres.dbpassword }}@db-{{ .Release.Name }}:{{ .Values.postgres.port }}/{{ .Values.postgres.dbname }}
+          volumeMounts:
+            - mountPath: {{ .Values.volumeMounts.mountPath }}
+              name: my-volume
+      volumes:
+        - name: my-volume
+          persistentVolumeClaim:
+            claimName: {{ .Values.pvc.claimName }}-{{ .Release.Name }}
+      restartPolicy: Always
