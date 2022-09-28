@@ -31,6 +31,7 @@ wrote demo/environments/default.libsonnet
 wrote demo/components/hello.jsonnet
 wrote demo/qbec.yaml
 ```
+<br>
 
 Создал неймспейсы
 ```bash
@@ -39,6 +40,7 @@ namespace/prod created
 ivan@MBP-Ivan demo % kubectl create namespace stage
 namespace/stage created
 ```
+<br>
 
 Создал qbec project для stage и prod :
 - directory qbec project -> [demo](./qbec/demo) 
@@ -46,10 +48,13 @@ namespace/stage created
 - Вывод show ```bash qbec show stage > out_stage.yaml ``` [out_stage.yaml](./qbec/out.yaml)
 - Вывод show ```bash qbec show prod > out_prod.yaml ``` [out_prod.yaml](./qbec/out.yaml)
 
+<br>
+
 Показываю разницу компонентов между stage и prod
 <p align="center">
 <img src="./assets/1.png">
 </p>
+<br>
 
 Применяю stage qbec
 ```bash
@@ -98,6 +103,7 @@ waiting for readiness of 3 objects
 ✓ 1s: rollout complete
 command took 4.83s
 ```
+<br>
 
 Смотрим что все создалось на stage
 ```bash
@@ -120,6 +126,7 @@ NAME                           STATUS   VOLUME                                  
 persistentvolumeclaim/pvc      Bound    pvc-66ed51af-3431-4372-813a-70f1df951153   100Mi      RWX            nfs            58s   Filesystem
 persistentvolumeclaim/pvc-db   Bound    pvc-0a393901-7e35-4e72-8e07-99d3c029ae77   1Gi        RWX            nfs            58s   Filesystem
 ```
+<br>
 
 Применяю prod qbec
 ```bash
@@ -177,6 +184,7 @@ waiting for readiness of 3 objects
 ✓ 16s: rollout complete
 command took 19.77s
 ```
+<br>
 
 Смотрим что все создалось на prod
 ```bash
@@ -207,6 +215,7 @@ NAME                           STATUS   VOLUME                                  
 persistentvolumeclaim/pvc      Bound    pvc-6c6a187e-3de6-4d26-8b5f-6ea3a07dff2a   100Mi      RWX            nfs            51s   Filesystem
 persistentvolumeclaim/pvc-db   Bound    pvc-7b9a782a-4cf4-43ca-b0fe-958e8ee8b432   1Gi        RWX            nfs            50s   Filesystem
 ```
+<br>
 
 Проверяем что компонент endpoints есть только в prod namespace
 ```bash
