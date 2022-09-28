@@ -1,0 +1,221 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    qbec.io/component: backend
+  labels:
+    app: backend
+    qbec.io/application: demo
+    qbec.io/environment: prod
+  name: backend
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+      - env:
+        - name: DATABASE_URL
+          value: postgres://postgres:postgres@db:5432/news
+        image: keqpup232/backend:1.1
+        name: backend
+        ports:
+        - containerPort: 9000
+        volumeMounts:
+        - mountPath: /static
+          name: my-volume
+      restartPolicy: Always
+      volumes:
+      - name: my-volume
+        persistentVolumeClaim:
+          claimName: pvc
+
+---
+apiVersion: v1
+kind: Endpoints
+metadata:
+  annotations:
+    qbec.io/component: endpoint
+  labels:
+    qbec.io/application: demo
+    qbec.io/environment: prod
+  name: external-api
+subsets:
+- addresses:
+  - ip: 138.197.231.124
+  ports:
+  - port: 443
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    qbec.io/component: frontend
+  labels:
+    app: frontend
+    qbec.io/application: demo
+    qbec.io/environment: prod
+  name: frontend
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+      - env:
+        - name: BASE_URL
+          value: http://localhost:9000
+        image: keqpup232/frontend:1.1
+        name: frontend
+        ports:
+        - containerPort: 8000
+        volumeMounts:
+        - mountPath: /static
+          name: my-volume
+      restartPolicy: Always
+      volumes:
+      - name: my-volume
+        persistentVolumeClaim:
+          claimName: pvc
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  annotations:
+    qbec.io/component: pvc
+  labels:
+    qbec.io/application: demo
+    qbec.io/environment: prod
+  name: pvc
+spec:
+  accessModes:
+  - ReadWriteMany
+  resources:
+    requests:
+      storage: 100Mi
+  storageClassName: nfs
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  annotations:
+    qbec.io/component: pvc
+  labels:
+    qbec.io/application: demo
+    qbec.io/environment: prod
+  name: pvc-db
+spec:
+  accessModes:
+  - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: nfs
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    qbec.io/component: services
+  labels:
+    app: backend
+    qbec.io/application: demo
+    qbec.io/environment: prod
+  name: backend
+spec:
+  ports:
+  - port: 9000
+  selector:
+    app: backend
+  type: ClusterIP
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    qbec.io/component: services
+  labels:
+    app: db
+    qbec.io/application: demo
+    qbec.io/environment: prod
+  name: db
+spec:
+  ports:
+  - port: 5432
+  selector:
+    app: db
+  type: ClusterIP
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    qbec.io/component: services
+  labels:
+    app: frontend
+    qbec.io/application: demo
+    qbec.io/environment: prod
+  name: frontend
+spec:
+  ports:
+  - port: 8000
+  selector:
+    app: frontend
+  type: ClusterIP
+
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  annotations:
+    qbec.io/component: statefulset
+  labels:
+    qbec.io/application: demo
+    qbec.io/environment: prod
+  name: db
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: db
+  serviceName: db
+  template:
+    metadata:
+      labels:
+        app: db
+    spec:
+      containers:
+      - env:
+        - name: POSTGRES_PASSWORD
+          value: postgres
+        - name: POSTGRES_USER
+          value: postgres
+        - name: POSTGRES_DB
+          value: news
+        image: postgres:13-alpine
+        name: postgres
+        volumeMounts:
+        - mountPath: /mnt
+          name: data
+      volumes:
+      - name: data
+        persistentVolumeClaim:
+          claimName: pvc-db
+
