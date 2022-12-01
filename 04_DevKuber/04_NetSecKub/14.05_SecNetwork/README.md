@@ -63,7 +63,7 @@ ivan@MBP-Ivan 14.05_SecNetwork % kubectl label namespace team-b app=team-b
 namespace/team-b labeled
 ```
 
-Запускаем поды и сервисы
+Запускаем поды и сервисы -> [app.yaml](./14.5/app.yaml) 
 ```bash
 ivan@MBP-Ivan 14.5 % kubectl apply -f app.yaml
 pod/ta created
@@ -103,7 +103,7 @@ root@tb:/# curl -I google.com 2>/dev/null | head -n 1 | cut -d$' ' -f2
 <img src="./assets/1.png">
 </p>
 
-Применяем политику и проверяем
+Применяем политику и проверяем -> [NetworkPolicy.yaml](./14.5/NetworkPolicy.yaml) 
 ```bash
 ivan@MBP-Ivan 14.5 % kubectl apply -f NetworkPolicy.yaml             
 networkpolicy.networking.k8s.io/team-a-egress created
