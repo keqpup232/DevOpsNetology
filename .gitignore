@@ -20,3 +20,15 @@
 /04_DevKuber/02_Kuber/12.04_Kubespray/terraform/.terraform.lock.hcl
 /04_DevKuber/02_Kuber/12.04_Kubespray/terraform/terraform.tfstate.d/
 /04_DevKuber/02_Kuber/12.04_Kubespray/terraform/.terraform/
+!/04_DevKuber/05_KuberCloud/15.01_NetCloud/yc/.terraform/
+!/04_DevKuber/05_KuberCloud/15.01_NetCloud/yc/.terraform/
+
+!/04_DevKuber/05_KuberCloud/15.01_NetCloud/yc/.terraform.lock.hcl
+
+!/04_DevKuber/05_KuberCloud/15.01_NetCloud/yc/key.json
+!/04_DevKuber/05_KuberCloud/15.01_NetCloud/yc/terraform.tfstate
+
+!/04_DevKuber/05_KuberCloud/15.01_NetCloud/yc/terraform.tfstate.backup
+/04_DevKuber/05_KuberCloud/15.01_NetCloud/yc/.terraform/
+/04_DevKuber/05_KuberCloud/15.01_NetCloud/yc/.terraform.lock.hcl
+/04_DevKuber/05_KuberCloud/15.01_NetCloud/yc/key.json
