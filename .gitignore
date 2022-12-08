@@ -32,3 +32,4 @@
 /04_DevKuber/05_KuberCloud/15.01_NetCloud/yc/.terraform/
 /04_DevKuber/05_KuberCloud/15.01_NetCloud/yc/.terraform.lock.hcl
 /04_DevKuber/05_KuberCloud/15.01_NetCloud/yc/key.json
+/04_DevKuber/05_KuberCloud/15.02_CloudLoadBalancer/yc/.terraform/
