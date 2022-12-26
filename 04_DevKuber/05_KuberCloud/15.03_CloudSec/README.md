@@ -85,7 +85,12 @@ resource "yandex_storage_bucket" "bucket" {
   }
 }
 ```
+
+<br>
+
 2. Создать статический сайт в Object Storage c собственным публичным адресом и сделать доступным по HTTPS
+
+<br>
 
 Делал по данной документации [certificate-manager](https://cloud.yandex.ru/docs/certificate-manager/quickstart/)
 
