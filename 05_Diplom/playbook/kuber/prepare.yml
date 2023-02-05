@@ -1,0 +1,52 @@
+---
+- name: Install k8scluster
+  hosts: master_01
+  become_user: root
+  remote_user: ubuntu
+  tasks:
+    - name: apt-get update
+      become: yes
+      ansible.builtin.apt:
+        update_cache: yes
+    - name: git pip install
+      become: yes
+      ansible.builtin.apt:
+        name:
+          - git
+          - python3-pip
+        state: latest
+    - name: Clone a repo kubespray
+      ansible.builtin.git:
+        repo: https://github.com/kubernetes-sigs/kubespray.git
+        dest: /home/ubuntu/kubespray
+    - name: Install specified python requirements
+      ansible.builtin.pip:
+        requirements: /home/ubuntu/kubespray/requirements.txt
+    - name: python ansible install
+      become: yes
+      ansible.builtin.apt:
+        name:
+          - python
+          - ansible
+    - name: Copy inventory/sample
+      ansible.builtin.copy:
+        src: /home/ubuntu/kubespray/inventory/sample/
+        dest: /home/ubuntu/kubespray/inventory/mycluster/
+        remote_src: yes
+    - name: Copy hosts
+      ansible.builtin.copy:
+        src: ./inventory/hosts.yaml
+        dest: /home/ubuntu/kubespray/inventory/mycluster/hosts.yaml
+    - name: Copy k8s-cluster.yml
+      ansible.builtin.copy:
+        src: ./inventory/k8s-cluster.yml
+        dest: /home/ubuntu/kubespray/inventory/mycluster/group_vars/k8s_cluster/k8s-cluster.yml
+    - name: Copy ssh key
+      ansible.builtin.copy:
+        src:  ~/.ssh/id_rsa
+        dest: /home/ubuntu/.ssh/id_rsa
+        mode: '0600'
+    - name: Execute task with extended PATH
+      shell: echo $PATH
+      environment:
+        PATH: "/home/ubuntu/.local/bin/:{{ ansible_env.PATH }}"
